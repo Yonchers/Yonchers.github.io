@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Voron-class print systems | Joseph Dwyer Engineering Portfolio</title>
+<meta content="Large-format enclosed CoreXY printers treated as automated workcells: precise assembly, thermal management, toolhead integration, calibration, maintenance, and repeatable production with technical materials." name="description"/>
+<meta content="#090a0c" name="theme-color"/>
+<link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../styles.css" rel="stylesheet"/>
+<link href="../../project.css" rel="stylesheet"/>
+</head>
+<body class="project-page" data-project-tone="orange">
+<a class="skip-link" href="#projectMain">Skip to project</a>
+<div aria-hidden="true" class="project-progress"><i data-project-progress=""></i></div>
+<canvas aria-hidden="true" class="project-starfield" id="projectStarfield"></canvas>
+<header class="project-header">
+<a class="project-header-brand" href="../../index.html#portfolio"><span>JD</span><div><strong>Joseph Dwyer</strong><small>Engineering project file</small></div></a>
+<nav aria-label="Project navigation" data-project-nav=""><a href="#overview">Overview</a><a href="#decisions">Decisions</a><a href="#evidence">Evidence</a><a href="#outcomes">Outcomes</a></nav>
+<div class="project-header-actions"><a href="../../index.html#portfolio">All projects</a><button aria-pressed="false" class="project-motion" data-project-motion="" type="button">Pause motion</button></div>
+<button aria-expanded="false" aria-label="Toggle project navigation" class="project-nav-toggle" data-project-nav-toggle="" type="button">☰</button>
+</header>
+<main class="project-main" id="projectMain">
+<section class="project-hero">
+<div class="project-hero-copy project-reveal">
+<p class="project-eyebrow">Rapid prototyping systems</p>
+<h1>Voron printer systems</h1>
+<p class="project-hero-lede">Large-format enclosed CoreXY printers treated as automated workcells: precise assembly, thermal management, toolhead integration, calibration, maintenance, and repeatable production with technical materials.</p>
+<div class="project-status-row"><span>Operational printer</span><span>Enclosed CoreXY</span><span>Technical materials</span><span>Ongoing maintenance</span></div>
+<div class="project-hero-actions"><a class="primary" href="#overview">Read the project story</a><a href="../../index.html#portfolio">Back to project library</a></div>
+</div>
+<div class="project-hero-visual project-reveal">
+<div class="project-hero-frame"><img alt="Voron toolhead and hotend components during machine integration" src="../../assets/images/voron-img-6388-1.jpg"/><div class="project-hero-caption"><span>Toolhead and hotend integration work from the Voron system.</span><b>MOTION-05</b></div></div>
+</div>
+</section>
+<section aria-label="Project highlights" class="project-metrics">
+<article><strong>Voron 2.4</strong><span>primary enclosed platform</span></article>
+<article><strong>CoreXY</strong><span>motion architecture</span></article>
+<article><strong>ASA</strong><span>repeatable technical-material workflow</span></article>
+<article><strong>Commissioning</strong><span>build, tune, run, maintain</span></article>
+</section>
+<section class="project-section" id="overview">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Overview</p><h2>I build and maintain enclosed printers as small production systems.</h2></div><p>The problem, my contribution, and the constraint that shaped the work.</p></div>
+<div class="project-story-grid">
+<article class="project-story-card project-reveal" data-number="01"><p class="project-eyebrow">Context</p><h3>The problem I was solving</h3><p>Functional parts and engineering materials need more than a hobby printer that works occasionally. I wanted an enclosed, serviceable platform that could hold alignment, manage chamber heat, and recover predictably from faults.</p></article>
+<article class="project-story-card project-reveal" data-number="02"><p class="project-eyebrow">System</p><h3>What I built and maintain</h3><p>The Voron work covers frame assembly, gantry and belt setup, independent Z alignment, electronics bays, toolheads, probes, cameras, hotends, enclosure behavior, profiles, and production use.</p></article>
+<article class="project-story-card project-reveal" data-number="03"><p class="project-eyebrow">Troubleshooting</p><h3>How I approach failures</h3><p>I separate mechanical drag, belt errors, thermal instability, wiring, firmware, slicing, and material issues instead of changing several variables at once. That keeps recovery evidence useful.</p></article>
+<article class="project-story-card project-reveal" data-number="04"><p class="project-eyebrow">Relevance</p><h3>Why it belongs in the portfolio</h3><p>These printers show the full equipment-support loop: assemble, inspect, energize, test, tune, document, run, and maintain.</p></article>
+</div>
+</section>
+<section class="project-section alt" id="decisions">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Design decisions</p><h2>Reliability came from geometry, thermal control, and repeatable maintenance.</h2></div><p>The tradeoffs and safeguards I used to move the project forward.</p></div>
+<div class="project-decision-grid">
+<article class="project-decision project-reveal"><span>01</span><div><h3>Prioritize geometric accuracy before speed</h3><p>Frame squareness, gantry movement, belt tension, Z alignment, and probe repeatability set the ceiling for every later tuning step.</p></div></article>
+<article class="project-decision project-reveal"><span>02</span><div><h3>Treat the enclosure as part of the process</h3><p>Chamber temperature, electronics cooling, material behavior, and service access have to coexist.</p></div></article>
+<article class="project-decision project-reveal"><span>03</span><div><h3>Standardize profiles and maintenance</h3><p>Reliable material profiles and repeatable checks matter more than a single fast showcase print.</p></div></article>
+<article class="project-decision project-reveal"><span>04</span><div><h3>Document ambiguous failures</h3><p>When multiple subsystems can produce the same symptom, the notes and evidence from prior failures shorten future diagnosis.</p></div></article>
+</div>
+</section>
+<section class="project-section" id="evidence">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Evidence</p><h2>Build, wiring, and production evidence from the printer fleet.</h2></div><p>These images connect the description to work that was built, tested, or operated.</p></div>
+<div class="project-evidence-layout">
+<div class="project-evidence-copy project-reveal"><p class="project-eyebrow">What to look for</p><h3>The evidence connects the description to something built, tested, or operated.</h3><ul class="project-evidence-list"><li>Frame and motion-system assembly</li><li>Toolhead, hotend, probe, and camera integration</li><li>Electronics-bay organization and thermal management</li><li>ASA and functional-part production</li><li>Calibration, maintenance, and fault isolation</li></ul></div>
+<div class="project-gallery">
+<figure class="project-reveal"><button data-caption="Toolhead system integration — Hotend, carriage, probe, cooling, and wiring have to work as one serviceable package." data-lightbox="" type="button"><img alt="Toolhead system integration" loading="lazy" src="../../assets/images/voron-img-6388-1.jpg"/></button><figcaption><strong>Toolhead system integration</strong>Hotend, carriage, probe, cooling, and wiring have to work as one serviceable package.</figcaption></figure>
+<figure class="project-reveal"><button data-caption="Shared commissioning discipline — The same build-test-tune-maintain mindset carries across the custom printer fleet." data-lightbox="" type="button"><img alt="Shared commissioning discipline" loading="lazy" src="../../assets/images/e3ng-img-7150-1.jpg"/></button><figcaption><strong>Shared commissioning discipline</strong>The same build-test-tune-maintain mindset carries across the custom printer fleet.</figcaption></figure>
+</div>
+</div>
+</section>
+<section class="project-section alt" id="outcomes">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Results</p><h2>Reliable prototyping capacity for technical materials and functional parts.</h2></div><p>The result, the main lesson, and the next useful improvement.</p></div>
+<div class="project-outcome-grid">
+<article class="project-reveal"><span>01 · Outcome</span><h3>Reliable prototyping capacity</h3><p>The system supports functional parts and larger-format work with technical materials.</p></article>
+<article class="project-reveal"><span>02 · Outcome</span><h3>Equipment-support mindset</h3><p>The project reinforces calibration, maintenance, repeatability, and operator-style troubleshooting.</p></article>
+<article class="project-reveal"><span>03 · Outcome</span><h3>Cross-project value</h3><p>The Voron platform supplies parts and operational data for other engineering projects and Print Orchestrator.</p></article>
+</div>
+</section>
+<section class="project-next">
+<div class="project-reveal"><p class="project-eyebrow">What comes next</p><h2>The next useful improvement is already clear.</h2><p>The next improvements are centered on profile validation, maintenance history, and using fleet telemetry to catch drift before it becomes a failed print.</p><div class="project-next-actions"><a href="../../index.html#portfolio">Return to all projects</a><a href="../e3ng/">Related: E3NG CoreXY conversion</a></div></div>
+</section>
+</main>
+<footer class="project-footer"><span>Joseph Dwyer · Engineering systems portfolio</span><span>MOTION-05 · <span id="projectYear"></span></span></footer>
+<dialog class="project-lightbox" id="projectLightbox"><img alt="" data-lightbox-image="" src=""/><footer><span data-lightbox-caption=""></span><button aria-label="Close image" data-lightbox-close="" type="button">×</button></footer></dialog>
+<script src="../../project.js"></script>
+</body>
+</html>

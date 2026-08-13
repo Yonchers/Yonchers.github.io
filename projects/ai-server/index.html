@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>B70 engineering server | Joseph Dwyer Engineering Portfolio</title>
+<meta content="A custom local-AI platform that I use as an engineering lab: private inference, model benchmarking, role-specific evaluation, application hosting, and the compute backbone for Print Orchestrator and PFC." name="description"/>
+<meta content="#090a0c" name="theme-color"/>
+<link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../styles.css" rel="stylesheet"/>
+<link href="../../project.css" rel="stylesheet"/>
+</head>
+<body class="project-page" data-project-tone="orange">
+<a class="skip-link" href="#projectMain">Skip to project</a>
+<div aria-hidden="true" class="project-progress"><i data-project-progress=""></i></div>
+<canvas aria-hidden="true" class="project-starfield" id="projectStarfield"></canvas>
+<header class="project-header">
+<a class="project-header-brand" href="../../index.html#portfolio"><span>JD</span><div><strong>Joseph Dwyer</strong><small>Engineering project file</small></div></a>
+<nav aria-label="Project navigation" data-project-nav=""><a href="#overview">Overview</a><a href="#decisions">Decisions</a><a href="#evidence">Evidence</a><a href="#outcomes">Outcomes</a></nav>
+<div class="project-header-actions"><a href="../../index.html#portfolio">All projects</a><button aria-pressed="false" class="project-motion" data-project-motion="" type="button">Pause motion</button></div>
+<button aria-expanded="false" aria-label="Toggle project navigation" class="project-nav-toggle" data-project-nav-toggle="" type="button">☰</button>
+</header>
+<main class="project-main" id="projectMain">
+<section class="project-hero">
+<div class="project-hero-copy project-reveal">
+<p class="project-eyebrow">Local AI infrastructure</p>
+<h1>B70 local AI server</h1>
+<p class="project-hero-lede">A custom local-AI platform that I use as an engineering lab: private inference, model benchmarking, role-specific evaluation, application hosting, and the compute backbone for Print Orchestrator and PFC.</p>
+<div class="project-status-row"><span>Active platform</span><span>Local inference</span><span>Benchmark-driven</span><span>Private network</span></div>
+<div class="project-hero-actions"><a class="primary" href="#overview">Read the project story</a><a href="../../index.html#portfolio">Back to project library</a></div>
+</div>
+<div class="project-hero-visual project-reveal">
+<div class="project-hero-frame"><img alt="Custom orange and black B70 local AI server with integrated front display" src="../../assets/images/ai-img-8931.jpg"/><div class="project-hero-caption"><span>Custom B70 server enclosure with an operator-facing display and serviceable internal layout.</span><b>AI-03</b></div></div>
+</div>
+</section>
+<section aria-label="Project highlights" class="project-metrics">
+<article><strong>72.91 tok/s</strong><span>Qwen3.6-35B-A3B Q4 generation result</span></article>
+<article><strong>93.31 tok/s</strong><span>Qwen3-30B-A3B Q4 generation result</span></article>
+<article><strong>20.61 GiB</strong><span>Qwen3.6 model size in the recorded test</span></article>
+<article><strong>0 cloud dependency</strong><span>for normal local inference workflows</span></article>
+</section>
+<section class="project-section" id="overview">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Overview</p><h2>I built the B70 around the local AI work I actually wanted to run.</h2></div><p>The problem, my contribution, and the constraint that shaped the work.</p></div>
+<div class="project-story-grid">
+<article class="project-story-card project-reveal" data-number="01"><p class="project-eyebrow">Context</p><h3>The problem I was solving</h3><p>I wanted a private system that could run useful models locally, support long contexts, host engineering tools, and remain under my control. A benchmark-only build was not enough; the machine needed to become dependable infrastructure.</p></article>
+<article class="project-story-card project-reveal" data-number="02"><p class="project-eyebrow">System</p><h3>What I built</h3><p>The B70 is a custom server, model host, application platform, and test bench. It runs llama.cpp services, stores model configurations, exposes local endpoints, hosts dashboards, and supports the printer and power-control projects.</p></article>
+<article class="project-story-card project-reveal" data-number="03"><p class="project-eyebrow">Method</p><h3>How I evaluate models</h3><p>I compare models by role instead of using one general score. Manager tests cover scope discipline, delegation, recovery, preservation, and verification. Worker tests cover coding, shell/tool use, implementation accuracy, debugging, and throughput.</p></article>
+<article class="project-story-card project-reveal" data-number="04"><p class="project-eyebrow">Iteration</p><h3>What changed over time</h3><p>I retired the 122B model after proving that it could run because it was too large and impractical for the hardware. That decision is part of the engineering evidence: the best configuration is the one that remains useful in the real workflow.</p></article>
+</div>
+</section>
+<section class="project-section alt" id="decisions">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Design decisions</p><h2>A useful local model is more than a single speed number.</h2></div><p>The tradeoffs and safeguards I used to move the project forward.</p></div>
+<div class="project-decision-grid">
+<article class="project-decision project-reveal"><span>01</span><div><h3>Benchmark on the actual machine</h3><p>Generation and prompt-processing measurements come from the B70 configuration rather than internet averages or vendor specifications.</p></div></article>
+<article class="project-decision project-reveal"><span>02</span><div><h3>Separate manager and worker roles</h3><p>A model that plans well may not be the best model for shell work or coding. I test replacement potential against the job it would actually perform.</p></div></article>
+<article class="project-decision project-reveal"><span>03</span><div><h3>Keep launch settings reproducible</h3><p>Model recommendations include the full context, GPU-layer, cache, and server launch settings so a result can be repeated.</p></div></article>
+<article class="project-decision project-reveal"><span>04</span><div><h3>Retire impractical configurations</h3><p>The 122B stress test remains documented, but it is excluded from the active stack because the cost in memory and usability was not justified.</p></div></article>
+</div>
+</section>
+<section class="project-section alt" id="benchmarks">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Benchmarks</p><h2>What the B70 can run in practice.</h2></div><p>Results are tied to the actual hardware, model format, and launch configuration.</p></div>
+<div class="project-special-table-wrap project-reveal"><table class="project-special-table"><thead><tr><th>Model</th><th>Class</th><th>Recorded size</th><th>Generation</th></tr></thead><tbody><tr class=""><td><strong>qwen2.5-0.5b-instruct-q4_k_m</strong></td><td>Dense tiny</td><td>0.46 GiB</td><td>223.42 tok/s</td></tr>
+<tr class=""><td><strong>gemma-4-E2B-it-UD-Q4_K_XL</strong></td><td>Small Gemma</td><td>2.97 GiB</td><td>128.83 tok/s</td></tr>
+<tr class="highlight"><td><strong>Qwen3-30B-A3B-Instruct-2507-Q4_K_M</strong></td><td>MoE</td><td>17.28 GiB</td><td>93.31 tok/s</td></tr>
+<tr class=""><td><strong>gemma-4-E4B-it-UD-Q4_K_XL</strong></td><td>Small Gemma</td><td>4.77 GiB</td><td>87.54 tok/s</td></tr>
+<tr class=""><td><strong>gemma-4-26B-A4B-it-UD-Q4_K_M</strong></td><td>MoE</td><td>15.78 GiB</td><td>73.67 tok/s</td></tr>
+<tr class="highlight"><td><strong>Qwen3.6-35B-A3B-UD-Q4_K_M</strong></td><td>MoE</td><td>20.61 GiB</td><td>72.91 tok/s</td></tr>
+<tr class=""><td><strong>gemma-4-12b-it-UD-Q4_K_XL</strong></td><td>Dense</td><td>6.86 GiB</td><td>47.93 tok/s</td></tr>
+<tr class=""><td><strong>Mistral-Small-3.2-24B-Instruct-2506-Q4_K_M</strong></td><td>Dense</td><td>13.34 GiB</td><td>32.65 tok/s</td></tr>
+<tr class=""><td><strong>Qwen3.5-27B-Q4_K_M</strong></td><td>Dense</td><td>15.58 GiB</td><td>24.39 tok/s</td></tr>
+<tr class=""><td><strong>Qwen3-32B-Q4_K_M</strong></td><td>Dense</td><td>18.40 GiB</td><td>23.30 tok/s</td></tr>
+<tr class=""><td><strong>gemma-4-31B-it-UD-Q4_K_XL</strong></td><td>Dense</td><td>17.52 GiB</td><td>22.36–22.82 tok/s</td></tr>
+<tr class="retired"><td><strong>Qwen3.5-122B-A10B-UD-IQ3_S</strong></td><td>Retired stress test</td><td>retired</td><td>10.15–13.13 tok/s</td></tr></tbody></table></div>
+<p class="project-special-note project-reveal"><strong>Historical stress test:</strong> Qwen3.5-122B-A10B-UD-IQ3_S reached about 248 tok/s prompt processing at pp512 and 10.15–13.13 tok/s generation around <code>-ngl 35</code> with 16k–24k context. I retired it from the active stack because it was too large and impractical for the hardware.</p>
+</section>
+<section class="project-section" id="evidence">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Evidence</p><h2>Hardware, services, and benchmark evidence from the active system.</h2></div><p>These images connect the description to work that was built, tested, or operated.</p></div>
+<div class="project-evidence-layout">
+<div class="project-evidence-copy project-reveal"><p class="project-eyebrow">What to look for</p><h3>The evidence connects the description to something built, tested, or operated.</h3><ul class="project-evidence-list"><li>Custom enclosure and integrated status display</li><li>Local llama.cpp endpoints and systemd-managed runtimes</li><li>Generation-rate benchmark matrix across dense, MoE, and small models</li><li>Role-specific manager/worker model evaluation</li><li>PFC wake/recovery integration and Print Orchestrator application hosting</li></ul></div>
+<div class="project-gallery">
+<figure class="project-reveal"><button data-caption="Finished B70 system — The server is packaged as an operator-facing system rather than an open test bench." data-lightbox="" type="button"><img alt="Finished B70 system" loading="lazy" src="../../assets/images/ai-img-8931.jpg"/></button><figcaption><strong>Finished B70 system</strong>The server is packaged as an operator-facing system rather than an open test bench.</figcaption></figure>
+<figure class="project-reveal"><button data-caption="Internal hardware layout — Serviceability, airflow, component placement, and wiring all matter because the machine runs as infrastructure." data-lightbox="" type="button"><img alt="Internal hardware layout" loading="lazy" src="../../assets/images/ai-img-8916.jpg"/></button><figcaption><strong>Internal hardware layout</strong>Serviceability, airflow, component placement, and wiring all matter because the machine runs as infrastructure.</figcaption></figure>
+<figure class="project-reveal"><button data-caption="Applied local-AI workflow — The platform is used for real engineering and software work, not only model speed tests." data-lightbox="" type="button"><img alt="Applied local-AI workflow" loading="lazy" src="../../assets/images/ai-calculator-code-2.jpg"/></button><figcaption><strong>Applied local-AI workflow</strong>The platform is used for real engineering and software work, not only model speed tests.</figcaption></figure>
+</div>
+</div>
+</section>
+<section class="project-section alt" id="outcomes">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Results</p><h2>A private AI platform that now supports several other projects.</h2></div><p>The result, the main lesson, and the next useful improvement.</p></div>
+<div class="project-outcome-grid">
+<article class="project-reveal"><span>01 · Outcome</span><h3>A practical active stack</h3><p>Fast MoE models provide a better balance of capability, generation speed, and memory use than the retired oversized configuration.</p></article>
+<article class="project-reveal"><span>02 · Outcome</span><h3>Infrastructure for other projects</h3><p>The server now supports AI runtimes, dashboards, automation, model evaluation, and local development workflows.</p></article>
+<article class="project-reveal"><span>03 · Outcome</span><h3>A repeatable test process</h3><p>Configurations and results can be compared over time as runtimes, models, and application roles change.</p></article>
+</div>
+</section>
+<section class="project-next">
+<div class="project-reveal"><p class="project-eyebrow">What comes next</p><h2>The next useful improvement is already clear.</h2><p>The next phase is deeper task-based evaluation against Muse and Qwen3.6, plus more automated capture of quality, recovery, and throughput across manager and worker roles.</p><div class="project-next-actions"><a href="../../index.html#portfolio">Return to all projects</a><a href="../pfc-supervisor/">Related: PFC Supervisor</a></div></div>
+</section>
+</main>
+<footer class="project-footer"><span>Joseph Dwyer · Engineering systems portfolio</span><span>AI-03 · <span id="projectYear"></span></span></footer>
+<dialog class="project-lightbox" id="projectLightbox"><img alt="" data-lightbox-image="" src=""/><footer><span data-lightbox-caption=""></span><button aria-label="Close image" data-lightbox-close="" type="button">×</button></footer></dialog>
+<script src="../../project.js"></script>
+</body>
+</html>

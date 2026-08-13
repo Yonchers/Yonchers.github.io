@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>PFC Supervisor | Joseph Dwyer Engineering Portfolio</title>
+<meta content="A control plane that lets the main compute server sleep through long idle windows while a low-power Pi keeps schedules, wake protection, status, and recovery logic available." name="description"/>
+<meta content="#090a0c" name="theme-color"/>
+<link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../styles.css" rel="stylesheet"/>
+<link href="../../project.css" rel="stylesheet"/>
+</head>
+<body class="project-page" data-project-tone="green">
+<a class="skip-link" href="#projectMain">Skip to project</a>
+<div aria-hidden="true" class="project-progress"><i data-project-progress=""></i></div>
+<canvas aria-hidden="true" class="project-starfield" id="projectStarfield"></canvas>
+<header class="project-header">
+<a class="project-header-brand" href="../../index.html#portfolio"><span>JD</span><div><strong>Joseph Dwyer</strong><small>Engineering project file</small></div></a>
+<nav aria-label="Project navigation" data-project-nav=""><a href="#overview">Overview</a><a href="#decisions">Decisions</a><a href="#evidence">Evidence</a><a href="#outcomes">Outcomes</a></nav>
+<div class="project-header-actions"><a href="../../index.html#portfolio">All projects</a><button aria-pressed="false" class="project-motion" data-project-motion="" type="button">Pause motion</button></div>
+<button aria-expanded="false" aria-label="Toggle project navigation" class="project-nav-toggle" data-project-nav-toggle="" type="button">☰</button>
+</header>
+<main class="project-main" id="projectMain">
+<section class="project-hero">
+<div class="project-hero-copy project-reveal">
+<p class="project-eyebrow">Server power management</p>
+<h1>PFC Supervisor</h1>
+<p class="project-hero-lede">A control plane that lets the main compute server sleep through long idle windows while a low-power Pi keeps schedules, wake protection, status, and recovery logic available.</p>
+<div class="project-status-row"><span>Working system</span><span>Power-state orchestration</span><span>Hermes schedule cache</span><span>Measured + estimated ledger</span></div>
+<div class="project-hero-actions"><a class="primary" href="#overview">Read the project story</a><a href="../../index.html#portfolio">Back to project library</a></div>
+</div>
+<div class="project-hero-visual project-reveal">
+<div class="project-hero-frame screenshot"><img alt="PFC Supervisor power management dashboard showing current load, observed sleep, and avoided energy" src="../../assets/screenshots/pfc-power-management-top.png"/><div class="project-hero-caption"><span>Real PFC power-management capture. Savings are shown as the dashboard currently estimates them from retained history and configured baselines.</span><b>PFC-02</b></div></div>
+</div>
+</section>
+<section aria-label="Project highlights" class="project-metrics">
+<article><strong>13.19 kWh</strong><span>current seven-day avoided-energy estimate</span></article>
+<article><strong>95.0 h</strong><span>observed sleep retained in history</span></article>
+<article><strong>68.23 kWh</strong><span>current projected 30-day savings</span></article>
+<article><strong>$290.54</strong><span>current projected annual value</span></article>
+</section>
+<section class="project-section" id="overview">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Overview</p><h2>The AI server did not need to stay awake when no work was running.</h2></div><p>The problem, my contribution, and the constraint that shaped the work.</p></div>
+<div class="project-story-grid">
+<article class="project-story-card project-reveal" data-number="01"><p class="project-eyebrow">Context</p><h3>The problem I was solving</h3><p>The B70 compute server is useful when AI, Minecraft, print-control, or scheduled jobs need it, but leaving the full system awake all day wastes power. A basic timer was not enough because the work is irregular and some jobs must wake the server before they run.</p></article>
+<article class="project-story-card project-reveal" data-number="02"><p class="project-eyebrow">System</p><h3>What I built</h3><p>PFC splits responsibility between the main server and a low-power Pi. The Pi keeps the control surface, Hermes schedule cache, wake protections, policy checks, and retained history available even when the main server is asleep.</p></article>
+<article class="project-story-card project-reveal" data-number="03"><p class="project-eyebrow">Ownership</p><h3>My role</h3><p>I designed the operating model, dashboard, power policy, runtime reconciliation, schedule-cache visibility, eligibility matrix, release process, and recovery behavior. The project is still evolving as I add better attribution, notifications, and cross-system checks.</p></article>
+<article class="project-story-card project-reveal" data-number="04"><p class="project-eyebrow">Safeguard</p><h3>The safety rule</h3><p>Automatic suspend fails safe. If telemetry is stale, a protected job is near, an inhibition lease is active, a workload is unknown, or a required runtime state cannot be verified, PFC blocks sleep and explains why.</p></article>
+</div>
+</section>
+<section class="project-section alt" id="decisions">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Design decisions</p><h2>Automatic sleep only works when the safety logic is visible.</h2></div><p>The tradeoffs and safeguards I used to move the project forward.</p></div>
+<div class="project-decision-grid">
+<article class="project-decision project-reveal"><span>01</span><div><h3>Keep the Pi awake, not the whole server</h3><p>The low-power controller retains the minimum services needed for schedules, wake dispatch, status, and operator access while the high-power node sleeps.</p></div></article>
+<article class="project-decision project-reveal"><span>02</span><div><h3>Make every sleep decision inspectable</h3><p>The eligibility matrix shows each rule as eligible, blocked, unknown, or stale, plus the subsystem that supplied the decision.</p></div></article>
+<article class="project-decision project-reveal"><span>03</span><div><h3>Protect scheduled work before it starts</h3><p>Hermes jobs are cached with a wake-dispatch window and protected-until window so the server can wake before execution instead of after a job is already late.</p></div></article>
+<article class="project-decision project-reveal"><span>04</span><div><h3>Separate estimates from direct measurement</h3><p>The energy ledger labels baseline-based estimates and keeps coverage visible. A direct meter source is the next step for stronger attribution.</p></div></article>
+</div>
+</section>
+<section class="project-section alt" id="savings">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Power savings</p><h2>The current seven-day snapshot shows 95 hours of sleep.</h2></div><p>Observed sleep is separated from estimated energy savings so the result remains honest.</p></div>
+<div class="project-savings-spotlight">
+<div class="project-savings-main project-reveal"><p class="project-eyebrow">Seven-day ledger</p><h3>13.19 kWh avoided</h3><p>The same snapshot reports 95.0 hours of observed sleep, an average of 2.27 kWh saved per day, 68.23 kWh projected over 30 days, and a projected annual value of $290.54.</p><div aria-label="Illustrative seven-day avoided energy chart" class="project-savings-chart"><article><i style="--height:90%"></i><span>Fri</span></article><article><i style="--height:94%"></i><span>Sat</span></article><article><i style="--height:87%"></i><span>Sun</span></article><article><i style="--height:55%"></i><span>Mon</span></article><article><i style="--height:63%"></i><span>Tue</span></article><article><i style="--height:52%"></i><span>Wed</span></article><article><i style="--height:18%"></i><span>Thu</span></article></div></div>
+<aside class="project-savings-note project-reveal"><p class="project-eyebrow">What the number means</p><strong>Useful estimate, visible caveat</strong><p>PFC currently attributes most host energy from configured wattage baselines and observed state history. The dashboard deliberately keeps that limitation next to the savings claim.</p><ul><li>Observed sleep is retained from real state history.</li><li>Avoided energy is estimated against an always-on baseline.</li><li>The Pi’s own energy use is included in the combined projection.</li><li>Direct metering is the planned accuracy upgrade.</li></ul></aside>
+</div>
+</section>
+<section class="project-section" id="evidence">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Evidence</p><h2>The live control panels show how power decisions are made.</h2></div><p>These images connect the description to work that was built, tested, or operated.</p></div>
+<div class="project-evidence-layout">
+<div class="project-evidence-copy project-reveal"><p class="project-eyebrow">What to look for</p><h3>The evidence connects the description to something built, tested, or operated.</h3><ul class="project-evidence-list"><li>Current combined-load and modeled workload-attribution panels</li><li>Seven-day actual-versus-avoided energy ledger</li><li>Observed sleep history and 30-day/annual projections</li><li>Hermes cache health, job list, wake dispatch, and protection windows</li><li>AI runtime reconciliation after wake and before suspend</li><li>Subsystem eligibility matrix with explicit blockers and advisory schedule intelligence</li></ul></div>
+<div class="project-gallery">
+<figure class="project-reveal screenshot"><button data-caption="Power command center — Current status, controls, modeled allocation, active blockers, and Hermes schedule cache." data-lightbox="" type="button"><img alt="Power command center" loading="lazy" src="../../assets/screenshots/pfc-power-management-top.png"/></button><figcaption><strong>Power command center</strong>Current status, controls, modeled allocation, active blockers, and Hermes schedule cache.</figcaption></figure>
+<figure class="project-reveal screenshot"><button data-caption="Energy ledger and projections — Observed online/sleep timeline, seven-day avoided energy, and current long-term projection cards." data-lightbox="" type="button"><img alt="Energy ledger and projections" loading="lazy" src="../../assets/screenshots/pfc-energy-ledger.png"/></button><figcaption><strong>Energy ledger and projections</strong>Observed online/sleep timeline, seven-day avoided energy, and current long-term projection cards.</figcaption></figure>
+<figure class="project-reveal screenshot"><button data-caption="AI runtime orchestration — Adopted llama.cpp runtimes, endpoint identity, telemetry, and wake/GPU reconciliation." data-lightbox="" type="button"><img alt="AI runtime orchestration" loading="lazy" src="../../assets/screenshots/pfc-ai-runtime.png"/></button><figcaption><strong>AI runtime orchestration</strong>Adopted llama.cpp runtimes, endpoint identity, telemetry, and wake/GPU reconciliation.</figcaption></figure>
+<figure class="project-reveal screenshot"><button data-caption="Suspend eligibility matrix — The safety engine explains which subsystem allows or blocks automatic suspend." data-lightbox="" type="button"><img alt="Suspend eligibility matrix" loading="lazy" src="../../assets/screenshots/pfc-eligibility-matrix.png"/></button><figcaption><strong>Suspend eligibility matrix</strong>The safety engine explains which subsystem allows or blocks automatic suspend.</figcaption></figure>
+</div>
+</div>
+</section>
+<section class="project-section alt" id="outcomes">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Results</p><h2>Lower idle power without giving up schedules or recovery.</h2></div><p>The result, the main lesson, and the next useful improvement.</p></div>
+<div class="project-outcome-grid">
+<article class="project-reveal"><span>01 · Outcome</span><h3>Useful sleep instead of blind shutdown</h3><p>The server can stay off during genuine idle time without giving up scheduled jobs or operator visibility.</p></article>
+<article class="project-reveal"><span>02 · Outcome</span><h3>Power savings with context</h3><p>The dashboard ties savings to observed sleep and configured baselines, while keeping estimation limits visible.</p></article>
+<article class="project-reveal"><span>03 · Outcome</span><h3>Safer automation</h3><p>A blocked suspend is treated as a successful safety decision, not a failure to automate.</p></article>
+</div>
+</section>
+<section class="project-next">
+<div class="project-reveal"><p class="project-eyebrow">What comes next</p><h2>The next useful improvement is already clear.</h2><p>The highest-value next step is direct metering for the PFP host. That will replace more modeled attribution with measured wall-power data and make the savings ledger more defensible over longer periods.</p><div class="project-next-actions"><a href="../../index.html#portfolio">Return to all projects</a><a href="../ai-server/">Related: B70 engineering server</a></div></div>
+</section>
+</main>
+<footer class="project-footer"><span>Joseph Dwyer · Engineering systems portfolio</span><span>PFC-02 · <span id="projectYear"></span></span></footer>
+<dialog class="project-lightbox" id="projectLightbox"><img alt="" data-lightbox-image="" src=""/><footer><span data-lightbox-caption=""></span><button aria-label="Close image" data-lightbox-close="" type="button">×</button></footer></dialog>
+<script src="../../project.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>E3NG CoreXY conversion | Joseph Dwyer Engineering Portfolio</title>
+<meta content="An Ender 3 Pro rebuilt into a custom CoreXY platform with Klipper, networked toolhead electronics, calibration, and the kind of commissioning work that turns a collection of parts into a dependable machine." name="description"/>
+<meta content="#090a0c" name="theme-color"/>
+<link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../styles.css" rel="stylesheet"/>
+<link href="../../project.css" rel="stylesheet"/>
+</head>
+<body class="project-page" data-project-tone="orange">
+<a class="skip-link" href="#projectMain">Skip to project</a>
+<div aria-hidden="true" class="project-progress"><i data-project-progress=""></i></div>
+<canvas aria-hidden="true" class="project-starfield" id="projectStarfield"></canvas>
+<header class="project-header">
+<a class="project-header-brand" href="../../index.html#portfolio"><span>JD</span><div><strong>Joseph Dwyer</strong><small>Engineering project file</small></div></a>
+<nav aria-label="Project navigation" data-project-nav=""><a href="#overview">Overview</a><a href="#decisions">Decisions</a><a href="#evidence">Evidence</a><a href="#outcomes">Outcomes</a></nav>
+<div class="project-header-actions"><a href="../../index.html#portfolio">All projects</a><button aria-pressed="false" class="project-motion" data-project-motion="" type="button">Pause motion</button></div>
+<button aria-expanded="false" aria-label="Toggle project navigation" class="project-nav-toggle" data-project-nav-toggle="" type="button">☰</button>
+</header>
+<main class="project-main" id="projectMain">
+<section class="project-hero">
+<div class="project-hero-copy project-reveal">
+<p class="project-eyebrow">Custom motion system</p>
+<h1>E3NG CoreXY conversion</h1>
+<p class="project-hero-lede">An Ender 3 Pro rebuilt into a custom CoreXY platform with Klipper, networked toolhead electronics, calibration, and the kind of commissioning work that turns a collection of parts into a dependable machine.</p>
+<div class="project-status-row"><span>Operational machine</span><span>CoreXY</span><span>Klipper</span><span>CAN-style toolhead network</span></div>
+<div class="project-hero-actions"><a class="primary" href="#overview">Read the project story</a><a href="../../index.html#portfolio">Back to project library</a></div>
+</div>
+<div class="project-hero-visual project-reveal">
+<div class="project-hero-frame"><img alt="Completed E3NG CoreXY printer conversion" src="../../assets/images/e3ng-img-7200-1.jpg"/><div class="project-hero-caption"><span>Completed E3NG platform after mechanical, electrical, firmware, and calibration work.</span><b>MOTION-04</b></div></div>
+</div>
+</section>
+<section aria-label="Project highlights" class="project-metrics">
+<article><strong>CoreXY</strong><span>custom motion conversion</span></article>
+<article><strong>SKR Mini E3 V3</strong><span>main controller</span></article>
+<article><strong>Klipper</strong><span>firmware and calibration workflow</span></article>
+<article><strong>Input Shaper</strong><span>completed motion tuning</span></article>
+</section>
+<section class="project-section" id="overview">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Overview</p><h2>I turned an Ender 3 platform into a custom CoreXY machine.</h2></div><p>The problem, my contribution, and the constraint that shaped the work.</p></div>
+<div class="project-story-grid">
+<article class="project-story-card project-reveal" data-number="01"><p class="project-eyebrow">Context</p><h3>The problem I was solving</h3><p>I wanted more than a cosmetic Ender upgrade. The goal was to use the donor machine as the basis for a CoreXY platform that could support higher-speed motion, engineering materials, and deeper controls work.</p></article>
+<article class="project-story-card project-reveal" data-number="02"><p class="project-eyebrow">System</p><h3>What I built</h3><p>The conversion combined a new frame and belt path, custom toolhead packaging, Raspberry Pi control, SKR electronics, a U2C/CAN-style interface, sensors, camera, Klipper configuration, and a full calibration workflow.</p></article>
+<article class="project-story-card project-reveal" data-number="03"><p class="project-eyebrow">Challenge</p><h3>The hard part</h3><p>The project crossed mechanical, electrical, Linux, firmware, and thermal boundaries. A symptom such as failed homing or bad first layers could come from alignment, wiring, network configuration, sensor behavior, or software settings.</p></article>
+<article class="project-story-card project-reveal" data-number="04"><p class="project-eyebrow">Impact</p><h3>Why it matters</h3><p>The machine became a small automated workcell that I could assemble, commission, monitor, troubleshoot, and improve. Those are the same habits needed in larger manufacturing and automation systems.</p></article>
+</div>
+</section>
+<section class="project-section alt" id="decisions">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Design decisions</p><h2>Mechanical alignment, electronics, and firmware had to work as one system.</h2></div><p>The tradeoffs and safeguards I used to move the project forward.</p></div>
+<div class="project-decision-grid">
+<article class="project-decision project-reveal"><span>01</span><div><h3>Treat alignment as a system problem</h3><p>Frame squareness, belt routing, gantry movement, bed alignment, and toolhead stiffness were checked together instead of tuned in isolation.</p></div></article>
+<article class="project-decision project-reveal"><span>02</span><div><h3>Move calibration into a repeatable workflow</h3><p>Input Shaper, bed mesh, homing, extrusion, thermal behavior, and repeatability checks became documented commissioning steps.</p></div></article>
+<article class="project-decision project-reveal"><span>03</span><div><h3>Use networked toolhead electronics carefully</h3><p>CAN-style connectivity reduced the toolhead wiring burden but added Linux network and interface failure modes that had to be understood and recovered.</p></div></article>
+<article class="project-decision project-reveal"><span>04</span><div><h3>Build for service access</h3><p>Controller, Pi, power, camera, probe, and toolhead connections were arranged so future diagnosis would not require dismantling the entire machine.</p></div></article>
+</div>
+</section>
+<section class="project-section" id="evidence">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Evidence</p><h2>Build photos and calibration results from the conversion.</h2></div><p>These images connect the description to work that was built, tested, or operated.</p></div>
+<div class="project-evidence-layout">
+<div class="project-evidence-copy project-reveal"><p class="project-eyebrow">What to look for</p><h3>The evidence connects the description to something built, tested, or operated.</h3><ul class="project-evidence-list"><li>CoreXY frame, gantry, and belt-path integration</li><li>SKR Mini E3 V3, Raspberry Pi, U2C/CAN-style interface, and toolhead electronics</li><li>Probe, camera, hotend, and extrusion-system integration</li><li>Klipper/Mainsail configuration, bed mesh, Input Shaper, and recovery work</li><li>Functional printing and ongoing use inside Print Orchestrator</li></ul></div>
+<div class="project-gallery">
+<figure class="project-reveal"><button data-caption="Completed CoreXY platform — The finished machine is the result of mechanical, electrical, and firmware commissioning." data-lightbox="" type="button"><img alt="Completed CoreXY platform" loading="lazy" src="../../assets/images/e3ng-img-7200-1.jpg"/></button><figcaption><strong>Completed CoreXY platform</strong>The finished machine is the result of mechanical, electrical, and firmware commissioning.</figcaption></figure>
+<figure class="project-reveal"><button data-caption="Controller and network integration — Mainboard, Raspberry Pi, and interface hardware during integration." data-lightbox="" type="button"><img alt="Controller and network integration" loading="lazy" src="../../assets/images/e3ng-img-7128-1.jpg"/></button><figcaption><strong>Controller and network integration</strong>Mainboard, Raspberry Pi, and interface hardware during integration.</figcaption></figure>
+<figure class="project-reveal"><button data-caption="Build and calibration evidence — Physical access and wiring remain important after the first successful motion test." data-lightbox="" type="button"><img alt="Build and calibration evidence" loading="lazy" src="../../assets/images/e3ng-img-7150-1.jpg"/></button><figcaption><strong>Build and calibration evidence</strong>Physical access and wiring remain important after the first successful motion test.</figcaption></figure>
+</div>
+</div>
+</section>
+<section class="project-section alt" id="outcomes">
+<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Results</p><h2>A working motion platform and deeper controls troubleshooting experience.</h2></div><p>The result, the main lesson, and the next useful improvement.</p></div>
+<div class="project-outcome-grid">
+<article class="project-reveal"><span>01 · Outcome</span><h3>Working motion platform</h3><p>The donor printer became a functional CoreXY machine rather than a partial conversion.</p></article>
+<article class="project-reveal"><span>02 · Outcome</span><h3>Controls troubleshooting experience</h3><p>The project created practical experience with sensors, motion, networked electronics, Linux, and firmware recovery.</p></article>
+<article class="project-reveal"><span>03 · Outcome</span><h3>A test bed for software</h3><p>E3NG is now one of the real machines represented in Print Orchestrator and the wider lab environment.</p></article>
+</div>
+</section>
+<section class="project-next">
+<div class="project-reveal"><p class="project-eyebrow">What comes next</p><h2>The next useful improvement is already clear.</h2><p>Ongoing work centers on reliability, toolhead refinement, materials, and using fleet data to make maintenance and recovery more systematic.</p><div class="project-next-actions"><a href="../../index.html#portfolio">Return to all projects</a><a href="../print-orchestrator/">Related: Print Orchestrator</a></div></div>
+</section>
+</main>
+<footer class="project-footer"><span>Joseph Dwyer · Engineering systems portfolio</span><span>MOTION-04 · <span id="projectYear"></span></span></footer>
+<dialog class="project-lightbox" id="projectLightbox"><img alt="" data-lightbox-image="" src=""/><footer><span data-lightbox-caption=""></span><button aria-label="Close image" data-lightbox-close="" type="button">×</button></footer></dialog>
+<script src="../../project.js"></script>
+</body>
+</html>
