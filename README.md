@@ -1,16 +1,18 @@
-# Joseph Dwyer Engineering Portfolio — V4 Demo
+# Joseph Dwyer Engineering Portfolio — V5
 
 A static GitHub Pages portfolio covering mechanical engineering, automation, local AI, additive manufacturing, testing, robotics, motorsports, and product development.
 
-## What changed in V4
+## What changed in V5
 
-- Every project card now opens a **full project workspace inside the website**. Visitors stay on the portfolio instead of being sent to a separate standalone page.
-- Each workspace uses project-specific tabs. Common tabs include Overview, Design decisions, Evidence, and Results; relevant projects also add Workflow, Power savings, Benchmarks, or Sponsorship.
-- Project workspaces support direct links such as `#project=pfc-supervisor&tab=savings` and browser back/forward navigation.
-- The main page and project title blocks were rewritten in a more direct, first-person voice.
-- PFC power savings are featured prominently while keeping the current measurement limitation visible beside the estimate.
-- The Print Orchestrator and PFC demos retain the higher-fidelity treatment based on the supplied control-panel captures.
-- Standalone files under `projects/` remain as fallbacks for direct-link compatibility, but the portfolio cards no longer navigate away from the main site.
+- Project pages are now more visual and less repetitive. Supporting text was shortened so build photos, dashboard captures, measured results, and their captions carry more of the story.
+- Ten projects include integrated photo or screenshot galleries inside the existing project workspace.
+- Gallery tabs automatically move the workspace to the selected content instead of leaving the visitor at the top of an oversized project hero.
+- The project hero, metrics, cards, software demos, and mobile layouts were rescaled to use screen space more efficiently.
+- The project workspace no longer develops horizontal overflow from its decorative background orbit.
+- The Makerspace and Vanquish Products section does **not** use unrelated photos. It uses a clearly labeled responsibility map because useful workplace photos are not available.
+- The UEI test-room construction photo is correctly grouped with the energy-efficiency test project.
+- The PFC project keeps power savings prominent while distinguishing observed sleep from baseline-based energy and dollar estimates.
+- Standalone routes under `projects/` redirect into the corresponding integrated project tab, preserving direct links without duplicating long-form pages.
 
 ## Preview locally
 
@@ -26,7 +28,7 @@ Then open `http://localhost:8080`.
 ./verify.sh
 ```
 
-The verifier checks JavaScript syntax, local references, duplicate IDs, the 11 long-form project sources, and the generated in-site project registry.
+The verifier checks JavaScript syntax, local references, duplicate IDs, all 11 project routes, gallery counts, image assignments, the no-photo role map, project-card behavior, and the V5 stylesheet order.
 
 ## Publish to GitHub Pages
 
@@ -34,19 +36,21 @@ Copy the contents of this directory into the root of `Yonchers.github.io`, commi
 
 ## Key files
 
-- `index.html` — primary portfolio, software demos, project cards, and the integrated project workspace
+- `index.html` — main portfolio, software demos, cards, and integrated project workspace
 - `styles.css` — base visual system
-- `v3.css` — higher-fidelity Print Orchestrator and PFC styling
-- `project.css` — shared long-form project content styles
-- `v4.css` — integrated workspace, project tabs, responsive layout, and revised title hierarchy
+- `v3.css` — high-fidelity Print Orchestrator and PFC demo styling
+- `project.css` — shared project-content components
+- `v4.css` — integrated project workspace and tab structure
+- `v5.css` — scale corrections, gallery layouts, concise project presentation, and no-photo card layout
 - `app.js` — global navigation, motion, filtering, and base interactions
 - `v3.js` — Print Orchestrator and PFC demo behavior
 - `project-tabs-data.js` — generated content registry for all 11 projects
-- `v4.js` — project workspace, tabs, deep links, project navigation, and evidence lightbox
-- `projects/` — retained long-form source/fallback pages
-- `tools/build_project_tabs.py` — rebuilds `project-tabs-data.js` from the long-form project pages
-- `assets/` — project photos, dashboard captures, and icons
+- `v4.js` — project workspace, tabs, deep links, auto-scroll, navigation, and image lightbox
+- `tools/build_v5_project_data.py` — rebuilds the concise project registry and galleries
+- `tools/update_index_v5.py` — reapplies V5 main-page copy, card data, and experience entries
+- `assets/graphics/experience-role-map.svg` — labeled non-photographic visual for Makerspace and Vanquish Products
+- `assets/images/` and `assets/screenshots/` — project evidence used by the galleries
 
 ## Measurement note
 
-The PFC dashboard snapshot reports 13.19 kWh avoided over the current seven-day ledger, 95.0 hours of observed sleep, 68.23 kWh projected over 30 days, and a projected annual value of $290.54. Sleep history is observed from retained system state. Avoided-energy and dollar values currently use configured power baselines and should remain labeled as estimates until direct host metering is added.
+The PFC snapshot reports 95.0 hours of observed sleep, 13.19 kWh estimated avoided energy over seven days, 68.23 kWh projected over 30 days, and a projected annual value of $290.54. Sleep history is observed from retained state. Avoided-energy and dollar values use configured power baselines and remain estimates until direct host metering is added.

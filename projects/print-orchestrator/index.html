@@ -1,95 +1,17 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Print Orchestrator | Joseph Dwyer Engineering Portfolio</title>
-<meta content="A shared operating surface for a mixed printer fleet. I built it to make printer state easier to understand, reduce interface hopping, and keep recovery tools close to the evidence that explains the problem." name="description"/>
-<meta content="#090a0c" name="theme-color"/>
-<link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
-<link href="../../styles.css" rel="stylesheet"/>
-<link href="../../project.css" rel="stylesheet"/>
+<meta http-equiv="refresh" content="0; url=../../index.html#project=print-orchestrator">
+<link rel="canonical" href="../../index.html#project=print-orchestrator">
+<style>
+html{color-scheme:dark;background:#090b0e;color:#f3f1ea;font-family:system-ui,sans-serif}
+body{min-height:100vh;display:grid;place-items:center;margin:0;padding:24px}
+a{color:#ff9b49}
+</style>
+<script>location.replace('../../index.html#project=print-orchestrator');</script>
 </head>
-<body class="project-page" data-project-tone="blue">
-<a class="skip-link" href="#projectMain">Skip to project</a>
-<div aria-hidden="true" class="project-progress"><i data-project-progress=""></i></div>
-<canvas aria-hidden="true" class="project-starfield" id="projectStarfield"></canvas>
-<header class="project-header">
-<a class="project-header-brand" href="../../index.html#portfolio"><span>JD</span><div><strong>Joseph Dwyer</strong><small>Engineering project file</small></div></a>
-<nav aria-label="Project navigation" data-project-nav=""><a href="#overview">Overview</a><a href="#decisions">Decisions</a><a href="#evidence">Evidence</a><a href="#outcomes">Outcomes</a></nav>
-<div class="project-header-actions"><a href="../../index.html#portfolio">All projects</a><button aria-pressed="false" class="project-motion" data-project-motion="" type="button">Pause motion</button></div>
-<button aria-expanded="false" aria-label="Toggle project navigation" class="project-nav-toggle" data-project-nav-toggle="" type="button">☰</button>
-</header>
-<main class="project-main" id="projectMain">
-<section class="project-hero">
-<div class="project-hero-copy project-reveal">
-<p class="project-eyebrow">Printer fleet management</p>
-<h1>Print Orchestrator</h1>
-<p class="project-hero-lede">A shared operating surface for a mixed printer fleet. I built it to make printer state easier to understand, reduce interface hopping, and keep recovery tools close to the evidence that explains the problem.</p>
-<div class="project-status-row"><span>Working system</span><span>PrusaLink + Moonraker</span><span>Local network</span><span>Active development</span></div>
-<div class="project-hero-actions"><a class="primary" href="#overview">Read the project story</a><a href="../../index.html#portfolio">Back to project library</a></div>
-</div>
-<div class="project-hero-visual project-reveal">
-<div class="project-hero-frame screenshot"><img alt="Print Orchestrator fleet dashboard showing a Prusa Core One, Alpine, and E3NG printer cards" src="../../assets/screenshots/print-orchestrator-dashboard.png"/><div class="project-hero-caption"><span>Real dashboard capture supplied from the working Print Orchestrator interface.</span><b>PO-01</b></div></div>
-</div>
-</section>
-<section aria-label="Project highlights" class="project-metrics">
-<article><strong>3</strong><span>printers configured in the captured fleet</span></article>
-<article><strong>2</strong><span>printer API families brought together</span></article>
-<article><strong>1</strong><span>operator view for cameras, jobs, power, and health</span></article>
-<article><strong>Human-first</strong><span>status and recovery language</span></article>
-</section>
-<section class="project-section" id="overview">
-<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Overview</p><h2>Why I built one dashboard for a mixed printer fleet.</h2></div><p>The problem, my contribution, and the constraint that shaped the work.</p></div>
-<div class="project-story-grid">
-<article class="project-story-card project-reveal" data-number="01"><p class="project-eyebrow">Context</p><h3>The problem I was solving</h3><p>My printers did not share one control system. One used PrusaLink while the others used Moonraker and Klipper. That meant separate browser tabs, different status terms, and no quick way to see whether a problem came from the printer, camera, power plug, job, or detection service.</p></article>
-<article class="project-story-card project-reveal" data-number="02"><p class="project-eyebrow">System</p><h3>What I built</h3><p>I built a fleet dashboard that keeps each machine honest about its own capabilities while still giving the operator one place to work. The cards show connectivity, camera state, part detection, power mapping, temperatures, active jobs, files, and printer-specific controls.</p></article>
-<article class="project-story-card project-reveal" data-number="03"><p class="project-eyebrow">Ownership</p><h3>My role</h3><p>I own the architecture, interface design, service integration, release packaging, testing, and ongoing recovery work. The project is built around my actual printer fleet, so every screen is shaped by real machine states rather than a generic dashboard template.</p></article>
-<article class="project-story-card project-reveal" data-number="04"><p class="project-eyebrow">Constraint</p><h3>The constraint that mattered</h3><p>The biggest design constraint was not visual polish; it was avoiding false confidence. A printer can be online while its camera is stale, its power plug is unreachable, or part detection is not configured. Those states need to stay separate so an operator knows what is safe to do.</p></article>
-</div>
-</section>
-<section class="project-section alt" id="decisions">
-<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Design decisions</p><h2>The interface had to respect how different each machine really is.</h2></div><p>The tradeoffs and safeguards I used to move the project forward.</p></div>
-<div class="project-decision-grid">
-<article class="project-decision project-reveal"><span>01</span><div><h3>Keep device differences visible</h3><p>I normalize the overall fleet view, but I do not pretend a PrusaLink printer and a Moonraker/Klipper printer expose the same controls. Cards render the features that are actually available.</p></div></article>
-<article class="project-decision project-reveal"><span>02</span><div><h3>Separate machine state from supporting services</h3><p>Connectivity, job state, camera state, power, and detection are shown independently. This makes partial failures understandable and avoids turning every issue into a generic “offline” banner.</p></div></article>
-<article class="project-decision project-reveal"><span>03</span><div><h3>Write recovery states for an operator</h3><p>The interface says what failed, what remains available, and what action is reasonable next. That is more useful than a raw exception or an unexplained red light.</p></div></article>
-<article class="project-decision project-reveal"><span>04</span><div><h3>Treat dangerous actions differently</h3><p>Power-off, emergency-stop, firmware, and console actions use stronger visual language and are placed close to the machine context that justifies them.</p></div></article>
-</div>
-</section>
-<section class="project-section alt" id="workflow">
-<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Workflow</p><h2>What happens between a printer update and an operator action.</h2></div><p>A step-by-step view of the data and operator workflow.</p></div>
-<div class="project-flow"> <article class="project-reveal"><span>01</span><h3>Collect</h3><p>Pull each machine’s native status, temperatures, camera, job, and power information.</p></article>
-<article class="project-reveal"><span>02</span><h3>Normalize</h3><p>Map shared concepts without hiding printer-specific capabilities or unsupported features.</p></article>
-<article class="project-reveal"><span>03</span><h3>Present</h3><p>Show the operator the machine, supporting services, and available actions together.</p></article>
-<article class="project-reveal"><span>04</span><h3>Recover</h3><p>Record the failure, guide the next action, and verify that the machine returned to a safe state.</p></article></div>
-</section>
-<section class="project-section" id="evidence">
-<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Evidence</p><h2>Screenshots and build evidence from the working system.</h2></div><p>These images connect the description to work that was built, tested, or operated.</p></div>
-<div class="project-evidence-layout">
-<div class="project-evidence-copy project-reveal"><p class="project-eyebrow">What to look for</p><h3>The evidence connects the description to something built, tested, or operated.</h3><ul class="project-evidence-list"><li>Fleet overview with configured, connected, printing, paused, and offline counts</li><li>Per-printer camera, temperature, job, power, part-detection, files, and console cards</li><li>PrusaLink and Moonraker/Klipper integration in one visual system</li><li>Notification, Hermes, server, power, and administration navigation</li><li>Responsive card layout and operator-specific layout persistence</li></ul></div>
-<div class="project-gallery">
-<figure class="project-reveal screenshot"><button data-caption="Full fleet control surface — The live capture shows the real density of the dashboard: summary state, filters, camera evidence, independent service cards, power controls, and printer consoles." data-lightbox="" type="button"><img alt="Full fleet control surface" loading="lazy" src="../../assets/screenshots/print-orchestrator-dashboard.png"/></button><figcaption><strong>Full fleet control surface</strong>The live capture shows the real density of the dashboard: summary state, filters, camera evidence, independent service cards, power controls, and printer consoles.</figcaption></figure>
-<figure class="project-reveal"><button data-caption="Machine behind the interface — The software is tied to the physical printer fleet rather than being a disconnected UI exercise." data-lightbox="" type="button"><img alt="Machine behind the interface" loading="lazy" src="../../assets/images/e3ng-img-7200-1.jpg"/></button><figcaption><strong>Machine behind the interface</strong>The software is tied to the physical printer fleet rather than being a disconnected UI exercise.</figcaption></figure>
-<figure class="project-reveal"><button data-caption="Electronics and networked toolhead work — Controller, Raspberry Pi, and CAN-style integration are part of the machine context the dashboard has to represent." data-lightbox="" type="button"><img alt="Electronics and networked toolhead work" loading="lazy" src="../../assets/images/e3ng-img-7128-1.jpg"/></button><figcaption><strong>Electronics and networked toolhead work</strong>Controller, Raspberry Pi, and CAN-style integration are part of the machine context the dashboard has to represent.</figcaption></figure>
-</div>
-</div>
-</section>
-<section class="project-section alt" id="outcomes">
-<div class="project-section-heading project-reveal"><div><p class="project-eyebrow">Results</p><h2>A clearer way to operate, troubleshoot, and extend the fleet.</h2></div><p>The result, the main lesson, and the next useful improvement.</p></div>
-<div class="project-outcome-grid">
-<article class="project-reveal"><span>01 · Outcome</span><h3>Operational clarity</h3><p>The fleet can be understood from one screen without erasing the differences between machines.</p></article>
-<article class="project-reveal"><span>02 · Outcome</span><h3>Faster fault isolation</h3><p>An operator can see whether the issue is the printer, camera, power plug, detection service, or job state before taking action.</p></article>
-<article class="project-reveal"><span>03 · Outcome</span><h3>A platform to extend</h3><p>The same structure can support job routing, richer part detection, maintenance history, and tighter PFC/Hermes coordination.</p></article>
-</div>
-</section>
-<section class="project-next">
-<div class="project-reveal"><p class="project-eyebrow">What comes next</p><h2>The next useful improvement is already clear.</h2><p>The next work is focused on improving part-detection feedback, making recovery history easier to compare, and turning more repeated operator actions into safe, testable workflows.</p><div class="project-next-actions"><a href="../../index.html#portfolio">Return to all projects</a><a href="../pfc-supervisor/">Related: PFC Supervisor</a></div></div>
-</section>
-</main>
-<footer class="project-footer"><span>Joseph Dwyer · Engineering systems portfolio</span><span>PO-01 · <span id="projectYear"></span></span></footer>
-<dialog class="project-lightbox" id="projectLightbox"><img alt="" data-lightbox-image="" src=""/><footer><span data-lightbox-caption=""></span><button aria-label="Close image" data-lightbox-close="" type="button">×</button></footer></dialog>
-<script src="../../project.js"></script>
-</body>
+<body><p>Opening <a href="../../index.html#project=print-orchestrator">Print Orchestrator</a> inside the portfolio.</p></body>
 </html>

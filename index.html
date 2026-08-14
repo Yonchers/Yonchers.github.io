@@ -14,7 +14,7 @@
 <meta content="https://yonchers.github.io/" property="og:url"/>
 <link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="styles.css" rel="stylesheet"/>
-<link href="v3.css" rel="stylesheet"/><link href="project.css" rel="stylesheet"/><link href="v4.css" rel="stylesheet"/>
+<link href="v3.css" rel="stylesheet"/><link href="project.css" rel="stylesheet"/><link href="v4.css" rel="stylesheet"/><link href="v5.css" rel="stylesheet"/>
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 <script type="application/ld+json">
   {
@@ -40,7 +40,7 @@
   }
   </script>
 </head>
-<body data-tone="orange">
+<body data-portfolio-version="5" data-tone="orange">
 <a class="skip-link" href="#main">Skip to content</a>
 <div aria-hidden="true" class="scroll-progress"><span id="scrollProgress"></span></div>
 <canvas aria-hidden="true" class="starfield" id="starfield"></canvas>
@@ -75,7 +75,7 @@
 <div class="hero-copy reveal">
 <p class="eyebrow">Joseph Dwyer · Mechanical Engineering</p>
 <h1>I build practical systems for real machines.</h1>
-<p class="hero-lede">I’m a Sacramento State mechanical engineering student working across mechanical design, controls, software, fabrication, and testing. My strongest projects connect hardware, software, and the people who use them—and leave the system easier to operate, troubleshoot, and improve.</p>
+<p class="hero-lede">I build and test electromechanical systems—from custom printers and lab fixtures to local AI infrastructure. My work focuses on practical fabrication, clear controls, and systems that are easier to operate and troubleshoot.</p>
 <div class="hero-actions">
 <a class="button button-primary magnetic" href="#systems">See the software systems</a>
 <a class="button button-ghost magnetic" href="#portfolio">Browse the projects</a>
@@ -123,9 +123,9 @@
 </section>
 <section class="systems-intro portfolio-surface" data-observe-tone="orange" id="systems">
 <div class="section-heading reveal">
-<p class="eyebrow">Print Orchestrator gives me one place to manage a mixed printer fleet. PFC Supervisor lets the AI server sleep safely without missing scheduled work. These demos follow the live systems while keeping private services and real controls disconnected.</p>
-<h2>The tools I use to run the printers and AI server</h2>
-<p>Print Orchestrator gives me one place to manage a mixed printer fleet. PFC Supervisor lets the AI server sleep safely without missing scheduled work. The demos mirror the live tools without exposing private services or real controls.</p>
+<p class="eyebrow">Live software systems</p>
+<h2>Software built around the machines I actually run</h2>
+<p>Print Orchestrator manages the printer fleet. PFC coordinates the AI server’s power state. The demos use the same structure as the live control panels without exposing private services.</p>
 </div>
 <div aria-hidden="true" class="systems-rail reveal">
 <span>01</span><i></i><span>PRINT ORCHESTRATOR</span><i></i><span>02</span><i></i><span>PFC SUPERVISOR</span>
@@ -134,17 +134,12 @@
 <section class="product-stage orchestrator-stage real-system-stage" data-observe-tone="blue" id="orchestrator">
 <div class="product-stage-copy reveal">
 <p class="eyebrow blue">Print Orchestrator</p>
-<h2>One place to monitor and manage every printer</h2>
-<p>Print Orchestrator brings PrusaLink and Moonraker/Klipper machines into one operator view. It keeps each printer’s real capabilities visible while putting jobs, cameras, power, part detection, temperatures, files, and recovery tools in the same place.</p>
-<ul class="feature-list blue-list">
-<li>Brings PrusaLink and Moonraker/Klipper machines into the same fleet view</li>
-<li>Keeps connectivity, temperatures, cameras, jobs, and power states visible together</li>
-<li>Shows plain-language recovery states instead of hiding problems behind generic errors</li>
-<li>Supports per-printer controls without pretending every machine has the same capabilities</li>
-</ul>
-<p class="demo-note">The interactive panel is a safe portfolio version of the live dashboard shown in your reference capture.</p>
+<h2>One dashboard for a mixed printer fleet</h2>
+<p>PrusaLink and Moonraker/Klipper machines report through one operator view, while each printer keeps its real capabilities and limits.</p>
+<ul class="feature-list blue-list"><li>Printer, camera, power, job, and detection states stay separate</li><li>Machine-specific controls appear only where they are supported</li><li>Recovery language explains the problem and the next safe action</li></ul>
+<p class="demo-note">Portfolio demo · private endpoints and real controls removed</p>
 <div class="system-links">
-<button class="button button-blue magnetic" data-open-project="print-orchestrator" type="button">Open the project details</button>
+<button class="button button-blue magnetic" data-open-project="print-orchestrator" type="button">Open project</button>
 <a class="button button-ghost-dark magnetic" href="assets/screenshots/print-orchestrator-dashboard.png" rel="noreferrer" target="_blank">View the real dashboard capture</a>
 </div>
 </div>
@@ -258,22 +253,17 @@
 <section class="product-stage pfc-stage real-system-stage" data-observe-tone="green" id="pfc">
 <div class="product-stage-copy reveal">
 <p class="eyebrow green">PFC Supervisor</p>
-<h2>A safer way to let the AI server sleep when it is idle</h2>
-<p>PFC coordinates sleep and wake behavior for the main AI server while a low-power Pi keeps schedules, wake protection, status, and recovery logic available. The current dashboard snapshot records 95.0 hours of sleep and estimates 13.19 kWh avoided over seven days, with the estimate and its measurement limits shown together.</p>
+<h2>Let the AI server sleep without missing scheduled work</h2>
+<p>A low-power Pi keeps wake protection, schedules, status, and recovery logic available while the main server sleeps through long idle windows.</p>
 <div class="pfc-savings-callout">
 <article><strong>13.19 kWh</strong><span>avoided over the current seven-day ledger</span></article>
 <article><strong>95.0 hours</strong><span>of observed sleep retained in history</span></article>
 <article><strong>$290.54 / yr</strong><span>current annual projection from the dashboard</span></article>
 </div>
-<p class="savings-caveat">The current snapshot combines observed sleep history with configured power baselines. The sleep time is retained from real operation; avoided energy and dollar values remain estimates until direct host metering is added.</p>
-<ul class="feature-list green-list">
-<li>Checks active AI, Minecraft, print-control, and background workloads before sleep</li>
-<li>Keeps Hermes schedules cached on the low-power Pi so jobs can still wake the server</li>
-<li>Tracks observed sleep, estimated avoided energy, and projected savings over time</li>
-<li>Explains exactly which safety rule allowed or blocked a suspend decision</li>
-</ul>
+<p class="savings-caveat">Sleep time is observed from retained state history. Avoided energy and dollar values remain estimates until direct host metering is added.</p>
+<ul class="feature-list green-list"><li>Checks active workloads and safety rules before suspend</li><li>Keeps Hermes schedules cached on the low-power Pi</li><li>Tracks observed sleep beside estimated energy savings</li></ul>
 <div class="system-links">
-<button class="button button-green magnetic" data-open-project="pfc-supervisor" type="button">Open the project details</button>
+<button class="button button-green magnetic" data-open-project="pfc-supervisor" type="button">Open project</button>
 <a class="button button-ghost-green magnetic" href="assets/screenshots/pfc-power-management-top.png" rel="noreferrer" target="_blank">View the real control panel</a>
 </div>
 </div>
@@ -344,9 +334,9 @@
 <div class="section-heading split-heading reveal">
 <div>
 <p class="eyebrow">Projects</p>
-<h2>A closer look at the work</h2>
+<h2>Selected engineering projects</h2>
 </div>
-<p>Open any card to bring up the full project inside this site. Each project has its own tabs for the overview, design decisions, evidence, results, and project-specific material such as power savings, benchmarks, or sponsorship.</p>
+<p>Open a project for build photos, control-panel captures, and concise notes. The Makerspace and Vanquish section uses a labeled role map because I do not have useful workplace photos.</p>
 </div>
 <div aria-label="Filter portfolio projects" class="project-filter reveal" role="group">
 <button class="active" data-project-filter="all" type="button">All</button>
@@ -357,71 +347,71 @@
 </div>
 <div class="project-grid">
 <article class="project-card featured software-card reveal" data-category="systems" data-project="print-orchestrator" id="project-print-orchestrator">
-<div class="project-media screenshot-media"><img alt="Print Orchestrator fleet dashboard" loading="lazy" src="assets/screenshots/print-orchestrator-dashboard.png"/><span class="project-index">01</span><span class="project-live-badge blue">Working system</span></div>
-<div class="project-card-copy"><p>Printer fleet management</p><h3>Print Orchestrator</h3><span>Monitoring, cameras, power, detection, and recovery in one fleet view</span></div>
-<div class="project-card-actions"><button aria-label="Open Print Orchestrator project inside the portfolio" class="project-tab-button" data-open-project="print-orchestrator" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
+<div class="project-media screenshot-media"><img alt="Print Orchestrator fleet dashboard" loading="lazy" src="assets/screenshots/print-orchestrator-dashboard.png"/><span class="project-index">01</span><span class="project-live-badge blue">Working system</span><span class="project-photo-badge">3 images</span></div>
+<div class="project-card-copy"><p>Printer fleet management</p><h3>Print Orchestrator</h3><span>Mixed-fleet monitoring, recovery, cameras, jobs, and power</span></div>
+<div class="project-card-actions"><button aria-label="Open Print Orchestrator inside the portfolio" class="project-tab-button" data-open-project="print-orchestrator" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card featured software-card reveal" data-category="systems" data-project="pfc-supervisor" id="project-pfc-supervisor">
-<div class="project-media screenshot-media"><img alt="PFC Supervisor power management dashboard" loading="lazy" src="assets/screenshots/pfc-power-management-top.png"/><span class="project-index">02</span><span class="project-live-badge green">13.19 kWh / 7 days</span></div>
-<div class="project-card-copy"><p>Server power management</p><h3>PFC Supervisor</h3><span>Safe sleep/wake automation, schedule protection, runtime checks, and energy tracking</span></div>
-<div class="project-card-actions"><button aria-label="Open PFC Supervisor project inside the portfolio" class="project-tab-button" data-open-project="pfc-supervisor" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
+<div class="project-media screenshot-media"><img alt="PFC power management command center" loading="lazy" src="assets/screenshots/pfc-power-management-top.png"/><span class="project-index">02</span><span class="project-live-badge green">13.19 kWh / 7 days</span><span class="project-photo-badge">4 images</span></div>
+<div class="project-card-copy"><p>Server power management</p><h3>PFC Supervisor</h3><span>Safe sleep and wake control with schedule protection and savings tracking</span></div>
+<div class="project-card-actions"><button aria-label="Open PFC Supervisor inside the portfolio" class="project-tab-button" data-open-project="pfc-supervisor" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card featured reveal" data-category="systems" data-project="ai-server" id="project-ai-server">
-<div class="project-media"><img alt="Custom orange and black local AI server with integrated display" loading="lazy" src="assets/images/ai-img-8931.jpg"/><span class="project-index">03</span></div>
-<div class="project-card-copy"><p>Local AI infrastructure</p><h3>B70 local AI server</h3><span>Custom hardware, local inference, benchmarking, orchestration, and applied engineering tools</span></div>
+<div class="project-media"><img alt="Custom B70 local AI server installation" loading="lazy" src="assets/images/ai-img-8931.jpg"/><span class="project-index">03</span><span class="project-photo-badge">3 images</span></div>
+<div class="project-card-copy"><p>Local AI infrastructure</p><h3>B70 local AI server</h3><span>Local inference, model benchmarks, runtime services, and engineering tools</span></div>
 <div class="project-card-actions"><button aria-label="Open B70 local AI server inside the portfolio" class="project-tab-button" data-open-project="ai-server" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card reveal" data-category="systems fabrication" data-project="e3ng" id="project-e3ng">
-<div class="project-media"><img alt="E3NG controller, Raspberry Pi, and CAN interface electronics" loading="lazy" src="assets/images/e3ng-img-7128-1.jpg"/><span class="project-index">04</span></div>
-<div class="project-card-copy"><p>Custom motion platform</p><h3>E3NG CoreXY conversion</h3><span>CoreXY mechanics, Klipper, networked electronics, calibration, and commissioning</span></div>
-<div class="project-card-actions"><button aria-label="Open E3NG CoreXY conversion project inside the portfolio" class="project-tab-button" data-open-project="e3ng" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
+<div class="project-media"><img alt="Probe and toolhead hardware on the E3NG CoreXY printer" loading="lazy" src="assets/images/e3ng-img-7200-1.jpg"/><span class="project-index">04</span><span class="project-photo-badge">3 images</span></div>
+<div class="project-card-copy"><p>Custom motion platform</p><h3>E3NG CoreXY conversion</h3><span>CoreXY mechanics, Klipper, sensing, electronics, and commissioning</span></div>
+<div class="project-card-actions"><button aria-label="Open E3NG CoreXY conversion inside the portfolio" class="project-tab-button" data-open-project="e3ng" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card reveal" data-category="systems fabrication" data-project="voron" id="project-voron">
-<div class="project-media"><img alt="Custom Voron toolhead components and hotend integration" loading="lazy" src="assets/images/voron-img-6388-1.jpg"/><span class="project-index">05</span></div>
-<div class="project-card-copy"><p>Printer commissioning and production</p><h3>Voron printer systems</h3><span>Enclosed CoreXY systems, technical materials, maintenance, and repeatable workflows</span></div>
+<div class="project-media"><img alt="Voron printer toolhead and printed mechanical components" loading="lazy" src="assets/images/voron-img-6388-1.jpg"/><span class="project-index">05</span><span class="project-photo-badge">1 image</span></div>
+<div class="project-card-copy"><p>Printer commissioning</p><h3>Voron printer systems</h3><span>Enclosed CoreXY printing, technical materials, tuning, and maintenance</span></div>
 <div class="project-card-actions"><button aria-label="Open Voron printer systems inside the portfolio" class="project-tab-button" data-open-project="voron-systems" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card wide reveal" data-category="fabrication leadership" data-project="metuned" id="project-metuned">
-<div class="project-media"><img alt="Metuned motorsports digital dashboard enclosure prototype" loading="lazy" src="assets/images/metuned-copy-of-proto-2.jpg"/><span class="project-index">06</span></div>
-<div class="project-card-copy"><p>Motorsports product development</p><h3>Metuned digital dash</h3><span>Digital dash concept, enclosure design, PCB packaging, cooling, and product direction</span></div>
-<div class="project-card-actions"><button aria-label="Open Metuned digital dash project inside the portfolio" class="project-tab-button" data-open-project="metuned" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
+<div class="project-media"><img alt="Metuned digital dashboard enclosure prototype" loading="lazy" src="assets/images/metuned-copy-of-proto-2.jpg"/><span class="project-index">06</span><span class="project-photo-badge">2 images</span></div>
+<div class="project-card-copy"><p>Motorsports product development</p><h3>Metuned digital dash</h3><span>Digital dash enclosure, PCB packaging, cooling, and product direction</span></div>
+<div class="project-card-actions"><button aria-label="Open Metuned digital dash inside the portfolio" class="project-tab-button" data-open-project="metuned" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card wide reveal" data-category="fabrication leadership" data-project="motorsports" id="project-motorsports">
-<div class="project-media"><img alt="Large Sierra College Cars and Coffee event" loading="lazy" src="assets/images/motorsports-thebigpicture-1.jpg"/><span class="project-index">07</span></div>
-<div class="project-card-copy"><p>Team leadership and fabrication</p><h3>Sierra College Motorsports</h3><span>Race preparation, repairs, sponsorship, community events, and trackside execution</span></div>
-<div class="project-card-actions"><button aria-label="Open Sierra College Motorsports project inside the portfolio" class="project-tab-button" data-open-project="motorsports" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
+<div class="project-media"><img alt="Sierra College Cars and Coffee event" loading="lazy" src="assets/images/motorsports-thebigpicture-1.jpg"/><span class="project-index">07</span><span class="project-photo-badge">2 images</span></div>
+<div class="project-card-copy"><p>Leadership and fabrication</p><h3>Sierra College Motorsports</h3><span>Race preparation, fabrication, events, sponsorship, and leadership</span></div>
+<div class="project-card-actions"><button aria-label="Open Sierra College Motorsports inside the portfolio" class="project-tab-button" data-open-project="motorsports" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card featured reveal" data-category="fabrication testing" data-project="espresso" id="project-espresso">
-<div class="project-media"><img alt="ME190 espresso team presenting prototype and engineering poster" loading="lazy" src="assets/images/espresso-img-4665.jpg"/><span class="project-index">08</span><span class="sponsor-badge">$750 SendCutSend sponsorship</span></div>
-<div class="project-card-copy"><p>ME190 senior design</p><h3>Hybrid hand-actuated espresso machine</h3><span>Hybrid espresso system, controls integration, sponsored fabrication, and technical documentation</span></div>
-<div class="project-card-actions"><button aria-label="Open Hybrid hand-actuated espresso machine project inside the portfolio" class="project-tab-button" data-open-project="espresso-machine" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
+<div class="project-media"><img alt="ME190 espresso machine team presenting the project" loading="lazy" src="assets/images/espresso-img-4665.jpg"/><span class="project-index">08</span><span class="sponsor-badge">$750 SendCutSend sponsorship</span><span class="project-photo-badge">3 images</span></div>
+<div class="project-card-copy"><p>ME190 senior design</p><h3>Hybrid hand-actuated espresso machine</h3><span>ME190 mechanism, controls integration, sponsored parts, and testing</span></div>
+<div class="project-card-actions"><button aria-label="Open Hybrid hand-actuated espresso machine inside the portfolio" class="project-tab-button" data-open-project="espresso-machine" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card reveal" data-category="testing fabrication" data-project="uei" id="project-uei">
-<div class="project-media"><img alt="Residential fan airflow test duct and instrumentation setup" loading="lazy" src="assets/images/uei-img-8868.jpg"/><span class="project-index">09</span></div>
-<div class="project-card-copy"><p>Appliance and airflow testing</p><h3>UEI energy-efficiency testing</h3><span>Controlled environments, CFM instrumentation, repeatable setup, and documentation</span></div>
+<div class="project-media"><img alt="Residential fan airflow and CFM test duct" loading="lazy" src="assets/images/uei-img-8868.jpg"/><span class="project-index">09</span><span class="project-photo-badge">3 images</span></div>
+<div class="project-card-copy"><p>Test engineering</p><h3>UEI energy-efficiency testing</h3><span>Airflow fixtures, instrumentation, controlled testing, and documentation</span></div>
 <div class="project-card-actions"><button aria-label="Open UEI energy-efficiency testing inside the portfolio" class="project-tab-button" data-open-project="uei-lab" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card reveal" data-category="systems testing" data-project="robotics" id="project-robotics">
-<div class="project-media"><img alt="ABB industrial robot and controller in Sacramento State lab" loading="lazy" src="assets/images/me165-image-111.jpg"/><span class="project-index">10</span></div>
-<div class="project-card-copy"><p>Industrial robotics coursework</p><h3>ABB and Rexroth robotics lab</h3><span>ABB robot hardware, Rexroth controllers, safety systems, I/O, and supervised lab work</span></div>
+<div class="project-media"><img alt="ABB robot and Rexroth controls in the ME165 laboratory" loading="lazy" src="assets/images/me165-image-111.jpg"/><span class="project-index">10</span><span class="project-photo-badge">1 image</span></div>
+<div class="project-card-copy"><p>Industrial robotics coursework</p><h3>ABB and Rexroth robotics lab</h3><span>ABB robot hardware, Rexroth controls, I/O, and safe lab work</span></div>
 <div class="project-card-actions"><button aria-label="Open ABB and Rexroth robotics lab inside the portfolio" class="project-tab-button" data-open-project="abb-rexroth" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 <article class="project-card reveal" data-category="fabrication testing" data-project="manufacturing" id="project-manufacturing">
-<div class="project-media"><img alt="Constructed wood test fixture and controlled lab environment" loading="lazy" src="assets/images/manufacturing-img-8774.jpg"/><span class="project-index">11</span></div>
-<div class="project-card-copy"><p>Manufacturing and equipment support</p><h3>Makerspace and manufacturing support</h3><span>CAD/CAM, CNC, laser systems, operator training, finishing, and equipment uptime</span></div>
-<div class="project-card-actions"><button aria-label="Open Makerspace and manufacturing support inside the portfolio" class="project-tab-button" data-open-project="makerspace-manufacturing" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
+<div class="project-media graphic-media"><img alt="Illustrated responsibility map for Sierra College Makerspace and Vanquish Products roles" loading="lazy" src="assets/graphics/experience-role-map.svg"/><span class="project-index">11</span></div>
+<div class="project-card-copy"><p>Equipment and production support</p><h3>Makerspace + Vanquish Products</h3><span>Machine support, training, inventory, finishing, and production handoff</span></div>
+<div class="project-card-actions"><button aria-label="Open Makerspace + Vanquish Products inside the portfolio" class="project-tab-button" data-open-project="makerspace-manufacturing" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div>
 </article>
 </div>
 </section>
 <section class="ai-lab section-tone-orange" data-observe-tone="orange" id="ai-lab">
 <div class="ai-intro reveal">
 <p class="eyebrow">Local AI development</p>
-<h2>The B70 server is where I test models and build tools around them</h2>
-<p>I use the server for more than benchmark numbers. It hosts local inference services, supports the printer and power-control projects, and gives me a repeatable place to compare models for supervision, coding, shell work, debugging, and recovery.</p>
+<h2>The B70 server runs the models and tools behind the lab</h2>
+<p>I use it for local inference, model benchmarks, software development, and the services behind Print Orchestrator and PFC.</p>
 <div class="ai-work-grid">
-<article><span>01</span><h3>Infrastructure</h3><p>Custom B70 hardware, Linux services, local endpoints, private networking, model storage, and operational monitoring.</p></article>
-<article><span>02</span><h3>Model evaluation</h3><p>Role-specific testing for supervision, scope control, coding, shell use, debugging, recovery, and throughput.</p></article>
-<article><span>03</span><h3>Applied systems</h3><p>Print Orchestrator, PFC Supervisor, Hermes scheduling, notification workflows, and AI-assisted engineering tools.</p></article>
+<article><span>01</span><h3>Infrastructure</h3><p>Hardware, cooling, Linux services, endpoints, storage, and monitoring.</p></article>
+<article><span>02</span><h3>Model testing</h3><p>Measured speed plus role-specific tests for coding, supervision, and recovery.</p></article>
+<article><span>03</span><h3>Applied tools</h3><p>Printer control, power orchestration, scheduling, and engineering workflows.</p></article>
 </div>
 </div>
 <div class="benchmark-lab reveal">
@@ -467,12 +457,7 @@
 <h2>Hands-on work in labs, shops, and motorsports</h2>
 </div>
 <div class="experience-layout">
-<div class="timeline reveal">
-<article><span>Current</span><div><p>University Enterprises / Sacramento State</p><h3>Lab Assistant — Appliance Auditing</h3><small>Controlled test environments, CFM/airflow instrumentation, data collection, procedure documentation, and equipment support.</small></div></article>
-<article><span>Current</span><div><p>Metuned LLC</p><h3>Co-founder / Chief Design Officer</h3><small>Product direction, enclosure development, electronics packaging, rapid prototypes, motorsports application, and technical storytelling.</small></div></article>
-<article><span>Leadership</span><div><p>Sierra College Motorsports</p><h3>Treasurer → Vice President → President</h3><small>Race preparation, community events, sponsorship outreach, fabrication support, funding, recruitment, and trackside execution.</small></div></article>
-<article><span>Prior</span><div><p>Sierra College Makerspace + ASB Products</p><h3>Technical Assistant / Manufacturing Support</h3><small>3D printing, CNC routing, laser systems, shop safety, user training, deburr, packaging, and practical equipment workflows.</small></div></article>
-</div>
+<div class="timeline reveal"><article><span>Current</span><div><p>University Enterprises / Sacramento State</p><h3>Lab Assistant — Appliance Auditing</h3><small>Controlled test environments, airflow instrumentation, data collection, documentation, and equipment support.</small></div></article><article><span>Current</span><div><p>Metuned LLC</p><h3>Co-founder / Chief Design Officer</h3><small>Enclosure development, electronics packaging, product direction, prototypes, and motorsports application.</small></div></article><article><span>Leadership</span><div><p>Sierra College Motorsports</p><h3>Treasurer → Vice President → President</h3><small>Race preparation, events, funding, sponsorship, recruitment, fabrication support, and trackside execution.</small></div></article><article><span>Prior</span><div><p>Sierra College Makerspace</p><h3>Makerspace Technical Assistant</h3><small>3D printing, CNC, laser systems, CAD/CAM, user training, troubleshooting, maintenance, and shop safety.</small></div></article><article><span>Prior</span><div><p>Vanquish Products / ASB Products</p><h3>Inventory Manager / Factory Support</h3><small>Inventory, production staging, deburr, polishing, inspection, anodizing and laser-etch prep, packaging, and shipping.</small></div></article></div>
 <aside class="capability-panel reveal">
 <div class="capability-head"><span>Capability matrix</span><small>MECHANICAL + DIGITAL</small></div>
 <div class="capability-row"><span>CAD / CAM</span><i style="--level:91%"></i><b>SolidWorks · Fusion · AutoCAD</b></div>
@@ -534,7 +519,7 @@
 <p class="workspace-lede" data-workspace-lede=""></p>
 <div class="workspace-status" data-workspace-status=""></div>
 </div>
-<figure class="workspace-hero-media">
+<figure class="workspace-hero-media" data-workspace-media="">
 <img alt="" data-workspace-image="" src=""/>
 <figcaption data-workspace-caption=""></figcaption>
 </figure>
