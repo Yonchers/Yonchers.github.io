@@ -1,507 +1,235 @@
-<!DOCTYPE html>
-
-<html class="no-js" lang="en">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>Joseph Dwyer | Mechanical Engineering, Automation &amp; Local AI</title>
-<meta content="Joseph Dwyer's engineering portfolio spanning mechanical systems, automation, local AI, manufacturing, controls, robotics, and test engineering." name="description"/>
-<meta content="#f27a1a" name="theme-color"/>
-<meta content="dark light" name="color-scheme"/>
-<meta content="Joseph Dwyer | Mechanical Engineering Portfolio" property="og:title"/>
-<meta content="Practical engineering projects across hardware, software, automation, testing, and manufacturing." property="og:description"/>
-<meta content="website" property="og:type"/>
-<meta content="https://yonchers.github.io/" property="og:url"/>
-<link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
-<link href="styles.css" rel="stylesheet"/>
-<link href="v3.css" rel="stylesheet"/><link href="project.css" rel="stylesheet"/><link href="v4.css" rel="stylesheet"/>
-<script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Joseph Dwyer",
-    "url": "https://yonchers.github.io/",
-    "jobTitle": "Mechanical Engineering Candidate",
-    "email": "mailto:jdwyer@csus.edu",
-    "sameAs": [
-      "https://github.com/Yonchers",
-      "https://www.linkedin.com/in/joseph-dwyer-10a4131ba"
-    ],
-    "knowsAbout": [
-      "Mechanical Engineering",
-      "Industrial Automation",
-      "3D Printing",
-      "Local AI Systems",
-      "Manufacturing",
-      "Robotics",
-      "Test Engineering"
-    ]
-  }
-  </script>
-<link href="v6.css" rel="stylesheet"/><link href="v6_1.css" rel="stylesheet"/></head>
-<body data-portfolio-version="6" data-revision="6.1" data-tone="orange">
-<a class="skip-link" href="#main">Skip to content</a>
-<div aria-hidden="true" class="scroll-progress"><span id="scrollProgress"></span></div>
-<canvas aria-hidden="true" class="starfield" id="starfield"></canvas>
-<div aria-hidden="true" class="ambient-grid"></div>
-<div aria-hidden="true" class="ambient-vignette"></div>
-<header class="site-header" id="siteHeader">
-<a aria-label="Joseph Dwyer portfolio home" class="brand" href="#home">
-<span aria-hidden="true" class="brand-mark">JD</span>
-<span class="brand-copy">
-<strong>Joseph Dwyer</strong>
-<small>mechanical engineering portfolio</small>
-</span>
-</a>
-<button aria-controls="siteNav" aria-expanded="false" class="nav-toggle" id="navToggle" type="button">
-<span></span><span></span><span></span>
-<span class="sr-only">Toggle navigation</span>
-</button>
-<nav aria-label="Primary navigation" class="site-nav" id="siteNav"><a href="#systems">Systems</a><a href="#portfolio">Projects</a><a href="#ai-lab">AI + Benchmarks</a><a href="#experience">Experience</a><a href="#contact">Contact</a></nav>
-<button aria-pressed="false" class="motion-toggle" id="motionToggle" title="Pause ambient motion" type="button">
-<span aria-hidden="true" class="motion-icon"></span>
-<span class="motion-label">Motion</span>
-</button>
-</header>
-<main id="main">
-<section class="hero section-tone-orange" data-observe-tone="orange" id="home">
-<div class="hero-copy reveal">
-<p class="eyebrow">Joseph Dwyer · Mechanical Engineering · Automation</p>
-<h1>I build machines, automation, and local AI systems that work together.</h1>
-<p class="hero-lede">My work connects mechanical design, fabrication, controls, test engineering, and local AI—from custom printers and lab fixtures to the software that monitors, powers, and automates them.</p>
-<div class="hero-actions"><a class="button button-primary magnetic" href="#systems">Explore the connected systems</a><a class="button button-ghost magnetic" href="#portfolio">Browse the project work</a></div>
-<div aria-label="Portfolio highlights" class="hero-meta"><div><strong>B70 / PFP</strong><span>local AI infrastructure</span></div><div><strong>Small-business founder</strong><span>Metuned LLC</span></div><div><strong>3+</strong><span>printer and motion platforms</span></div><div><strong>Fall 2026</strong><span>B.S. Mechanical Engineering</span></div></div>
-</div>
-<div aria-label="Animated engineering systems radar" class="hero-system hero-radar reveal">
-<div class="radar-ring ring-outer"></div>
-<div class="radar-ring ring-mid"></div>
-<div class="radar-ring ring-inner"></div>
-<div class="radar-grid"></div>
-<div class="radar-sweep"></div>
-<div class="radar-ping ping-one"></div>
-<div class="radar-ping ping-two"></div>
-<div class="hero-core tilt-card" data-tilt-strength="5">
-<span class="hero-core-kicker">ENGINEERING PORTFOLIO</span>
-<strong>JD</strong>
-<span class="hero-core-status"><i></i> design / integrate / verify</span>
-</div>
-<span class="radar-node node-ai">LOCAL AI</span>
-<span class="radar-node node-motion">MOTION</span>
-<span class="radar-node node-controls">CONTROLS</span>
-<span class="radar-node node-fabrication">FABRICATION</span>
-<span class="radar-node node-test">TEST</span>
-</div>
-<a aria-label="Scroll to systems section" class="scroll-cue" href="#systems">
-<span>Explore the work</span><i></i>
-</a>
-</section>
-<section class="systems-intro portfolio-surface" data-observe-tone="orange" id="systems">
-<div class="section-heading reveal">
-<p class="eyebrow">Connected engineering systems</p>
-<h2>The software, AI, and hardware are designed as one stack.</h2>
-<p>llama.cpp runs the local models, Hermes coordinates work, PFC manages the server, and Print Orchestrator turns automation into safe actions on the printer fleet.</p>
-</div>
-<div aria-hidden="true" class="systems-rail reveal"><span>01</span><i></i><span>PRINT ORCHESTRATOR</span><i></i><span>02</span><i></i><span>PFC SUPERVISOR</span><i></i><span>03</span><i></i><span>HERMES + LLAMA.CPP</span></div>
-</section><section class="architecture-section portfolio-surface" data-observe-tone="orange" id="architecture">
-<div class="section-heading reveal">
-<p class="eyebrow">System architecture</p>
-<h2>One local stack connects inference, automation, power, and physical machines.</h2>
-<p>Each layer has a defined responsibility. AI models do not reach hardware directly; they act through narrow, inspectable control interfaces.</p>
-</div>
-<div aria-label="B70, llama.cpp, Hermes, PFC, Print Orchestrator, and desktop integration map" class="stack-map reveal">
-<article class="stack-node server"><span>01</span><strong>B70 / PFP</strong><small>compute · storage · local display</small></article>
-<div class="stack-link vertical"></div>
-<article class="stack-node inference"><span>02</span><strong>llama.cpp</strong><small>SYCL inference · manager + worker endpoints</small></article>
-<div class="stack-link vertical"></div>
-<article class="stack-node hermes"><span>03</span><strong>Hermes</strong><small>routing · schedules · tools · voice · automation</small></article>
-<div class="stack-branches">
-<article class="stack-node blue"><strong>Print Orchestrator</strong><small>CAD · slicing · printers · power · vision</small></article>
-<article class="stack-node green"><strong>PFC Supervisor</strong><small>sleep · wake · runtime · energy · safety</small></article>
-<article class="stack-node desktop"><strong>Desktop tools</strong><small>PFC Pulse · PFC Command · future recovery agent</small></article>
-</div>
-</div>
-</section>
-<section class="product-stage orchestrator-stage real-system-stage" data-observe-tone="blue" id="orchestrator">
-<div class="product-stage-copy reveal">
-<p class="eyebrow blue">AI automation frontend</p>
-<h2>One control layer for printers and AI-driven production.</h2>
-<p>Print Orchestrator unifies PrusaLink and Moonraker/Klipper machines, then exposes the state and controls Hermes needs for CAD, slicing, power, preflight, dispatch, and monitoring.</p>
-<ul class="feature-list blue-list"><li>OpenSCAD generation and a modified OrcaSlicer CLI form the prototype prompt-to-print path</li><li>Part detection can block a new job when an object remains on the bed</li><li>A modified Obico container can send AI failure warnings through Discord</li><li>Kasa smart plugs expose power telemetry and safe power actions to Hermes automations</li></ul>
-<p class="demo-note">Interactive portfolio simulation · live endpoints and machine actions are disconnected</p>
-<div class="system-links">
-<button class="button button-blue magnetic" data-open-project="print-orchestrator" type="button">Open project</button>
-<a class="button button-ghost-dark magnetic" href="assets/screenshots/print-orchestrator-dashboard-v6.png" rel="noreferrer" target="_blank">Open dashboard capture</a>
-</div>
-</div>
-<div class="demo-frame real-orch-frame reveal" data-real-orch-demo="">
-<header class="rpd-topbar">
-<div class="rpd-brand"><span>PD</span><strong>Print Dashboard</strong><small>fabrication systems / live fleet control</small></div>
-<div class="rpd-top-actions">
-<span class="rpd-chip online"><i></i> API online</span>
-<span class="rpd-chip">Updated <b data-rpd-time="">9:08:37 AM</b></span>
-<button class="rpd-chip" data-rpd-theme="" type="button">☀ Light</button>
-<span class="rpd-chip">Notifications <b class="rpd-bubble">36</b></span>
-<span class="rpd-chip rpd-user">Print Orchestrator Administrator <b>ADMINISTRATOR</b></span>
-<button class="rpd-refresh" data-rpd-refresh="" type="button">Refresh</button>
-</div>
-</header>
-<nav aria-label="Print dashboard demo navigation" class="rpd-tabs">
-<button class="active" data-rpd-view="fleet" type="button">Fleet</button>
-<button data-rpd-view="disabled" type="button">Jobs</button>
-<button data-rpd-view="disabled" type="button">Server</button>
-<button data-rpd-view="power" type="button">Power</button>
-<button data-rpd-view="disabled" type="button">Failure detection</button>
-<button data-rpd-view="disabled" type="button">Files</button>
-<button data-rpd-view="disabled" type="button">Hermes chat</button>
-<button data-rpd-view="disabled" type="button">Admin</button>
-</nav>
-<div class="rpd-scroll" data-rpd-panel="fleet">
-<section class="rpd-overview">
-<div class="rpd-overview-main">
-<p>Print Orchestrator / Fleet overview</p>
-<h3><span data-rpd-online-count="">1</span> of 3 printers online</h3>
-<strong data-rpd-summary="">Two printers are currently unreachable, but the connected fleet remains available.</strong>
-<div class="rpd-summary-grid">
-<article><span>Configured</span><b>3</b><small>printers</small></article>
-<article><span>Connected</span><b data-rpd-connected="">1</b><small>reachable now</small></article>
-<article><span>Printing</span><b>0</b><small>active jobs</small></article>
-<article><span>Paused</span><b>0</b><small>awaiting action</small></article>
-<article><span>Offline</span><b data-rpd-offline="">2</b><small>unreachable</small></article>
-</div>
-</div>
-<aside class="rpd-network">
-<p>System state</p><h4>Machine network</h4>
-<dl>
-<div><dt>Dashboard API</dt><dd class="ok">Online</dd></div>
-<div><dt>Auto refresh</dt><dd>Status 10s · telemetry 0.75s</dd></div>
-<div><dt>Last successful poll</dt><dd data-rpd-poll="">9:08:37 AM</dd></div>
-<div><dt>Signed in</dt><dd>Administrator</dd></div>
-</dl>
-</aside>
-</section>
-<section class="rpd-printers">
-<div class="rpd-printer-head">
-<div><h3>Printers</h3><p>Power, connectivity, jobs, cameras, and detection are shown as separate machine states.</p></div>
-<div aria-label="Filter demo printers" class="rpd-filter-group" role="group">
-<button class="active" data-rpd-filter="all" type="button">All</button>
-<button data-rpd-filter="online" type="button">Online</button>
-<button data-rpd-filter="attention" type="button">Needs attention</button>
-<button data-rpd-filter="offline" type="button">Offline</button>
-</div>
-</div>
-<div class="rpd-layout-bar">
-<label>Sort<select><option>Manual order</option><option>Name</option><option>Status</option></select></label>
-<label>New cards<select><option>Standard</option><option>Compact</option></select></label>
-<button type="button">Edit layout</button><button disabled="" type="button">Save layout</button>
-<span>Layout saved to your account</span>
-</div>
-<div class="rpd-printer-grid">
-<article class="rpd-printer-card online" data-rpd-printer="online">
-<header><div><h4>Prusa Core One</h4><small>PRUSALINK · updated just now</small></div><span class="rpd-state idle">◆ IDLE</span></header>
-<div class="rpd-camera"><img alt="Live printer camera preview represented with an existing project photo" loading="lazy" src="assets/images/e3ng-img-7200-1.jpg"/><span>● live snapshot · primary camera</span><button type="button">Rotate 180°</button></div>
-<section class="rpd-mini-panel detection">
-<div><p>Part detection</p><h5 data-rpd-detect-state="">Detection off</h5></div>
-<button aria-pressed="false" class="rpd-toggle" data-rpd-detection="" type="button"><i></i></button>
-<p data-rpd-detect-copy="">Primary camera · score 0.079 · clear ≤ 0.030 · part ≥ 0.065 · 17/3 confirmations</p>
-</section>
-<section class="rpd-mini-panel power">
-<div><p>Power</p><h5>ON</h5></div><strong>Plug online</strong>
-<p>Prusa Core One Outlet · 18.3 W · updated now</p>
-<button data-rpd-power="" type="button">Safe power off</button>
-</section>
-<section class="rpd-job"><strong>No active job</strong><b>0.0%</b><i></i><div><span>Elapsed<br/>—</span><span>Remaining<br/>—</span><span>Estimated total<br/>—</span></div></section>
-<section class="rpd-temp-grid"><article><span>◆ Nozzle</span><b>19.0°C</b><small>stable</small></article><article><span>◆ Bed</span><b>17.9°C</b><small>stable</small></article><article><span>◆ Chamber</span><b>0.0°C</b><small>stable</small></article></section>
-<footer><button type="button">Home axes</button><button class="danger" type="button">Emergency stop</button><a data-open-project="print-orchestrator" href="#project-print-orchestrator">Project details ↓</a></footer>
-</article>
-<article class="rpd-printer-card offline" data-rpd-printer="offline attention">
-<header><div><h4>Alpine</h4><small>MOONRAKER / KLIPPER · updated 9.5s ago</small></div><span class="rpd-state offline">◆ DISCONNECTED</span></header>
-<div class="rpd-camera empty"><span>Loading camera snapshot…</span></div>
-<section class="rpd-mini-panel detection"><div><p>Part detection</p><h5>Detection offline</h5></div><button aria-pressed="true" class="rpd-toggle active" type="button"><i></i></button><p>Primary camera · score 0.000 · clear ≤ 0.035 · waiting for first scan.</p></section>
-<section class="rpd-mini-panel power"><div><p>Power</p><h5>PLUG OFFLINE</h5></div><strong>Plug offline</strong><p>Alpine Outlet · last update 9s ago</p><button disabled="" type="button">Plug unavailable</button></section>
-<section class="rpd-console"><div><p>Klipper console card</p><strong>Show a movable console on the Fleet page</strong></div><button aria-pressed="true" class="rpd-toggle active" type="button"><i></i></button></section>
-<section class="rpd-alert">△ Disconnected</section>
-<section class="rpd-job"><strong>No active job</strong><b>0.0%</b><i></i><div><span>Elapsed<br/>—</span><span>Remaining<br/>—</span><span>Estimated total<br/>—</span></div></section>
-<section class="rpd-temp-grid"><article><span>◆ Nozzle</span><b>0.0°C</b><small>offline</small></article><article><span>◆ Bed</span><b>0.0°C</b><small>offline</small></article><article><span>◆ Chamber</span><b>0.0°C</b><small>offline</small></article></section>
-<footer><span>No active controls</span><a data-open-project="print-orchestrator" href="#project-print-orchestrator">Project details ↓</a></footer>
-</article>
-<article class="rpd-printer-card offline" data-rpd-printer="offline attention">
-<header><div><h4>E3NG</h4><small>MOONRAKER / KLIPPER · updated 8.5s ago</small></div><span class="rpd-state offline">◆ DISCONNECTED</span></header>
-<div class="rpd-camera empty"><span>No camera configured</span></div>
-<section class="rpd-mini-panel detection"><div><p>Part detection</p><h5>Needs setup</h5></div><button aria-pressed="false" class="rpd-toggle" type="button"><i></i></button><p>No enabled camera is configured for part detection.</p></section>
-<section class="rpd-mini-panel power"><div><p>Power</p><h5>NOT MAPPED</h5></div><strong>Unconfigured</strong><p>No Kasa plug is mapped to this printer.</p><button disabled="" type="button">Configure in Admin</button></section>
-<section class="rpd-console"><div><p>Klipper console card</p><strong>Show a movable console on the Fleet page</strong></div><button aria-pressed="true" class="rpd-toggle active" type="button"><i></i></button></section>
-<section class="rpd-alert">△ Disconnected</section>
-<section class="rpd-job"><strong>No active job</strong><b>0.0%</b><i></i><div><span>Elapsed<br/>—</span><span>Remaining<br/>—</span><span>Estimated total<br/>—</span></div></section>
-<section class="rpd-temp-grid"><article><span>◆ Nozzle</span><b>0.0°C</b><small>offline</small></article><article><span>◆ Bed</span><b>0.0°C</b><small>offline</small></article><article><span>◆ Chamber</span><b>0.0°C</b><small>offline</small></article></section>
-<footer><span>No active controls</span><a data-open-project="print-orchestrator" href="#project-print-orchestrator">Project details ↓</a></footer>
-</article>
-</div>
-</section>
-</div><div class="rpd-power-preview" data-rpd-panel="power" hidden="">
-<div class="rpd-power-preview-head"><p>Print Orchestrator / Power observation</p><h3>Fleet and server power history</h3><span>Kasa smart-plug telemetry keeps device state, demand, and energy visible beside printer controls.</span></div>
-<div class="rpd-power-summary"><article><strong>100.7 W</strong><span>current observed total</span></article><article><strong>141.8 W</strong><span>24-hour average</span></article><article><strong>3.121 kWh</strong><span>energy observed</span></article><article><strong>2 / 3</strong><span>smart plugs online</span></article></div>
-<section class="rpd-power-chart-card" aria-label="Twenty-four hour combined power chart">
-<div class="rpd-power-chart-head"><div><p>Combined average power</p><span>24-hour observed demand · offline gaps are preserved</span></div><strong>Updated 9:51 AM</strong></div>
-<svg class="rpd-power-chart" viewBox="0 0 900 300" role="img" aria-label="Power history fluctuating between roughly 90 and 280 watts"><defs><linearGradient id="rpdPowerFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3d8bea" stop-opacity=".38"/><stop offset="1" stop-color="#3d8bea" stop-opacity=".06"/></linearGradient></defs><g class="grid"><path d="M72 42H868M72 103H868M72 164H868M72 225H868M72 274H868"/><path d="M72 42V274M270 42V274M468 42V274M666 42V274M868 42V274"/></g><path class="area" d="M72 218 L105 196 L138 178 L157 188 L165 92 L174 105 L181 193 L194 172 L205 211 L217 130 L232 204 L245 208 L300 207 L355 205 L382 202 L397 70 L408 135 L420 45 L435 40 L450 88 L465 52 L498 47 L520 55 L530 180 L544 129 L555 204 L570 70 L581 37 L593 207 L640 207 L690 206 L742 206 L774 199 L784 65 L794 182 L809 204 L836 204 L846 61 L858 82 L868 149 L868 274 L72 274 Z"/><path class="line" d="M72 218 L105 196 L138 178 L157 188 L165 92 L174 105 L181 193 L194 172 L205 211 L217 130 L232 204 L245 208 L300 207 L355 205 L382 202 L397 70 L408 135 L420 45 L435 40 L450 88 L465 52 L498 47 L520 55 L530 180 L544 129 L555 204 L570 70 L581 37 L593 207 L640 207 L690 206 L742 206 L774 199 L784 65 L794 182 L809 204 L836 204 L846 61 L858 82 L868 149"/><g class="labels"><text x="12" y="48">309 W</text><text x="20" y="109">232 W</text><text x="20" y="170">154 W</text><text x="25" y="231">77 W</text><text x="32" y="280">0 W</text><text x="72" y="296">9:59 AM</text><text x="436" y="296">10:55 PM</text><text x="820" y="296">9:51 AM</text></g></svg>
-</section>
-<div class="rpd-power-device-grid">
-<article class="offline"><header><div><strong>Alpine outlet</strong><span>printer · smart plug unavailable</span></div><b>Plug offline</b></header><div class="rpd-device-kpis"><span><small>Current</small>—</span><span><small>Average</small>—</span><span><small>Peak</small>—</span><span><small>Energy</small>0.000 kWh</span></div><p>No valid samples are available in the selected range.</p></article>
-<article><header><div><strong>B70 server</strong><span>server · monitored outlet</span></div><b>Outlet on</b></header><div class="rpd-device-kpis"><span><small>Current</small>100.7 W</span><span><small>Average</small>141.8 W</span><span><small>Peak</small>322.0 W</span><span><small>Energy</small>3.121 kWh</span></div><p>The server outlet supplies the majority of the observed load.</p></article>
-<article class="idle"><header><div><strong>Prusa Core One outlet</strong><span>printer · monitored outlet</span></div><b>Outlet off</b></header><div class="rpd-device-kpis"><span><small>Current</small>0.0 W</span><span><small>Average</small>0.03 W</span><span><small>Peak</small>22.7 W</span><span><small>Energy</small>0.001 kWh</span></div><p>Power state can be controlled through Print Orchestrator or a Hermes automation.</p></article>
-</div>
-</div>
-</div>
-</section>
-<section class="product-stage pfc-stage real-system-stage" data-observe-tone="green" id="pfc">
-<div class="product-stage-copy reveal">
-<p class="eyebrow green">Power and runtime control</p>
-<h2>PFC keeps the AI server awake for work and asleep when idle.</h2>
-<p>A low-power Pi retains wake protection, schedules, status, and recovery logic while the main server is suspended.</p>
-<div class="pfc-savings-callout">
-<article><strong>13.19 kWh</strong><span>avoided over the current seven-day ledger</span></article>
-<article><strong>95.0 hours</strong><span>of observed sleep retained in history</span></article>
-<article><strong>$290.54 / yr</strong><span>current annual projection from the dashboard</span></article>
-</div>
-<p class="savings-caveat">Sleep time is observed from retained state history. Avoided energy and dollar values remain estimates until direct host metering is added.</p>
-<ul class="feature-list green-list"><li>Checks active AI, Minecraft, print-control, and background workloads before suspend</li><li>Keeps Hermes schedules and wake protection cached on the low-power Pi</li><li>Reconciles llama.cpp runtimes and GPU offload after wake</li><li>PFC Top provides a physical server-side monitoring interface</li></ul>
-<div class="system-links">
-<button class="button button-green magnetic" data-open-project="pfc-supervisor" type="button">Open project</button>
-<a class="button button-ghost-green magnetic" href="assets/screenshots/pfc-power-management-v6.png" rel="noreferrer" target="_blank">Open control-panel capture</a>
-</div>
-</div>
-<div class="demo-frame real-pfc-frame reveal" data-real-pfc-demo="">
-<aside class="rpc-sidebar">
-<div class="rpc-logo"><strong>PFC <span>CONTROL</span><br/>PLANE</strong><small>09 // PFC</small></div>
-<nav aria-label="PFC demo navigation">
-<span>Console</span>
-<button class="active" type="button">○ Overview</button><button type="button">○ Infrastructure</button><button type="button">○ Workloads</button><button type="button">○ Operations</button><button type="button">○ Administration</button><button type="button">○ Mobile</button>
-</nav>
-<div class="rpc-side-meta"><span>POWER-STATE ORCHESTRATION</span><strong>Interface</strong><div><label>Theme<select><option>Dark</option></select></label><label>Motion<select><option>System</option></select></label></div></div>
-<div class="rpc-auth"><span><i></i> Authenticated</span><strong>Yonchers</strong><small>owner</small><div><button data-rpc-sleep-side="" type="button">Sleep PFP</button><button type="button">Sign out</button></div></div>
-</aside>
-<main class="rpc-main">
-<header class="rpc-main-head">
-<div><p>POWER AUTOMATION · ENERGY LEDGER</p><h3 data-rpc-heading="">POWER MANAGEMENT</h3></div>
-<span>PFC // DISTRIBUTED OPERATIONS SURFACE</span>
-</header>
-<nav aria-label="PFC demo views" class="rpc-subtabs" role="tablist">
-<button aria-selected="true" class="active" data-rpc-tab="power" role="tab" type="button">Command Center</button>
-<button aria-selected="false" data-rpc-tab="runtime" role="tab" type="button">AI Runtime</button>
-<button aria-selected="false" data-rpc-tab="cache" role="tab" type="button">Hermes Cache</button>
-<button aria-selected="false" data-rpc-tab="safety" role="tab" type="button">Safety Matrix</button>
-</nav>
-<div class="rpc-scroll">
-<section class="rpc-view active" data-rpc-view="power">
-<div class="rpc-command-card">
-<div class="rpc-command-copy"><p>— PFP POWER COMMAND CENTER</p><h4 data-rpc-status="">Online</h4><span data-rpc-status-copy="">PFP is reachable and reporting through the power ledger.</span><div><button data-rpc-wake="" type="button">Wake PFP</button><button class="danger" data-rpc-sleep="" type="button">Sleep PFP</button><button data-rpc-policy="" type="button">Evaluate policy</button><button data-rpc-refresh="" type="button">Refresh telemetry</button></div></div>
-<div class="rpc-command-metrics">
-<article><span>Automation</span><strong class="green" data-rpc-automation="">Automatic</strong><small>blocked · wake armed · suspend armed</small></article>
-<article><span>Combined load</span><strong data-rpc-load="">154.8 W</strong><small>PFP 150.0 W estimated · Pi 4.8 W estimated</small></article>
-<article><span>Seven-day avoided</span><strong>13.19 kWh</strong><small>$4.62 net avoided · PFP avoidance 13.77 kWh</small></article>
-<article><span>Observed sleep</span><strong>95.0 h</strong><small>Pi-retained state history</small></article>
-<article><span>Next execution</span><strong class="green">9h 19m</strong><small>Evening Brief · 6:30 PM</small></article>
-<article><span>Suspend safety</span><strong class="yellow">Interlocked</strong><small>recommendation: blocked</small></article>
-</div>
-</div>
-<div class="rpc-two-col">
-<section class="rpc-panel allocation-panel"><p>— CURRENT WORKLOAD ATTRIBUTION</p><h4>Modeled PFP Power Allocation</h4><span>Current wall power is allocated with activity weights from CPU, GPU, AI, Minecraft, and Print Orchestrator telemetry.</span><div class="rpc-allocation"><article><label>Base host <b>30.0 W · 20.0%</b></label><i style="--w:20%"></i></article><article><label>AI runtime <b>93.7 W · 62.4%</b></label><i style="--w:62.4%"></i></article><article><label>Minecraft <b>0.0 W · 0.0%</b></label><i style="--w:0%"></i></article><article><label>Print control <b>14.6 W · 9.8%</b></label><i style="--w:9.8%"></i></article><article><label>Other workload <b>11.7 W · 7.8%</b></label><i style="--w:7.8%"></i></article></div></section>
-<aside class="rpc-panel blocker-panel"><p>— ACTIVE SUSPEND BLOCKERS</p><div class="rpc-code">AI runtime is active.<br/>The primary Qwen3.6 route is serving an active workload.<br/>GPU offload policy is required.<br/><br/>Decision: keep PFP awake until the workload clears.</div></aside>
-</div>
-<section class="rpc-panel savings-panel">
-<div class="rpc-panel-head"><div><p>— ENERGY INTELLIGENCE · 30 DAYS</p><h4>What the idle-time policy is saving</h4><span>The ledger separates actual consumption, estimated avoided energy, and the always-on baseline so the estimate is inspectable.</span></div><span class="rpc-badge yellow">● collecting</span></div>
-<div class="rpc-savings-kpis"><article><span>Average daily load</span><strong>1.33 kWh</strong></article><article><span>Average daily saved</span><strong>2.27 kWh</strong></article><article class="emphasis"><span>Projected 30-day saved</span><strong>68.23 kWh</strong><small>$23.88</small></article><article><span>Projected annual value</span><strong>$290.54</strong></article><article><span>Net efficiency</span><strong>63.2%</strong></article><article><span>Wake / sleep cycles</span><strong>45 / 45</strong></article></div>
-<div aria-label="Seven-day actual and avoided energy chart" class="rpc-energy-chart"><div class="rpc-chart-legend"><span><i class="actual"></i>Actual</span><span><i class="avoided"></i>Avoided</span><span><i class="baseline"></i>Baseline</span></div><div class="rpc-bars"><article><i class="avoided" style="--h:92%"></i><i class="actual" style="--h:12%"></i><span>Fri<small>0.314 kWh</small></span></article><article><i class="avoided" style="--h:94%"></i><i class="actual" style="--h:9%"></i><span>Sat<small>0.210 kWh</small></span></article><article><i class="avoided" style="--h:91%"></i><i class="actual" style="--h:16%"></i><span>Sun<small>0.451 kWh</small></span></article><article><i class="avoided" style="--h:62%"></i><i class="actual" style="--h:71%"></i><span>Mon<small>2.57 kWh</small></span></article><article><i class="avoided" style="--h:68%"></i><i class="actual" style="--h:64%"></i><span>Tue<small>2.29 kWh</small></span></article><article><i class="avoided" style="--h:60%"></i><i class="actual" style="--h:72%"></i><span>Wed<small>2.57 kWh</small></span></article><article><i class="avoided" style="--h:4%"></i><i class="actual" style="--h:42%"></i><span>Thu<small>1.41 kWh</small></span></article></div></div>
-<p class="rpc-caveat"><strong>Measurement note:</strong> most PFP energy is currently estimated from configured wattage baselines. A direct meter source will improve attribution and savings accuracy.</p>
-</section>
-</section>
-<section class="rpc-view" data-rpc-view="runtime" hidden="">
-<section class="rpc-panel runtime-summary"><p>— RUNTIME FLEET</p><div class="rpc-runtime-banner"><h4>2 model runtimes online</h4><span>2 systemd · 0 managed</span><strong>All Ready</strong></div></section>
-<div class="rpc-runtime-grid"><article><p>— PRIMARY ROUTE · ADOPTED SYSTEMD SERVICE</p><h4>Qwen3.6-35B-A3B-UD-Q5_K_XL</h4><span class="rpc-badge">● endpoint ready</span><dl><div><dt>Endpoint</dt><dd>Primary local route</dd></div><div><dt>Backend</dt><dd>llama.cpp GGUF</dd></div><div><dt>Context</dt><dd>131072</dd></div><div><dt>GPU layers</dt><dd>99</dd></div><div><dt>Identity source</dt><dd class="green">Live /props · authoritative</dd></div></dl></article><article><p>— AUXILIARY ROUTE · ADOPTED SYSTEMD SERVICE</p><h4>gemma-4-E4B-it-UD-Q4_K_XL</h4><span class="rpc-badge">● endpoint ready</span><dl><div><dt>Endpoint</dt><dd>Auxiliary local route</dd></div><div><dt>Backend</dt><dd>llama.cpp GGUF</dd></div><div><dt>Context</dt><dd>131072</dd></div><div><dt>GPU layers</dt><dd>0</dd></div><div><dt>Identity source</dt><dd class="green">Live /props · authoritative</dd></div></dl></article></div>
-<section class="rpc-panel telemetry-panel"><p>— LIVE INFERENCE ACTIVITY</p><h4>Prompt and generation telemetry</h4><span>Endpoint telemetry separates prompt processing, queued work, and generation without rescanning the model inventory.</span><div><article><strong>Qwen3.6</strong><span>Prompt 0.00 tok/s</span><span>Generation 0.00 tok/s</span><span>Idle</span></article><article><strong>Gemma E4B</strong><span>Prompt 0.00 tok/s</span><span>Generation 0.00 tok/s</span><span>Idle</span></article></div></section>
-<section class="rpc-panel recovery-panel"><p>— WAKE &amp; GPU RECOVERY</p><h4>Runtime reconciliation</h4><span>Qwen is only accepted as healthy after endpoint, process, model identity, and required Intel GPU offload checks pass.</span><div class="rpc-warning">Qwen3.6-35B-A3B-UD-Q5_K_XL: GPU offload verification is required before the runtime can be accepted.</div><div class="rpc-button-row"><button type="button">Reconcile active runtimes</button><button type="button">Prepare for suspend</button><button type="button">Restore after wake</button></div></section>
-</section>
-<section class="rpc-view" data-rpc-view="cache" hidden="">
-<section class="rpc-panel cache-panel"><div class="rpc-panel-head"><div><p>— HERMES CRON SCHEDULE CACHE</p><h4>Wake protection retained on the Pi</h4><span>Cached jobs stay visible and continue protecting scheduled execution while PFP is asleep or temporarily unreachable.</span></div><button data-rpc-cache-refresh="" type="button">Refresh cache</button></div><div class="rpc-cache-kpis"><article><span>Cache state</span><strong data-rpc-cache-state="">Fresh</strong></article><article><span>Jobs cached</span><strong>5</strong></article><article><span>Cache age</span><strong data-rpc-cache-age="">38s</strong></article><article><span>Last success</span><strong data-rpc-cache-time="">9:09:59 AM</strong></article><article><span>Source</span><strong>Hermes cron list</strong></article></div><div class="rpc-table-wrap"><table><thead><tr><th>Job</th><th>Execution</th><th>Wake dispatch</th><th>Protected until</th></tr></thead><tbody><tr><td>Evening Brief</td><td>8/13/2026, 6:30 PM</td><td>6:20 PM</td><td>6:50 PM</td></tr><tr><td>nightly-data-scan</td><td>8/14/2026, 2:00 AM</td><td>1:50 AM</td><td>2:20 AM</td></tr><tr><td>Morning Brief</td><td>8/14/2026, 7:00 AM</td><td>6:50 AM</td><td>7:20 AM</td></tr><tr><td>weekly-side-hustle-intel</td><td>8/14/2026, 7:00 AM</td><td>6:50 AM</td><td>7:20 AM</td></tr><tr><td>Monthly Deep Analysis</td><td>9/1/2026, 1:00 AM</td><td>12:50 AM</td><td>1:20 AM</td></tr></tbody></table></div></section>
-<section class="rpc-panel timeline-panel"><p>— DAILY AUTO-ON / AUTO-OFF TIMELINE</p><h4>Thursday, August 13</h4><span>Green shows observed online time. Yellow protects scheduled jobs. Dark space is eligible sleep time.</span><div class="rpc-timeline"><div class="planned"><b>Planned</b><i class="sleep"></i><i class="job"></i><i class="sleep tail"></i></div><div class="observed"><b>Observed</b><i class="online"></i><i class="sleep tail"></i></div></div><p>Planned online 0.5 h · sleep 23.5 h · projected combined 0.277 kWh including Pi 0.084 kWh · net avoided 3.32 kWh ($1.16).</p></section>
-</section>
-<section class="rpc-view" data-rpc-view="safety" hidden="">
-<section class="rpc-panel safety-panel"><div class="rpc-panel-head"><div><p>— SUSPEND DECISION ENGINE</p><h4>Subsystem Eligibility Matrix</h4><span>Unknown and stale states are explicit. With the safety default enabled, either state blocks automatic suspend.</span></div><span class="rpc-badge yellow">● blocked</span></div><div class="rpc-eligibility"><article class="eligible"><b>ELIGIBLE</b><strong>Host telemetry</strong><span>Host-state telemetry is current.</span><small>power-history</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Protected schedule</strong><span>No availability or Hermes protection interval is active.</span><small>policy</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Minimum awake period</strong><span>Minimum awake duration has elapsed.</span><small>runtime</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Automation pause</strong><span>No temporary automation pause is active.</span><small>policy</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Inhibition leases</strong><span>No active inhibition leases.</span><small>lease-store</small></article><article class="blocked"><b>BLOCKED</b><strong>PFP workload interlock</strong><span>AI runtime is active and the GPU-offload requirement is still in force.</span><small>pfp-host-control</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Daily suspend-cycle limit</strong><span>Cycle budget 0/12.</span><small>runtime</small></article></div></section>
-<section class="rpc-panel advisory-panel"><p>— PREDICTIVE RECOMMENDATIONS</p><h4>Advisory Schedule Intelligence</h4><span>Recommendations come from retained wake and sleep transitions and never change policy without an explicit save.</span><div><article><strong>Common Tuesday sleep time</strong><p>PFP often becomes idle near 17:15. Review the end of that day's availability window.</p><small>41% confidence · 13 observations · advisory only</small></article><article><strong>Common Monday wake time</strong><p>PFP often wakes near 10:45. Consider an availability window starting 10 minutes earlier.</p><small>41% confidence · 13 observations · advisory only</small></article></div></section>
-</section>
-</div>
-</main>
-</div>
-</section><section class="hermes-stage hermes-compact" data-observe-tone="orange" id="hermes">
-<div class="hermes-copy reveal">
-<p class="eyebrow">Hermes / local agent layer</p>
-<h2>The agent layer between my local models and the systems I use.</h2>
-<p>I run Nous Research's Hermes Agent locally around llama.cpp. It routes work to my manager and worker models, then gives those models controlled tools for PFC, Print Orchestrator, desktop utilities, schedules, Discord, and engineering troubleshooting.</p>
-<div class="hermes-points">
-<article><span>01</span><strong>Daily orchestration</strong><p>Printer state, power actions, server status, scheduled jobs, notifications, and structured tool calls.</p></article>
-<article><span>02</span><strong>Desktop interaction</strong><p>PFC Pulse adds push-to-talk voice control with Whisper and Piper, while PFC Command keeps core server state visible.</p></article>
-<article><span>03</span><strong>Current development</strong><p>Cross-machine recovery plus meeting transcription, translation, summaries, action items, and calendar preparation.</p></article>
-</div>
-<div class="hermes-links">
-<a class="button button-primary magnetic" href="https://hermes-agent.nousresearch.com/docs/" rel="noreferrer" target="_blank">Hermes Agent docs ↗</a>
-<a class="button button-ghost magnetic" href="#ai-lab">Local AI profiles</a>
-</div>
-</div>
-<div class="hermes-visuals reveal">
-<figure class="hermes-app-shot">
-<a href="assets/screenshots/hermes-app-view.png" rel="noreferrer" target="_blank"><img alt="Hermes-connected PFC ambient operator application view" loading="lazy" src="assets/screenshots/hermes-app-view.png"/></a>
-<figcaption><strong>Ambient operator</strong><span>The working desktop interface for voice interaction, conversation history, local speech services, and the remote Hermes tunnel.</span><a href="assets/screenshots/hermes-app-view.png" rel="noreferrer" target="_blank">Open full capture ↗</a></figcaption>
-</figure>
-<div class="hermes-widget-row">
-<figure><img alt="PFC Pulse desktop voice companion" loading="lazy" src="assets/screenshots/pfc-pulse.png"/><figcaption><strong>PFC Pulse</strong><span>Push-to-talk Hermes voice control using Whisper input and Piper output.</span></figcaption></figure>
-<figure><img alt="PFC Command compact server control widget" loading="lazy" src="assets/screenshots/pfc-command.png"/><figcaption><strong>PFC Command</strong><span>Compact PFP, runtime, Minecraft, power, and protection status.</span></figcaption></figure>
-</div>
-<div class="hermes-routing-strip"><span>MUSE MANAGER</span><i></i><span>HERMES</span><i></i><span>QWEN WORKER</span></div>
-</div>
-</section>
-<section class="portfolio-section portfolio-surface" data-observe-tone="orange" id="portfolio">
-<div class="section-heading split-heading reveal">
-<div>
-<p class="eyebrow">Selected work</p>
-<h2>Projects spanning machines, automation, local AI, testing, and manufacturing.</h2>
-</div>
-<p>Open any card for the engineering decisions, documentation gallery, results, current status, and upstream references.</p>
-</div>
-<div aria-label="Filter portfolio projects" class="project-filter reveal" role="group">
-<button class="active" data-project-filter="all" type="button">All</button>
-<button data-project-filter="systems" type="button">Systems</button>
-<button data-project-filter="fabrication" type="button">Fabrication</button>
-<button data-project-filter="testing" type="button">Testing</button>
-<button data-project-filter="leadership" type="button">Leadership</button>
-</div>
-<div class="project-grid"><article class="project-card reveal featured software-card" data-category="systems" data-project="print-orchestrator" id="project-print-orchestrator"><div class="project-media" data-fit="contain"><img alt="Print Orchestrator" loading="lazy" src="assets/screenshots/print-orchestrator-dashboard-v6.png"/><span class="project-index">01</span></div><div class="project-card-copy"><p>AI automation frontend</p><h3>Print Orchestrator</h3><span>Hermes-to-printer workflows, fleet state, power, part detection, and failure monitoring</span></div><div class="project-card-actions"><button aria-label="Open Print Orchestrator inside the portfolio" class="project-tab-button" data-open-project="print-orchestrator" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal featured software-card" data-category="systems" data-project="pfc-supervisor" id="project-pfc-supervisor"><div class="project-media" data-fit="contain"><img alt="PFC Supervisor" loading="lazy" src="assets/screenshots/pfc-power-management-v6.png"/><span class="project-index">02</span></div><div class="project-card-copy"><p>Power and runtime control</p><h3>PFC Supervisor</h3><span>Safe server sleep, schedule protection, runtime recovery, energy reporting, and access control</span></div><div class="project-card-actions"><button aria-label="Open PFC Supervisor inside the portfolio" class="project-tab-button" data-open-project="pfc-supervisor" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal featured" data-category="systems" data-project="ai-server" id="project-ai-server"><div class="project-media" data-fit="cover"><img alt="B70 / PFP AI server" loading="lazy" src="assets/images/pfp-server-pi-case.jpg"/><span class="project-index">03</span></div><div class="project-card-copy"><p>Local AI infrastructure</p><h3>B70 / PFP AI server</h3><span>llama.cpp inference, production model profiles, benchmark research, and operational tooling</span></div><div class="project-card-actions"><button aria-label="Open B70 / PFP AI server inside the portfolio" class="project-tab-button" data-open-project="ai-server" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal" data-category="systems fabrication" data-project="e3ng" id="project-e3ng"><div class="project-media" data-fit="cover"><img alt="E3NG CoreXY conversion" loading="lazy" src="assets/images/e3ng-full-printer.jpg"/><span class="project-index">04</span></div><div class="project-card-copy"><p>CoreXY conversion</p><h3>E3NG CoreXY conversion</h3><span>Complete machine rebuild, Klipper, sensing, networking, calibration, and commissioning</span></div><div class="project-card-actions"><button aria-label="Open E3NG CoreXY conversion inside the portfolio" class="project-tab-button" data-open-project="e3ng" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal" data-category="systems fabrication" data-project="voron-systems" id="project-voron-systems"><div class="project-media" data-fit="cover"><img alt="Voron 2.4" loading="lazy" src="assets/images/voron-2-4-full-printer.jpg"/><span class="project-index">05</span></div><div class="project-card-copy"><p>Enclosed CoreXY system</p><h3>Voron 2.4</h3><span>Assembly, alignment, technical materials, tuning, maintenance, and functional parts</span></div><div class="project-card-actions"><button aria-label="Open Voron 2.4 inside the portfolio" class="project-tab-button" data-open-project="voron-systems" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal wide" data-category="fabrication leadership" data-project="metuned" id="project-metuned"><div class="project-media" data-fit="cover"><img alt="Metuned digital dash" loading="lazy" src="assets/images/metuned-copy-of-proto-2.jpg"/><span class="project-index">06</span></div><div class="project-card-copy"><p>Small-business product development</p><h3>Metuned digital dash</h3><span>Race electronics, enclosure design, PCB packaging, cooling, service access, and product direction</span></div><div class="project-card-actions"><button aria-label="Open Metuned digital dash inside the portfolio" class="project-tab-button" data-open-project="metuned" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal wide" data-category="fabrication leadership" data-project="motorsports" id="project-motorsports"><div class="project-media" data-fit="cover"><img alt="Sierra College Motorsports" loading="lazy" src="assets/images/motorsports-thebigpicture-1.jpg"/><span class="project-index">07</span></div><div class="project-card-copy"><p>Leadership and fabrication</p><h3>Sierra College Motorsports</h3><span>Race preparation, repairs, events, sponsorship, community funding, and trackside execution</span></div><div class="project-card-actions"><button aria-label="Open Sierra College Motorsports inside the portfolio" class="project-tab-button" data-open-project="motorsports" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal featured" data-category="fabrication testing" data-project="espresso-machine" id="project-espresso-machine"><div class="project-media" data-fit="contain"><img alt="Hybrid hand-actuated espresso machine" loading="lazy" src="assets/images/me190-full-assembly.png"/><span class="project-index">08</span></div><div class="project-card-copy"><p>ME190 senior design</p><h3>Hybrid hand-actuated espresso machine</h3><span>Full assembly CAD, mechanism, controls integration, testing targets, and SendCutSend support</span></div><div class="project-card-actions"><button aria-label="Open Hybrid hand-actuated espresso machine inside the portfolio" class="project-tab-button" data-open-project="espresso-machine" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal" data-category="testing fabrication" data-project="uei-lab" id="project-uei-lab"><div class="project-media" data-fit="cover"><img alt="UEI energy-efficiency testing" loading="lazy" src="assets/images/uei-img-8868.jpg"/><span class="project-index">09</span></div><div class="project-card-copy"><p>Professional test engineering</p><h3>UEI energy-efficiency testing</h3><span>Controlled fixtures, airflow and CFM measurement, instrumentation, repairs, and documentation</span></div><div class="project-card-actions"><button aria-label="Open UEI energy-efficiency testing inside the portfolio" class="project-tab-button" data-open-project="uei-lab" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal" data-category="systems testing" data-project="abb-rexroth" id="project-abb-rexroth"><div class="project-media" data-fit="contain"><img alt="ABB and Rexroth robotics lab" loading="lazy" src="assets/images/me165-image-111.jpg"/><span class="project-index">10</span></div><div class="project-card-copy"><p>Industrial robotics coursework</p><h3>ABB and Rexroth robotics lab</h3><span>Robot hardware, controller state, I/O, emergency-stop behavior, and safe lab execution</span></div><div class="project-card-actions"><button aria-label="Open ABB and Rexroth robotics lab inside the portfolio" class="project-tab-button" data-open-project="abb-rexroth" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article><article class="project-card reveal wide" data-category="fabrication testing" data-project="makerspace-manufacturing" id="project-makerspace-manufacturing"><div class="project-media" data-fit="cover"><img alt="Manufacturing and makerspace experience" loading="lazy" src="assets/images/makerspace-laser-training.jpg"/><span class="project-index">11</span></div><div class="project-card-copy"><p>Work experience</p><h3>Manufacturing and makerspace experience</h3><span>Equipment support, CAD/CAM, user training, production finishing, inventory, and handoff</span></div><div class="project-card-actions"><button aria-label="Open Manufacturing and makerspace experience inside the portfolio" class="project-tab-button" data-open-project="makerspace-manufacturing" type="button"><span>Open project</span><i aria-hidden="true">→</i></button></div></article></div>
-</section>
-<section class="ai-lab section-tone-orange" data-observe-tone="orange" id="ai-lab">
-<div class="ai-intro reveal">
-<p class="eyebrow">Local inference and benchmarking</p>
-<h2>llama.cpp runs the B70/PFP model stack.</h2>
-<p>I keep standardized throughput, broad speculative-decoding research, and the configurations I actually deploy as separate views.</p>
-<button class="button button-primary magnetic" data-open-project="ai-server" type="button">Open full AI server project</button>
-</div>
-<div class="benchmark-suite reveal" data-benchmark-suite="">
-<div aria-label="Benchmark views" class="benchmark-suite-tabs" role="tablist">
-<button class="active" data-benchmark-tab="production" type="button">Production profiles</button>
-<button data-benchmark-tab="standard" type="button">Standardized sweep</button>
-<button data-benchmark-tab="mtp" type="button">Broad MTP research</button>
-</div>
-<div class="benchmark-suite-panel active" data-benchmark-panel="production">
-<div class="production-profile-grid main-profiles">
-<article class="production-profile manager"><span>MANAGER</span><h3>Muse-Glimmer 30B Q5_K_XL</h3><p>131K context · Q8 KV · medium reasoning · DFlash n2 / p0.30</p><div><strong>29.2 tok/s</strong><small>~71.2% acceptance · ~36% over native</small></div></article>
-<article class="production-profile worker"><span>WORKER</span><h3>Qwen3.6 35B-A3B Q5_K_XL</h3><p>131K context · q4_1 KV · custom tool template · native decode</p><div><strong>68–71 tok/s</strong><small>MTP tested; native selected</small></div></article>
-</div>
-</div>
-<div class="benchmark-suite-panel" data-benchmark-panel="standard" hidden="">
-<div class="benchmark-compact-grid">
-<article><span>Qwen3.5 0.8B</span><strong>202.79 tok/s</strong><small>tg128 · Q8_K_XL</small></article>
-<article><span>Gemma 4 E2B</span><strong>136.58 tok/s</strong><small>tg128 · Q4_K_XL</small></article>
-<article><span>Gemma 4 E4B</span><strong>88.48 tok/s</strong><small>tg128 · Q4_K_XL</small></article>
-<article><span>Qwen3.6 Q4_K_M</span><strong>77.52 tok/s</strong><small>tg128</small></article>
-<article><span>Qwen3.6 Q5_K_XL</span><strong>75.63 tok/s</strong><small>selected worker quant</small></article>
-<article><span>Gemma 4 26B-A4B</span><strong>66.89 tok/s</strong><small>tg128 · Q4_K_M</small></article>
-</div>
-<p class="benchmark-method">Current normal reference: SYCL · pp512 + tg128 · 3 repetitions · <code>-ngl 99</code> · llama.cpp build 10369.</p>
-</div>
-<div class="benchmark-suite-panel" data-benchmark-panel="mtp" hidden="">
-<div class="benchmark-compact-grid mtp-grid">
-<article><span>Gemma 4 12B</span><strong>1.495×</strong><small>n2 · 76.35% acceptance</small></article>
-<article><span>Gemma 4 26B-A4B</span><strong>1.239×</strong><small>n4 · 63.61% acceptance</small></article>
-<article><span>Gemma 4 31B</span><strong>1.496×</strong><small>n2 · 81.44% acceptance</small></article>
-<article><span>Qwen 3.8 27B</span><strong>1.671×</strong><small>n2 · 70.70% acceptance</small></article>
-<article><span>Qwen3.6 35B-A3B</span><strong>Baseline wins</strong><small>MTP overhead exceeded savings</small></article>
-</div>
-<p class="benchmark-method">n2 was usually useful, n4 won for Gemma 26B-A4B, and n8 was consistently harmful.</p>
-</div>
-</div>
-</section>
-<section class="experience-section portfolio-surface" data-observe-tone="orange" id="experience">
-<div class="section-heading reveal">
-<p class="eyebrow">Experience</p>
-<h2>Engineering habits built in labs, shops, product work, and motorsports.</h2>
-</div>
-<div class="experience-layout">
-<div class="timeline reveal"><article><span>Current</span><div><p>University Enterprises / Sacramento State</p><h3>Lab Assistant — Appliance Auditing</h3><small>Controlled test environments, airflow instrumentation, data collection, documentation, and equipment support.</small></div></article><article><span>Current</span><div><p>Metuned LLC</p><h3>Co-founder / Chief Design Officer</h3><small>Enclosure development, electronics packaging, product direction, prototypes, and motorsports application.</small></div></article><article><span>Leadership</span><div><p>Sierra College Motorsports</p><h3>Treasurer → Vice President → President</h3><small>Race preparation, events, funding, sponsorship, recruitment, fabrication support, and trackside execution.</small></div></article><article><span>Prior</span><div><p>Sierra College Makerspace</p><h3>Makerspace Technical Assistant</h3><small>3D printing, CNC, laser systems, CAD/CAM, user training, troubleshooting, maintenance, and shop safety.</small></div></article><article><span>Prior</span><div><p>Vanquish Products / ASB Products</p><h3>Inventory Manager / Factory Support</h3><small>Inventory, production staging, deburr, polishing, inspection, anodizing and laser-etch prep, packaging, and shipping.</small></div></article></div>
-<aside class="capability-panel reveal">
-<div class="capability-head"><span>Capability matrix</span><small>MECHANICAL + DIGITAL</small></div>
-<div class="capability-row"><span>CAD / CAM</span><i style="--level:91%"></i><b>SolidWorks · Fusion · AutoCAD</b></div>
-<div class="capability-row"><span>Motion systems</span><i style="--level:94%"></i><b>CoreXY · Klipper · CAN · calibration</b></div>
-<div class="capability-row"><span>Fabrication</span><i style="--level:86%"></i><b>CNC · additive · laser · welding support</b></div>
-<div class="capability-row"><span>Testing</span><i style="--level:88%"></i><b>Instrumentation · CFM · thermal · documentation</b></div>
-<div class="capability-row"><span>Software</span><i style="--level:82%"></i><b>Python · Linux · web UI · local AI</b></div>
-<div class="capability-row"><span>Leadership</span><i style="--level:90%"></i><b>Teams · sponsors · events · execution</b></div>
-<div class="education-card">
-<span>Education</span>
-<strong>California State University, Sacramento</strong>
-<p>B.S. Mechanical Engineering · expected Fall 2026</p>
-<strong>Sierra College</strong>
-<p>A.S. Natural Science · A.S.-T Engineering</p>
-</div>
-</aside>
-</div>
-</section>
-<section class="contact-section" data-observe-tone="orange" id="contact">
-<div aria-hidden="true" class="contact-orbit"><i></i><i></i><i></i></div>
-<div class="contact-copy reveal">
-<p class="eyebrow">Contact</p>
-<h2>Open to hands-on engineering roles and collaborative technical work.</h2>
-<p>I am most interested in automation, manufacturing, controls, test engineering, product development, and equipment-support work where practical troubleshooting matters.</p>
-<div class="contact-actions">
-<a class="button button-primary magnetic" href="mailto:jdwyer@csus.edu">jdwyer@csus.edu</a>
-<a class="button button-ghost magnetic" href="https://www.linkedin.com/in/joseph-dwyer-10a4131ba" rel="noreferrer" target="_blank">LinkedIn</a>
-<a class="button button-ghost magnetic" href="https://github.com/Yonchers" rel="noreferrer" target="_blank">GitHub</a>
-</div>
-<div class="document-actions"><a href="resume.html" target="_blank">Resume <span>↗</span></a><a href="portfolio-summary.html" target="_blank">Printable project summary <span>↗</span></a></div>
-</div>
-</section>
-</main>
-<footer class="site-footer">
-<span class="footer-updated">Updated August 2026</span><span>JOSEPH DWYER / MECHANICAL ENGINEERING + AUTOMATION PORTFOLIO</span>
-<span>Antelope, California · <span id="footerYear"></span></span>
-<a href="#home">Back to top ↑</a>
-</footer>
-<section aria-hidden="true" class="project-workspace" hidden="" id="projectWorkspace">
-<div class="project-workspace-backdrop" data-project-close=""></div>
-<div aria-labelledby="workspaceTitle" aria-modal="true" class="project-workspace-window" role="dialog" tabindex="-1">
-<header class="project-workspace-header">
-<button class="workspace-back" data-project-close="" type="button"><span aria-hidden="true">←</span> Back to projects</button>
-<div class="workspace-breadcrumb"><span>Project view</span><strong data-workspace-title-short="">Engineering project</strong></div>
-<div class="workspace-header-actions">
-<button aria-label="Open previous project" data-project-prev="" type="button">← <span>Previous</span></button>
-<button aria-label="Open next project" data-project-next="" type="button"><span>Next</span> →</button>
-<button aria-label="Close project view" class="workspace-close" data-project-close="" type="button">×</button>
-</div>
-</header>
-<div class="project-workspace-scroll" data-workspace-scroll="">
-<section class="workspace-hero">
-<div class="workspace-hero-copy">
-<p class="workspace-eyebrow" data-workspace-eyebrow=""></p>
-<h2 data-workspace-title="" id="workspaceTitle"></h2>
-<p class="workspace-lede" data-workspace-lede=""></p>
-<div class="workspace-status" data-workspace-status=""></div>
-</div>
-<figure class="workspace-hero-media" data-workspace-media="">
-<img alt="" data-workspace-image="" src=""/>
-<figcaption data-workspace-caption=""></figcaption>
-</figure>
-</section>
-<section aria-label="Project highlights" class="workspace-metrics" data-workspace-metrics=""></section>
-<div class="workspace-tab-shell">
-<nav aria-label="Project sections" class="workspace-tabs" data-workspace-tabs="" role="tablist"></nav>
-<div class="workspace-panel" data-workspace-panel="" tabindex="0"></div>
-</div>
-</div>
-</div>
-</section>
-<dialog class="project-lightbox workspace-lightbox" id="projectLightbox">
-<img alt="" data-lightbox-image="" src=""/>
-<footer><span data-lightbox-caption=""></span><button aria-label="Close image" data-lightbox-close="" type="button">×</button></footer>
-</dialog>
-<div aria-live="polite" class="toast" id="demoToast" role="status"></div>
-<script src="app.js"></script>
-<script src="v3.js"></script><script src="project-tabs-data.js"></script><script src="v4.js"></script>
-<script defer="True" src="v6.js"></script></body>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="portfolio-version" content="7.0.0">
+  <meta name="description" content="Joseph Dwyer — mechanical engineering portfolio spanning automation, local AI infrastructure, additive manufacturing, test engineering, robotics, and motorsports.">
+  <meta name="theme-color" content="#0b0c0f">
+  <title>Joseph Dwyer — Engineering Portfolio</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <a class="brand" href="#top" aria-label="Joseph Dwyer portfolio home">
+      <span class="brand-mark">JD</span>
+      <span class="brand-copy"><strong>Joseph Dwyer</strong><small>Engineering portfolio</small></span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-nav-toggle>
+      <span></span><span></span><span></span><span class="sr-only">Open navigation</span>
+    </button>
+
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation" data-nav>
+      <a href="#systems">Systems</a>
+      <a href="#software">Software</a>
+      <a href="#projects">Projects</a>
+      <a href="#ai">AI lab</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="motion-toggle" type="button" aria-pressed="false" data-motion-toggle>
+        <span class="motion-icon" aria-hidden="true">◉</span>
+        <span>Motion</span>
+      </button>
+      <a class="header-resume" data-resume-link href="downloads/Joseph_Dwyer_Resume.pdf">Resume</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-a" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-b" aria-hidden="true"></div>
+
+      <div class="shell hero-layout">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="status-dot"></span> Mechanical engineering · automation · local AI</p>
+          <h1 data-profile-headline>Mechanical engineering across machines, automation, and local AI.</h1>
+          <p class="hero-lede" data-profile-subhead>I build physical systems, then the software that monitors, controls, and improves them.</p>
+          <p class="hero-summary">My work connects motion systems, manufacturing equipment, test rigs, local inference, and the control software around them. The goal is practical: make the system work, understand why it works, and leave it easier to operate than I found it.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projects">Explore the work</a>
+            <a class="button button-secondary" href="#software">See the control systems</a>
+          </div>
+          <div class="hero-facts" data-hero-facts></div>
+        </div>
+
+        <div class="hero-visual reveal" data-hero-visual>
+          <svg class="orbit-system" viewBox="0 0 720 720" role="img" aria-label="Connected engineering systems graphic">
+            <defs>
+              <radialGradient id="coreGlow" cx="50%" cy="45%" r="65%">
+                <stop offset="0%" stop-color="#ff9d45" stop-opacity="0.28"/>
+                <stop offset="45%" stop-color="#ff7818" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#ff7818" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="scanGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#ff7a1a" stop-opacity="0"/>
+                <stop offset="0.6" stop-color="#ff7a1a" stop-opacity="0.7"/>
+                <stop offset="1" stop-color="#ffb16c" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="9" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <circle cx="360" cy="360" r="330" fill="url(#coreGlow)"/>
+            <g class="orbit orbit-slow">
+              <circle cx="360" cy="360" r="308" class="orbit-line orbit-line-faint"/>
+              <circle cx="360" cy="52" r="5" class="orbit-node"/>
+              <circle cx="92" cy="514" r="3.5" class="orbit-node orbit-node-dim"/>
+              <circle cx="621" cy="548" r="4" class="orbit-node orbit-node-dim"/>
+            </g>
+            <g class="orbit orbit-medium">
+              <circle cx="360" cy="360" r="246" class="orbit-line orbit-line-dashed"/>
+              <path d="M360 114 A246 246 0 0 1 583 256" class="orbit-arc"/>
+              <circle cx="581" cy="254" r="5" class="orbit-node"/>
+            </g>
+            <g class="orbit orbit-fast">
+              <circle cx="360" cy="360" r="190" class="orbit-line"/>
+              <path d="M190 445 A190 190 0 0 1 511 244" class="orbit-arc orbit-arc-bright"/>
+              <circle cx="191" cy="445" r="4.5" class="orbit-node"/>
+            </g>
+            <g class="scan-sweep">
+              <line x1="360" y1="360" x2="648" y2="360" class="scan-line"/>
+              <path d="M360 360 L650 360" stroke="url(#scanGradient)" stroke-width="22" stroke-linecap="round" opacity=".4"/>
+            </g>
+            <circle cx="360" cy="360" r="117" class="core-ring"/>
+            <circle cx="360" cy="360" r="96" class="core-ring core-ring-inner"/>
+            <circle cx="360" cy="360" r="68" class="core-fill" filter="url(#softGlow)"/>
+          </svg>
+
+          <div class="hero-core-card">
+            <span>Engineering portfolio</span>
+            <strong>JD</strong>
+            <small>Design · build · verify</small>
+          </div>
+          <div class="hero-label hero-label-a">Motion</div>
+          <div class="hero-label hero-label-b">Controls</div>
+          <div class="hero-label hero-label-c">Local AI</div>
+          <div class="hero-label hero-label-d">Fabrication</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-systems" id="systems">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Connected systems</p>
+          <h2>Three layers, one engineering practice.</h2>
+          <p data-architecture-caption></p>
+        </div>
+        <div class="architecture" data-architecture></div>
+      </div>
+    </section>
+
+    <section class="section section-software" id="software">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Control surfaces</p>
+          <h2>Software built around real machines.</h2>
+          <p>These interfaces are not decorative dashboards. They expose state, constraints, and recovery paths for the equipment and infrastructure they control.</p>
+        </div>
+        <div class="demo-stack" data-demos></div>
+      </div>
+    </section>
+
+    <section class="section section-hermes" id="hermes">
+      <div class="shell" data-hermes></div>
+    </section>
+
+    <section class="section section-projects" id="projects">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Selected work</p>
+          <h2>Projects, systems, and professional experience.</h2>
+          <p>Each card opens a deeper project workspace with engineering decisions, documentation, results, future work, and upstream references.</p>
+        </div>
+        <div class="project-grid" data-project-grid></div>
+      </div>
+    </section>
+
+    <section class="section section-ai" id="ai">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Local AI lab</p>
+          <h2>Production profiles stay separate from benchmark experiments.</h2>
+          <p>llama.cpp is the inference engine. My work is the deployment, tuning, role selection, benchmark design, service architecture, recovery, and integration around it.</p>
+        </div>
+        <div class="benchmark-shell reveal" data-benchmarks></div>
+      </div>
+    </section>
+
+    <section class="section section-experience" id="experience">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Experience</p>
+          <h2>Hands-on work in labs, shops, startups, and motorsports.</h2>
+        </div>
+        <div class="experience-layout">
+          <div class="timeline" data-experience></div>
+          <aside class="experience-side">
+            <div class="info-panel reveal">
+              <p class="eyebrow">Education</p>
+              <div data-education></div>
+            </div>
+            <div class="info-panel reveal">
+              <p class="eyebrow">Working toolkit</p>
+              <div class="skills-list" data-skills></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-contact" id="contact">
+      <div class="shell contact-card reveal">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>I’m looking for hands-on engineering work.</h2>
+          <p>Strongest fit: automation, manufacturing, controls-adjacent equipment support, test engineering, product development, and practical systems integration.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="button button-primary" data-email-link href="mailto:jdwyer@csus.edu">jdwyer@csus.edu</a>
+          <a class="button button-secondary" data-linkedin-link href="#">LinkedIn</a>
+          <a class="button button-secondary" data-github-link href="#">GitHub</a>
+        </div>
+        <div class="download-links">
+          <a data-resume-link href="downloads/Joseph_Dwyer_Resume.pdf">Resume PDF ↗</a>
+          <a data-portfolio-link href="downloads/Joseph_Dwyer_Engineering_Portfolio.pdf">Engineering portfolio PDF ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-layout">
+      <span>Joseph Dwyer · Engineering portfolio</span>
+      <span>V7.0 · Updated August 2026 · Static GitHub Pages site</span>
+    </div>
+  </footer>
+
+  <dialog class="project-dialog" data-project-dialog>
+    <div class="project-dialog-shell">
+      <button class="dialog-close" type="button" aria-label="Close project" data-project-close>×</button>
+      <div data-project-view></div>
+    </div>
+  </dialog>
+
+  <dialog class="lightbox" data-lightbox-dialog>
+    <button class="lightbox-close" type="button" aria-label="Close image" data-lightbox-close>×</button>
+    <figure>
+      <img src="" alt="" data-lightbox-image>
+      <figcaption data-lightbox-caption></figcaption>
+    </figure>
+  </dialog>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
 </html>
