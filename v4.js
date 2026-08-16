@@ -157,6 +157,15 @@
     panel.append(next);
   }
 
+  function scrollTabsIntoView(behavior = 'smooth') {
+    const shell = $('.workspace-tab-shell', workspace);
+    if (!shell || !scrollArea) return;
+    const scrollRect = scrollArea.getBoundingClientRect();
+    const shellRect = shell.getBoundingClientRect();
+    const top = Math.max(0, scrollArea.scrollTop + shellRect.top - scrollRect.top - 10);
+    scrollArea.scrollTo({ top, behavior });
+  }
+
   function selectTab(tabId, updateHistory = true) {
     const project = payload.projects[activeProjectId];
     if (!project) return;
@@ -178,7 +187,10 @@
     panel.innerHTML = `<section class="project-section workspace-project-section">${tab.html}</section>`;
     appendNextStep(project, tab);
     attachPanelInteractions();
-    window.requestAnimationFrame(() => panel.classList.add('is-ready'));
+    window.requestAnimationFrame(() => {
+      panel.classList.add('is-ready');
+      if (updateHistory) scrollTabsIntoView(reduceMotion.matches ? 'auto' : 'smooth');
+    });
 
     if (updateHistory && !syncingHistory) updateHash(project.id, tab.id, true);
   }
@@ -208,6 +220,8 @@
     heroImage.src = project.image;
     heroImage.alt = project.imageAlt || project.title;
     heroCaption.textContent = project.imageCaption || '';
+    workspace.dataset.mediaFit = project.imageFit || 'cover';
+    workspace.dataset.galleryCount = String(project.gallery?.length || 0);
     buildStatus(project);
     buildMetrics(project);
     updateNeighborButtons(projectId);
@@ -234,6 +248,10 @@
     window.requestAnimationFrame(() => {
       workspace.classList.add('is-open');
       window.setTimeout(() => windowPanel.focus({ preventScroll: true }), reduceMotion.matches ? 0 : 180);
+      const firstTabId = project.tabs[0]?.id;
+      if (requestedTabId && requestedTabId !== firstTabId) {
+        window.setTimeout(() => scrollTabsIntoView('auto'), reduceMotion.matches ? 0 : 220);
+      }
     });
 
     if (updateHistory && !syncingHistory) updateHash(canonical, activeTabId, false);
@@ -251,7 +269,11 @@
     activeTabId = null;
 
     if (updateHistory && !syncingHistory) {
-      history.pushState(null, '', '#portfolio');
+      try {
+        history.pushState(null, '', '#portfolio');
+      } catch (_error) {
+        window.location.hash = 'portfolio';
+      }
     }
 
     closeTimer = window.setTimeout(() => {
@@ -266,8 +288,13 @@
     const params = new URLSearchParams();
     params.set('project', projectId);
     if (tabId) params.set('tab', tabId);
+    const hash = params.toString();
     const method = replace ? 'replaceState' : 'pushState';
-    history[method](null, '', `#${params.toString()}`);
+    try {
+      history[method](null, '', `#${hash}`);
+    } catch (_error) {
+      window.location.hash = hash;
+    }
   }
 
   function readHash() {

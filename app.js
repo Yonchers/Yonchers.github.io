@@ -714,7 +714,7 @@
     'print-orchestrator': {
       kicker: 'Fleet operations software · Working lab system',
       title: 'Print Orchestrator',
-      image: 'assets/screenshots/print-orchestrator-dashboard.png',
+      image: 'assets/screenshots/print-orchestrator-dashboard-v6.png',
       alt: 'Print Orchestrator fleet dashboard showing three printers and their independent machine states',
       summary: 'I built this dashboard because checking separate printer interfaces was slow and made it harder to see the full state of the lab. It combines PrusaLink and Moonraker/Klipper machines without hiding the differences between them.',
       contributions: [
@@ -729,7 +729,7 @@
     'pfc-supervisor': {
       kicker: 'Power and runtime orchestration · Working lab system',
       title: 'PFC Supervisor',
-      image: 'assets/screenshots/pfc-power-management-top.png',
+      image: 'assets/screenshots/pfc-power-management-v6.png',
       alt: 'PFC Supervisor power management dashboard with energy and sleep metrics',
       summary: 'PFC lets the main compute server sleep through long idle periods while a low-power Pi keeps schedules, wake protection, and operator visibility alive. The current seven-day ledger estimates 13.19 kWh avoided and records 95 hours of sleep.',
       contributions: [

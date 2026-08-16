@@ -1,24 +1,29 @@
-# Joseph Dwyer Engineering Portfolio — V4 Demo
+# Joseph Dwyer Engineering Portfolio — V6
 
-A static GitHub Pages portfolio covering mechanical engineering, automation, local AI, additive manufacturing, testing, robotics, motorsports, and product development.
+A GitHub Pages-ready static portfolio connecting Joseph Dwyer's mechanical systems, automation software, local AI infrastructure, manufacturing work, testing, robotics, and motorsports experience.
 
-## What changed in V4
+## V6 focus
 
-- Every project card now opens a **full project workspace inside the website**. Visitors stay on the portfolio instead of being sent to a separate standalone page.
-- Each workspace uses project-specific tabs. Common tabs include Overview, Design decisions, Evidence, and Results; relevant projects also add Workflow, Power savings, Benchmarks, or Sponsorship.
-- Project workspaces support direct links such as `#project=pfc-supervisor&tab=savings` and browser back/forward navigation.
-- The main page and project title blocks were rewritten in a more direct, first-person voice.
-- PFC power savings are featured prominently while keeping the current measurement limitation visible beside the estimate.
-- The Print Orchestrator and PFC demos retain the higher-fidelity treatment based on the supplied control-panel captures.
-- Standalone files under `projects/` remain as fallbacks for direct-link compatibility, but the portfolio cards no longer navigate away from the main site.
+- Rebuilt the opening radar graphic around one centered coordinate system so its rings, scan line, labels, and core scale together.
+- Rewrote the desktop section headings and supporting copy for a concise employer/colleague audience.
+- Added a system-architecture map linking B70/PFP, llama.cpp, Hermes, PFC Supervisor, Print Orchestrator, and desktop controls.
+- Expanded Print Orchestrator as an AI-automation frontend rather than only a printer dashboard: OpenSCAD, a modified OrcaSlicer CLI path, API dispatch, part-on-bed interlocks, modified Obico failure warnings, Discord, Kasa power telemetry, and future robotic reset.
+- Added an interactive Fleet/Power switch to the Print Orchestrator demonstration.
+- Expanded PFC around measured sleep history, modeled energy savings, runtime reconciliation, Hermes schedule protection, PFC Top, and permission-separated Minecraft controls.
+- Added Hermes as a full project with PFC Pulse, PFC Command, llama.cpp manager/worker routing, meeting-assistant R&D, and planned cross-machine recovery.
+- Split AI results into three views: deployed production profiles, the standardized llama-bench sweep, and broad speculative-decoding/MTP research.
+- Replaced "Evidence" with project Documentation galleries and added carousel controls, lightbox viewing, captions, status labels, results, future work, and upstream references.
+- Updated project hero images for E3NG, Voron 2.4, ME190, PFC, Print Orchestrator, the B70/PFP server, and Makerspace experience.
+- Added working printable HTML versions of the resume and project summary so the contact links no longer break.
+- Sanitized local endpoints, file paths, and private network details from the public source.
 
 ## Preview locally
 
 ```sh
-./preview.sh 8080
+./preview.sh 8000
 ```
 
-Then open `http://localhost:8080`.
+Then open `http://localhost:8000`.
 
 ## Verify the package
 
@@ -26,27 +31,50 @@ Then open `http://localhost:8080`.
 ./verify.sh
 ```
 
-The verifier checks JavaScript syntax, local references, duplicate IDs, the 11 long-form project sources, and the generated in-site project registry.
+The verifier checks:
+
+- JavaScript syntax
+- all 15 HTML pages
+- all local links and image references
+- duplicate IDs
+- 12 project routes and integrated cards
+- benchmark downloads and three-view separation
+- Documentation galleries
+- the corrected hero radar structure
+- Print Orchestrator Fleet/Power panels
+- public-source sanitization
+- resume and printable project-summary links
 
 ## Publish to GitHub Pages
 
-Copy the contents of this directory into the root of `Yonchers.github.io`, commit, and push. The included GitHub Pages workflow can publish the static site.
+Copy the **contents** of this directory into the root of `Yonchers.github.io`, test locally, commit on a feature branch, and merge into the repository's `Main` branch when ready.
 
-## Key files
+The root includes `.nojekyll`, and the existing Pages workflow remains available under `.github/workflows/`.
 
-- `index.html` — primary portfolio, software demos, project cards, and the integrated project workspace
-- `styles.css` — base visual system
-- `v3.css` — higher-fidelity Print Orchestrator and PFC styling
-- `project.css` — shared long-form project content styles
-- `v4.css` — integrated workspace, project tabs, responsive layout, and revised title hierarchy
+## Main files
+
+- `index.html` — portfolio, architecture map, product demos, project cards, benchmark views, and integrated project workspace
+- `styles.css` — original/base visual system
+- `v3.css` — Print Orchestrator and PFC control-panel visual systems
+- `project.css` — project-content components
+- `v4.css` — integrated project workspace
+- `v6.css` — V6 geometry, scale, architecture, Hermes, galleries, and benchmark overrides
 - `app.js` — global navigation, motion, filtering, and base interactions
-- `v3.js` — Print Orchestrator and PFC demo behavior
-- `project-tabs-data.js` — generated content registry for all 11 projects
-- `v4.js` — project workspace, tabs, deep links, project navigation, and evidence lightbox
-- `projects/` — retained long-form source/fallback pages
-- `tools/build_project_tabs.py` — rebuilds `project-tabs-data.js` from the long-form project pages
-- `assets/` — project photos, dashboard captures, and icons
+- `v3.js` — Print Orchestrator and PFC demo interactions
+- `v4.js` — integrated project workspace, tabs, deep links, history, and lightbox
+- `v6.js` — Fleet/Power switching, benchmark tabs, and Documentation carousel controls
+- `project-tabs-data.js` — generated registry for 12 project/experience workspaces
+- `resume.html` — printable resume
+- `portfolio-summary.html` — printable compact technical portfolio
+- `documents.css` — shared printable-document styling
+- `tools/build_v6_project_data.py` — rebuilds project content and galleries
+- `tools/update_index_v6.py` — reapplies the main V6 structure
+- `tools/build_project_redirects.py` — rebuilds direct project routes
+- `assets/downloads/` — standardized benchmark, MTP research, and production-profile CSVs
 
-## Measurement note
+## Accuracy notes
 
-The PFC dashboard snapshot reports 13.19 kWh avoided over the current seven-day ledger, 95.0 hours of observed sleep, 68.23 kWh projected over 30 days, and a projected annual value of $290.54. Sleep history is observed from retained system state. Avoided-energy and dollar values currently use configured power baselines and should remain labeled as estimates until direct host metering is added.
+- Print Orchestrator's prompt-to-CAD/slice/dispatch workflow is described as a prototype under end-to-end validation. The Raspberry Pi enclosure is an output artifact, not proof of fully unattended production.
+- PFC sleep time is observed from retained state history. Avoided-energy and dollar values use configured power baselines and remain estimates until direct host metering is available.
+- Open-source references distinguish upstream platforms from Joseph's deployment, integration, tuning, controls, and documentation work.
+- Qwen3.5-122B remains historical/retired and is not part of the active production stack.
