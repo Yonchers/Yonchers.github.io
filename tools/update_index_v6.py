@@ -280,5 +280,30 @@ for script in soup.find_all('script',src=True):
 new_script=soup.new_tag('script',src='v6.js',defer=True)
 soup.body.append(new_script)
 
+
+# V6.1 final layout pass: Hermes is a compact integration section rather than a project.
+hermes_card = soup.select_one('#project-hermes')
+if hermes_card:
+    hermes_card.decompose()
+for idx, badge in enumerate(soup.select('#portfolio .project-card .project-index'), 1):
+    badge.string = f'{idx:02d}'
+
+compact_hermes = """<section class="hermes-stage hermes-compact" data-observe-tone="orange" id="hermes">
+<div class="hermes-copy reveal"><p class="eyebrow">Hermes / local agent layer</p><h2>The agent layer between my local models and the systems I use.</h2><p>I run Nous Research's Hermes Agent locally around llama.cpp. It routes work to my manager and worker models, then gives those models controlled tools for PFC, Print Orchestrator, desktop utilities, schedules, Discord, and engineering troubleshooting.</p><div class="hermes-points"><article><span>01</span><strong>Daily orchestration</strong><p>Printer state, power actions, server status, scheduled jobs, notifications, and structured tool calls.</p></article><article><span>02</span><strong>Desktop interaction</strong><p>PFC Pulse adds push-to-talk voice control with Whisper and Piper, while PFC Command keeps core server state visible.</p></article><article><span>03</span><strong>Current development</strong><p>Cross-machine recovery plus meeting transcription, translation, summaries, action items, and calendar preparation.</p></article></div><div class="hermes-links"><a class="button button-primary magnetic" href="https://hermes-agent.nousresearch.com/docs/" rel="noreferrer" target="_blank">Hermes Agent docs ↗</a><a class="button button-ghost magnetic" href="#ai-lab">Local AI profiles</a></div></div>
+<div class="hermes-visuals reveal"><figure class="hermes-app-shot"><a href="assets/screenshots/hermes-app-view.png" rel="noreferrer" target="_blank"><img alt="Hermes-connected PFC ambient operator application view" loading="lazy" src="assets/screenshots/hermes-app-view.png"></a><figcaption><strong>Ambient operator</strong><span>The working desktop interface for voice interaction, conversation history, local speech services, and the remote Hermes tunnel.</span><a href="assets/screenshots/hermes-app-view.png" rel="noreferrer" target="_blank">Open full capture ↗</a></figcaption></figure><div class="hermes-widget-row"><figure><img alt="PFC Pulse desktop voice companion" loading="lazy" src="assets/screenshots/pfc-pulse.png"><figcaption><strong>PFC Pulse</strong><span>Push-to-talk Hermes voice control using Whisper input and Piper output.</span></figcaption></figure><figure><img alt="PFC Command compact server control widget" loading="lazy" src="assets/screenshots/pfc-command.png"><figcaption><strong>PFC Command</strong><span>Compact PFP, runtime, Minecraft, power, and protection status.</span></figcaption></figure></div><div class="hermes-routing-strip"><span>MUSE MANAGER</span><i></i><span>HERMES</span><i></i><span>QWEN WORKER</span></div></div>
+</section>"""
+current_hermes = soup.select_one('#hermes')
+if current_hermes:
+    current_hermes.replace_with(BeautifulSoup(compact_hermes, 'html.parser').section)
+
+soup.body['data-revision'] = '6.1'
+if not soup.find('link', href='v6_1.css'):
+    final_css = soup.find('link', href='v6.css')
+    link = soup.new_tag('link', href='v6_1.css', rel='stylesheet')
+    if final_css:
+        final_css.insert_after(link)
+    else:
+        soup.head.append(link)
+
 path.write_text(str(soup),encoding='utf-8')
 print('updated',path)

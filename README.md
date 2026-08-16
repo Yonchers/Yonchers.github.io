@@ -1,4 +1,6 @@
-# Joseph Dwyer Engineering Portfolio — V6
+# Joseph Dwyer Engineering Portfolio — V6.1
+
+V6.1 normalizes section spacing and type scale, standardizes project-card sizing, and presents Hermes as a compact systems-integration section using the current application capture rather than as a standalone project workspace.
 
 A GitHub Pages-ready static portfolio connecting Joseph Dwyer's mechanical systems, automation software, local AI infrastructure, manufacturing work, testing, robotics, and motorsports experience.
 

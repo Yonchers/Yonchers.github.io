@@ -5,10 +5,10 @@ cd "$ROOT"
 
 for required in \
   index.html resume.html portfolio-summary.html documents.css .nojekyll \
-  styles.css v3.css project.css v4.css v6.css \
+  styles.css v3.css project.css v4.css v6.css v6_1.css \
   app.js v3.js project-tabs-data.js v4.js v6.js \
   tools/build_v6_project_data.py tools/update_index_v6.py tools/build_project_redirects.py \
-  assets/favicon.svg \
+  assets/favicon.svg assets/screenshots/hermes-app-view.png \
   assets/downloads/b70-standardized-llama-bench-2026-08-14.csv \
   assets/downloads/mtp-broad-sweep-2026-08-14.csv \
   assets/downloads/production-model-profiles-2026-08-15.csv; do
@@ -39,7 +39,7 @@ from bs4 import BeautifulSoup
 
 root = Path.cwd().resolve()
 expected_order = [
-    "print-orchestrator", "pfc-supervisor", "hermes", "ai-server", "e3ng",
+    "print-orchestrator", "pfc-supervisor", "ai-server", "e3ng",
     "voron-systems", "metuned", "motorsports", "espresso-machine", "uei-lab",
     "abb-rexroth", "makerspace-manufacturing",
 ]
@@ -132,14 +132,14 @@ index = BeautifulSoup(index_text, "html.parser")
 if index.body.get("data-portfolio-version") != "6":
     raise SystemExit("index.html is missing the V6 body marker")
 styles = [node.get("href") for node in index.select('link[rel~="stylesheet"]')]
-if not styles or styles[-1] != "v6.css":
-    raise SystemExit("v6.css must be the final stylesheet")
+if not styles or styles[-1] != "v6_1.css":
+    raise SystemExit("v6_1.css must be the final stylesheet")
 scripts = [node.get("src") for node in index.select("script[src]")]
 if not scripts or scripts[-1] != "v6.js":
     raise SystemExit("v6.js must be the final external script")
-if len(index.select(".project-card[data-project]")) != 12:
-    raise SystemExit("Expected 12 project cards")
-if len(index.select(".project-card [data-open-project]")) != 12:
+if len(index.select(".project-card[data-project]")) != 11:
+    raise SystemExit("Expected 11 project cards; Hermes is an integration section, not a project card")
+if len(index.select(".project-card [data-open-project]")) != 11:
     raise SystemExit("Every project card must open the integrated workspace")
 if not index.select_one("#projectWorkspace"):
     raise SystemExit("Integrated project workspace is missing")
@@ -150,7 +150,7 @@ if {node.get("data-rpd-panel") for node in index.select("[data-rpd-panel]")} != 
 if not index.select_one(".hero-radar .radar-sweep") or len(index.select(".hero-radar .radar-ring")) != 3:
     raise SystemExit("Corrected hero radar geometry is incomplete")
 for required_copy in (
-    "Small-business founder", "llama.cpp", "Hermes automation stack", "PFC Top",
+    "Small-business founder", "llama.cpp", "Hermes / local agent layer", "PFC Top",
     "modified OrcaSlicer", "part detection", "SendCutSend",
 ):
     if required_copy not in index_text and required_copy not in registry_text:
@@ -191,8 +191,8 @@ for csv_name in (
     if len(rows) < 2:
         raise SystemExit(f"Benchmark download is empty: {csv_name}")
 
-print(f"Validated {len(html_files)} HTML pages, 12 integrated projects, and all local references.")
-print("Validated benchmark separation, public-source sanitization, documentation galleries, and V6 assets.")
+print(f"Validated {len(html_files)} HTML pages, 11 integrated projects, Hermes integration section, and all local references.")
+print("Validated benchmark separation, public-source sanitization, documentation galleries, Hermes capture, and V6.1 assets.")
 PY
 
 printf 'V6 static verification passed.\n'

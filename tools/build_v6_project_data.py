@@ -689,6 +689,10 @@ add({
     "fallbackPage": "projects/makerspace-manufacturing/",
 })
 
+# V6.1: Hermes is presented as an integration section, not an integrated project workspace.
+projects.pop("hermes", None)
+order = [project_id for project_id in order if project_id != "hermes"]
+
 payload = {"version": 6, "order": order, "projects": projects}
 OUT.write_text("window.PORTFOLIO_PROJECTS = " + json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
 print(f"wrote {OUT} with {len(order)} projects")
