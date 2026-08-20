@@ -1,963 +1,882 @@
-(() => {
-  'use strict';
+/* ============================================================
+   JOSEPH DWYER — portfolio-next  (app.js)
+   Renders every section from data.js. No hard-coded content.
+   ============================================================ */
+(function () {
+  "use strict";
+  const D = window.PORTFOLIO;
 
+  /* ---- image extension resolver (real files on disk) ---- */
+  const IMG_PNG = new Set([
+    "car-award","car-night-team","e3ng-cam","metuned-brand",
+    "metuned-dash2","metuned-dash4","metuned-exploded","metuned-screen"
+  ]);
+  const SHOT_JPG = new Set([
+    "coreone-printing","pfp-chassis-print","pfp-host-physical"
+  ]);
+  function imgPath(name, dir) {
+    let ext;
+    if (dir === "screenshots") ext = SHOT_JPG.has(name) ? ".jpg" : ".png";
+    else ext = IMG_PNG.has(name) ? ".png" : ".jpg";
+    return `assets/${dir}/${name}${ext}`;
+  }
+  // shots may be strings or {id, cap}
+  const shotId = (s) => (typeof s === "string" ? s : s.id);
+  const shotCap = (s) => (typeof s === "string" ? s : (s.cap || s.id));
+  const esc = (s) => String(s).replace(/[&<>\"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const fmt2 = (n) => n.toFixed(2);
+  const fmt3 = (n) => n.toFixed(2);
+
+  /* ---- link chips ---- */
+  function linkChips(links) {
+    if (!links || !links.length) return "";
+    return `<div class="link-chips">` + links.map((l) =>
+      `<a class="chip" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`
+    ).join("") + `</div>`;
+  }
+
+  /* ---- hero meta tags (validated V5 pattern) ---- */
+  (function heroStats() {
+    const el = document.getElementById("heroStats");
+    if (!el) return;
+    el.className = "hero-meta";
+    const stats = [
+      { b: "B70 / PFP", l: "local AI platform" },
+      { b: "Small-business founder", l: "Metuned LLC · CDO" },
+      { b: "3+", l: "motion platforms" },
+      { b: "Fall 2026", l: "B.S. Mechanical Engineering" },
+    ];
+    el.innerHTML = stats.map((s) =>
+      `<div><strong>${esc(s.b)}</strong><span>${esc(s.l)}</span></div>`
+    ).join("");
+  })();
+
+  /* ---- systems map ---- */
+  (function sysmap() {
+    const el = document.getElementById("sysmap");
+    if (!el) return;
+    const c = D.systems.core;
+    let html =
+      `<div class="sysnode core">` +
+      `<div class="core-badge">${esc(c.label)}</div>` +
+      `<div><span class="sn-id">CORE NODE · ${esc(c.sub)}</span>` +
+      `<span class="sn-label" style="font-size:15px">Everything routes through here</span>` +
+      `<span class="sn-sub">Enterprise hardware, Fedora 44, 3D-printed chassis. Local-first: inference, control plane, and the agent layer all live on this tailnet.</span></div>` +
+      `</div>`;
+    D.systems.nodes.forEach((n) => {
+      html +=
+        `<div class="sysnode kind-${esc(n.kind)}">` +
+        `<span class="sn-kind">${esc(n.kind).toUpperCase()}</span>` +
+        `<span class="sn-id">NODE</span>` +
+        `<span class="sn-label">${esc(n.label)}</span>` +
+        `<span class="sn-sub">${esc(n.sub)}</span>` +
+        `</div>`;
+    });
+    el.innerHTML = html;
+  })();
+
+  /* ---- generic tab bar builder ---- */
+  function tabBar(tabs, activeId) {
+    return `<div class="tab-bar" role="tablist">` + tabs.map((t) =>
+      `<button class="tab-btn${t.id === activeId ? " active" : ""}" role="tab" data-tab="${esc(t.id)}">${esc(t.label)}</button>`
+    ).join("") + `</div>`;
+  }
+
+  /* ---- workspaces ---- */
+  (function workspaces() {
+    const el = document.getElementById("wsList");
+    if (!el) return;
+    el.innerHTML = D.workspaces.map((w, wi) => {
+      const facts = w.facts.map((f) =>
+        `<div class="wfact"><span class="k">${esc(f.k)}</span><span class="v">${esc(f.v)}</span></div>`
+      ).join("");
+      const scope = w.scope.map((s) => `<li>${esc(s)}</li>`).join("");
+      const power = (w.power || []).map((p) =>
+        `<div class="ps-item"><b>${esc(p.v)}</b><span class="l">${esc(p.l)}</span><span class="s">${esc(p.s)}</span></div>`
+      ).join("");
+
+      const shots = w.shots || [];
+      const gallery = shots.map((s) =>
+        `<figure class="gitem"><a href="${imgPath(shotId(s), "screenshots")}" data-cap="${esc(w.name)} — ${esc(shotCap(s))}">` +
+        `<img src="${imgPath(shotId(s), "screenshots")}" alt="${esc(shotCap(s))}" loading="lazy"></a>` +
+        `<figcaption>${esc(shotCap(s))}</figcaption></figure>`
+      ).join("");
+
+      /* overview tab content */
+      let overview = `<p class="ws-blurb">${esc(w.blurb)}</p>`;
+      if (power) overview += `<div class="power-strip">${power}</div>`;
+      if (w.noPhotos && w.whatIs) {
+        overview += w.whatIs.map((b) =>
+          `<div class="doc-block"><h4>${esc(b.h)}</h4><p>${esc(b.p)}</p></div>`
+        ).join("");
+        if (w.howIUse) overview += `<div class="doc-block"><h4>How I run it day to day</h4><ul class="ws-scope">${w.howIUse.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></div>`;
+        if (w.links) overview += linkChips(w.links);
+      }
+      overview += `<div class="ws-facts">${facts}</div>`;
+      if (!w.noPhotos) overview += `<ul class="ws-scope">${scope}</ul>`;
+      const docsTab = (w.docs || []).map((b) =>
+        `<div class="doc-block"><h4>${esc(b.h)}</h4><p>${esc(b.p)}</p></div>`
+      ).join("");
+
+      const tabs = [{ id: "overview", label: "OVERVIEW" }];
+      if (docsTab) tabs.push({ id: "docs", label: "DOCUMENTATION" });
+      if (gallery) tabs.push({ id: "gallery", label: `GALLERY · ${shots.length}` });
+
+      const panels =
+        `<div class="tab-panel active" data-tab="overview">${overview}</div>` +
+        (docsTab ? `<div class="tab-panel" data-tab="docs"><div class="doc-scroll">${docsTab}</div></div>` : "") +
+        (gallery ? `<div class="tab-panel" data-tab="gallery"><div class="gallery-scroll"><div class="gallery-grid">${gallery}</div>` +
+        (w.shotNote ? `<p class="shot-note">${esc(w.shotNote)}</p>` : "") + `</div></div>` : "");
+
+      return (
+        `<article class="ws accent-${esc(w.accent)} reveal" data-ws="${wi}">` +
+        `<div class="ws-head">` +
+        `<div><span class="ws-tag">${esc(w.tag)}</span><div class="ws-name" style="margin-top:12px">${esc(w.name)}</div></div>` +
+        `<span class="ws-version">${esc(w.version)}</span>` +
+        `</div>` +
+        `<div class="ws-body">` +
+        tabBar(tabs, "overview") +
+        `<div class="tab-panels">${panels}</div>` +
+        `</div>` +
+        `</article>`
+      );
+    }).join("");
+  })();
+
+  /* ---- projects ---- */
+  (function projects() {
+    const el = document.getElementById("projGrid");
+    if (!el) return;
+    el.innerHTML = D.projects.map((p, pi) => {
+      const main = imgPath(shotId(p.shots[0]), "images");
+      const mainCap = esc(shotCap(p.shots[0]));
+      const thumbs = p.shots.slice(1, 1 + (p.featured ? 4 : 3)).map((s) =>
+        `<a href="${imgPath(shotId(s), "images")}" data-cap="${esc(p.name)} — ${esc(shotCap(s))}"><img src="${imgPath(shotId(s), "images")}" alt="${esc(shotCap(s))}" loading="lazy"></a>`
+      ).join("");
+      const facts = p.facts.map((f) => `<span>${esc(f)}</span>`).join("");
+      return (
+        `<article class="proj accent-${esc(p.accent)}${p.featured ? " featured" : ""} reveal">` +
+        `<div class="proj-media"><span class="proj-cat">${esc(p.cat)}</span>` +
+        `<a href="${main}" data-cap="${esc(p.name)} — ${mainCap}"><img src="${main}" alt="${esc(p.name)}" loading="lazy"></a></div>` +
+        `<div class="proj-body">` +
+        `<h3>${esc(p.name)}</h3>` +
+        (p.role ? `<p class="proj-role">${esc(p.role)}</p>` : "") +
+        `<p class="proj-blurb">${esc(p.blurb)}</p>` +
+        `<div class="proj-facts">${facts}</div>` +
+        (p.links && p.links.length ? linkChips(p.links) : "") +
+        `<button class="btn btn-ghost btn-dossier" data-proj="${pi}">Open dossier — docs + gallery</button>` +
+        `</div>` +
+        (thumbs ? `<div class="proj-thumbs">${thumbs}</div>` : "") +
+        `</article>`
+      );
+    }).join("");
+  })();
+
+  /* ---- project dossier modal ---- */
+  (function dossier() {
+    const wrap = document.createElement("div");
+    wrap.className = "dossier";
+    wrap.innerHTML =
+      `<div class="dossier-backdrop"></div>` +
+      `<div class="dossier-panel" role="dialog" aria-modal="true">` +
+      `<div class="dossier-head"><div><span class="ws-tag" id="dCat"></span><div class="ws-name" id="dName" style="margin-top:8px"></div></div>` +
+      `<button class="dossier-close" aria-label="Close">×</button></div>` +
+      `<div class="dossier-body" id="dBody"></div>` +
+      `</div>`;
+    document.body.appendChild(wrap);
+    const panel = wrap.querySelector(".dossier-panel");
+
+    function open(pi) {
+      const p = D.projects[pi];
+      if (!p) return;
+      wrap.querySelector("#dCat").textContent = p.cat;
+      wrap.querySelector("#dName").textContent = p.name;
+      const facts = p.facts.map((f) => `<span>${esc(f)}</span>`).join("");
+      const docs = (p.docs || []).map((b) =>
+        `<div class="doc-block"><h4>${esc(b.h)}</h4><p>${esc(b.p)}</p></div>`
+      ).join("") + (p.docsDeliverables ?
+        `<div class="doc-block"><h4>Deliverables</h4><ul class="deliverables">` +
+        p.docsDeliverables.map((d) => {
+          const img = d.img ? `<img class="dv-thumb" src="${esc(d.img)}" alt="${esc(d.title)}">` : "";
+          return `<li>${img}<a href="${esc(d.href)}" target="_blank" rel="noopener">${esc(d.title)} ↗</a></li>`;
+        }).join("") + `</ul></div>` : "") ||
+        `<p class="muted">Full write-up lives in the engineering portfolio PDF.</p>`;
+      const gallery = p.shots.map((s) =>
+        `<figure class="gitem"><a href="${imgPath(shotId(s), "images")}" data-cap="${esc(p.name)} — ${esc(shotCap(s))}" class="doss-lb">` +
+        `<img src="${imgPath(shotId(s), "images")}" alt="${esc(shotCap(s))}" loading="lazy"></a>` +
+        `<figcaption>${esc(shotCap(s))}</figcaption></figure>`
+      ).join("");
+      const links = linkChips(p.links);
+      const tabs = [{ id: "overview", label: "OVERVIEW" }, { id: "docs", label: "DOCUMENTATION" }, { id: "gallery", label: `GALLERY · ${p.shots.length}` }];
+      wrap.querySelector("#dBody").innerHTML =
+        tabBar(tabs, "overview") +
+        `<div class="tab-panels">` +
+        `<div class="tab-panel active" data-tab="overview"><p class="ws-blurb">${esc(p.blurb)}</p><div class="proj-facts dossier-facts">${facts}</div>${links}</div>` +
+        `<div class="tab-panel" data-tab="docs"><div class="doc-scroll">${docs}</div></div>` +
+        `<div class="tab-panel" data-tab="gallery"><div class="gallery-scroll"><div class="gallery-grid">${gallery}</div></div></div>` +
+        `</div>`;
+      wrap.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    function close() { wrap.classList.remove("open"); document.body.style.overflow = ""; }
+    wrap.addEventListener("click", (e) => {
+      if (e.target.classList.contains("dossier-close") || e.target.classList.contains("dossier-backdrop")) close();
+    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest("button.btn-dossier");
+      if (b) open(+b.dataset.proj);
+    });
+  })();
+
+  /* ---- benchmark bar (log-scaled for 19 t/s ↔ 202 t/s) ---- */
+  function tpsBar(v, max, min) {
+    if (!v || v <= 0) return "";
+    const lo = Math.log10(min), hi = Math.log10(max);
+    const pct = Math.max(4, Math.min(100, ((Math.log10(v) - lo) / (hi - lo)) * 100));
+    return `<span class="tps-bar"><i style="width:${pct.toFixed(1)}%"></i></span>`;
+  }
+
+  /* ---- benchmarks ---- */
+  (function benchmarks() {
+    const el = document.getElementById("benchStack");
+    if (!el) return;
+
+    const lib = D.benchmarks.library;
+    const libRows = lib.rows.map((r) =>
+      `<tr><td class="model">${esc(r.model)}</td><td>${esc(r.role)}</td><td class="mono">${esc(r.ctx)}</td><td class="muted">${esc(r.note)}</td></tr>`
+    ).join("");
+
+    /* native */
+    const nat = D.benchmarks.native;
+    const natMax = Math.max(...nat.rows.map((r) => r[3]));
+    const natMin = Math.min(...nat.rows.map((r) => r[3]));
+    const natRows = nat.rows.map((r) =>
+      `<tr><td class="model">${esc(r[0])}</td><td class="mono muted">${esc(r[1])}</td>` +
+      `<td class="mono">${fmt2(r[2])}</td>` +
+      `<td class="mono num">${fmt2(r[3])}</td>` +
+      `<td class="bar-cell">${tpsBar(r[3], natMax, natMin)}</td></tr>`
+    ).join("");
+    const natFindings = nat.findings.map((f) => `<li>${esc(f)}</li>`).join("");
+
+    /* mtp full spread */
+    const mtp = D.benchmarks.mtp;
+    // baseline decode + best decode per model
+    const baseByModel = {}, bestByModel = {};
+    mtp.rows.forEach((r) => {
+      const m = r[0];
+      if (r[1] === "baseline") baseByModel[m] = r[3];
+      else bestByModel[m] = Math.max(bestByModel[m] || 0, r[3]);
+    });
+    let lastModel = null;
+    const mtpRows = mtp.rows.map((r) => {
+      const m = r[0], mode = r[1], dec = r[3];
+      const showModel = m !== lastModel; lastModel = m;
+      const base = baseByModel[m];
+      const isBest = m !== null && bestByModel[m] === dec && dec > (base || 0);
+      const isLoss = base != null && dec < base;
+      const cls = isBest ? "win" : isLoss ? "loss" : "";
+      return `<tr class="${cls}"><td class="model">${showModel ? esc(m) : ""}</td><td class="mono">${esc(mode)}</td>` +
+        `<td class="mono">${fmt3(r[2])}</td><td class="mono num">${fmt3(dec)}</td>` +
+        `<td class="mono">${r[4] == null ? "—" : esc(r[4])}</td>` +
+        `<td class="mono ${isBest ? "win" : isLoss ? "loss" : "muted"}">${esc(r[5])}</td></tr>`;
+    }).join("");
+    const mtpFindings = mtp.findings.map((f) => `<li>${esc(f)}</li>`).join("");
+
+    /* draft */
+    const dr = D.benchmarks.draft;
+    const drRows = dr.rows.map((r) =>
+      `<tr><td class="model">${esc(r[0])}</td><td class="mono">${esc(r[1])}</td>` +
+      `<td class="mono">${fmt2(r[2])}</td><td class="mono num">${fmt2(r[3])}</td>` +
+      `<td class="mono">${esc(r[4])}</td></tr>`
+    ).join("");
+    const drFindings = dr.findings.map((f) => `<li>${esc(f)}</li>`).join("");
+
+    const prod = D.benchmarks.prod;
+    const prodRows = prod.rows.map((r) =>
+      `<div class="k">${esc(r.k)}</div><div class="v">${esc(r.v)}</div>`
+    ).join("");
+
+    el.innerHTML =
+      `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(lib.title)}</h3></div>` +
+      `<p class="bench-sub">${esc(lib.sub)}</p>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr><th>Model</th><th>Role</th><th>Ctx</th><th>Note</th></tr></thead>` +
+      `<tbody>${libRows}</tbody></table></div></div>` +
+
+      `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(nat.title)}</h3><span class="run-id">${esc(nat.run)}</span></div>` +
+      `<p class="bench-sub">${esc(nat.sub)}</p>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${nat.cols.map((c) => `<th>${esc(c)}</th>`).join("")}<th>gen bar</th></tr></thead>` +
+      `<tbody>${natRows}</tbody></table></div>` +
+      (nat.failed ? `<p class="bench-failed">⚠ ${esc(nat.failed)}</p>` : "") +
+      `<ul class="findings">${natFindings}</ul></div>` +
+
+      `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(mtp.title)}</h3><span class="run-id">${esc(mtp.run)}</span></div>` +
+      `<p class="bench-sub">${esc(mtp.sub)}</p>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${mtp.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
+      `<tbody>${mtpRows}</tbody></table></div>` +
+      `<ul class="findings">${mtpFindings}</ul></div>` +
+
+      `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(dr.title)}</h3><span class="run-id">${esc(dr.run)}</span></div>` +
+      `<p class="bench-sub">${esc(dr.sub)}</p>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${dr.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
+      `<tbody>${drRows}</tbody></table></div>` +
+      `<ul class="findings">${drFindings}</ul></div>` +
+
+      `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(prod.title)}</h3></div>` +
+      `<p class="bench-sub">${esc(prod.sub)}</p>` +
+      `<div class="bench-kv">${prodRows}</div></div>`;
+  })();
+
+  /* ---- interactive helpers (ported from validated V5) ---- */
   const doc = document;
-  const root = doc.documentElement;
-  const body = doc.body;
-  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  const $ = (selector, scope = doc) => scope.querySelector(selector);
-  const $$ = (selector, scope = doc) => Array.from(scope.querySelectorAll(selector));
-  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-  const wait = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
-  const nowClock = () => new Intl.DateTimeFormat('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  }).format(new Date());
-
-  let toastTimer = 0;
-  function showToast(message) {
+  const $ = (selector, root = doc) => root.querySelector(selector);
+  const $$ = (selector, root = doc) => Array.from(root.querySelectorAll(selector));
+  function formatTime(date = new Date()) {
+    return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', second: '2-digit' });
+  }
+  function notify(message) {
     const toast = $('#demoToast');
     if (!toast) return;
-    window.clearTimeout(toastTimer);
     toast.textContent = message;
     toast.classList.add('show');
-    toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3200);
+    window.clearTimeout(notify.timer);
+    notify.timer = window.setTimeout(() => toast.classList.remove('show'), 3200);
   }
 
-  // ---------------------------------------------------------------------------
-  // Global navigation, scroll state, reveal motion, and section theming
-  // ---------------------------------------------------------------------------
+  /* ---- Print Orchestrator interactive replica ---- */
+    function initPrintDashboard() {
+    const demo = $('[data-real-orch-demo]');
+    if (!demo) return;
 
-  const footerYear = $('#footerYear');
-  if (footerYear) footerYear.textContent = String(new Date().getFullYear());
+    const refresh = $('[data-rpd-refresh]', demo);
+    const time = $('[data-rpd-time]', demo);
+    const poll = $('[data-rpd-poll]', demo);
+    const summary = $('[data-rpd-summary]', demo);
+    const connected = $('[data-rpd-connected]', demo);
+    const offline = $('[data-rpd-offline]', demo);
+    const onlineCount = $('[data-rpd-online-count]', demo);
+    const theme = $('[data-rpd-theme]', demo);
+    const filterButtons = $$('[data-rpd-filter]', demo);
+    const cards = $$('[data-rpd-printer]', demo);
+    const detection = $('[data-rpd-detection]', demo);
+    const detectState = $('[data-rpd-detect-state]', demo);
+    const detectCopy = $('[data-rpd-detect-copy]', demo);
+    const power = $('[data-rpd-power]', demo);
+    const prusaCard = $('.rpd-printer-card.online', demo);
+    const prusaHeaderState = prusaCard ? $('.rpd-state', prusaCard) : null;
+    const prusaPowerTitle = prusaCard ? $('.rpd-mini-panel.power h5', prusaCard) : null;
+    const prusaPowerStatus = prusaCard ? $('.rpd-mini-panel.power > strong', prusaCard) : null;
+    const prusaPowerCopy = prusaCard ? $('.rpd-mini-panel.power > p', prusaCard) : null;
+    let poweredOn = true;
 
-  const header = $('#siteHeader');
-  const scrollProgress = $('#scrollProgress');
-  const navToggle = $('#navToggle');
-  const siteNav = $('#siteNav');
-  const navLinks = $$('#siteNav a');
-  const toneSections = $$('[data-observe-tone]');
+    function updateCounts() {
+      const onlineCards = cards.filter((card) => card.dataset.rpdPrinter.split(/\s+/).includes('online'));
+      const online = onlineCards.length;
+      if (connected) connected.textContent = String(online);
+      if (offline) offline.textContent = String(cards.length - online);
+      if (onlineCount) onlineCount.textContent = String(online);
+      if (summary) {
+        summary.textContent = online === cards.length
+          ? 'All configured printers are reachable.'
+          : `${cards.length - online} printer${cards.length - online === 1 ? ' is' : 's are'} currently unreachable, but the connected fleet remains available.`;
+      }
+    }
 
-  let scrollTicking = false;
-  function updateScrollUI() {
-    const scrollTop = window.scrollY || root.scrollTop;
-    const scrollRange = Math.max(doc.body.scrollHeight - window.innerHeight, 1);
-    const progress = clamp(scrollTop / scrollRange, 0, 1);
+    function setActiveTab(button) {
+      $$('.rpd-tabs button', demo).forEach((peer) => peer.classList.toggle('active', peer === button));
+      notify(`${button.textContent.trim()} is represented as a visual demo tab.`);
+    }
 
-    if (scrollProgress) scrollProgress.style.transform = `scaleX(${progress})`;
-    if (header) header.classList.toggle('is-compact', scrollTop > 34);
+    $$('.rpd-tabs button', demo).forEach((button) => {
+      button.addEventListener('click', () => setActiveTab(button));
+    });
 
-    if (toneSections.length) {
-      const targetY = window.innerHeight * 0.46;
-      let closest = toneSections[0];
-      let closestDistance = Number.POSITIVE_INFINITY;
+    refresh?.addEventListener('click', () => {
+      const stamp = formatTime();
+      if (time) time.textContent = stamp;
+      if (poll) poll.textContent = stamp;
+      if (summary) summary.textContent = poweredOn
+        ? 'Fleet refresh completed. Prusa Core One is reachable; Alpine and E3NG remain offline.'
+        : 'Fleet refresh completed. All three configured printers are currently offline.';
+      refresh.disabled = true;
+      refresh.textContent = 'Refreshing…';
+      window.setTimeout(() => {
+        refresh.disabled = false;
+        refresh.textContent = 'Refresh';
+        notify('Print Orchestrator demo refreshed.');
+      }, 650);
+    });
 
-      toneSections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        const visible = rect.bottom > 0 && rect.top < window.innerHeight;
-        if (!visible) return;
-        const sectionCenter = clamp(targetY, rect.top, rect.bottom);
-        const distance = Math.abs(sectionCenter - targetY);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closest = section;
+    theme?.addEventListener('click', () => {
+      const dim = demo.classList.toggle('is-dim');
+      theme.textContent = dim ? '☾ Dim' : '☀ Light';
+    });
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.rpdFilter;
+        filterButtons.forEach((peer) => peer.classList.toggle('active', peer === button));
+        cards.forEach((card) => {
+          const states = card.dataset.rpdPrinter.split(/\s+/);
+          card.hidden = filter !== 'all' && !states.includes(filter);
+        });
+      });
+    });
+
+    detection?.addEventListener('click', () => {
+      const enabled = detection.getAttribute('aria-pressed') !== 'true';
+      detection.setAttribute('aria-pressed', String(enabled));
+      detection.classList.toggle('active', enabled);
+      if (detectState) detectState.textContent = enabled ? 'Detection online' : 'Detection off';
+      if (detectCopy) {
+        detectCopy.textContent = enabled
+          ? 'Primary camera · scan running every 5 seconds · score 0.079 · 17/3 confirmations.'
+          : 'Primary camera · score 0.079 · clear ≤ 0.030 · part ≥ 0.065 · 17/3 confirmations.';
+      }
+      notify(enabled ? 'Part detection enabled for the demo.' : 'Part detection paused for the demo.');
+    });
+
+    power?.addEventListener('click', () => {
+      poweredOn = !poweredOn;
+      prusaCard?.classList.toggle('is-powered-off', !poweredOn);
+      if (poweredOn) {
+        prusaCard.dataset.rpdPrinter = 'online';
+        if (prusaHeaderState) {
+          prusaHeaderState.textContent = '◆ IDLE';
+          prusaHeaderState.className = 'rpd-state idle';
         }
-      });
-
-      const tone = closest?.dataset.observeTone || 'orange';
-      if (body.dataset.tone !== tone) body.dataset.tone = tone;
-    }
-
-    const activePoint = window.innerHeight * 0.36;
-    let activeId = 'home';
-    $$('main section[id]').forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      if (rect.top <= activePoint && rect.bottom > activePoint) activeId = section.id;
-    });
-    if (activeId === 'orchestrator' || activeId === 'pfc') activeId = 'systems';
-
-    navLinks.forEach((link) => {
-      const isActive = link.getAttribute('href') === `#${activeId}`;
-      link.classList.toggle('active', isActive);
-      if (isActive) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    });
-
-    scrollTicking = false;
-  }
-
-  function queueScrollUpdate() {
-    if (scrollTicking) return;
-    scrollTicking = true;
-    window.requestAnimationFrame(updateScrollUI);
-  }
-
-  window.addEventListener('scroll', queueScrollUpdate, { passive: true });
-  window.addEventListener('resize', queueScrollUpdate, { passive: true });
-  updateScrollUI();
-
-  if (navToggle && siteNav) {
-    navToggle.addEventListener('click', () => {
-      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', String(!expanded));
-      siteNav.classList.toggle('open', !expanded);
-      body.classList.toggle('nav-open', !expanded);
+        if (prusaPowerTitle) prusaPowerTitle.textContent = 'ON';
+        if (prusaPowerStatus) prusaPowerStatus.textContent = 'Plug online';
+        if (prusaPowerCopy) prusaPowerCopy.textContent = 'Prusa Core One Outlet · 18.3 W · updated now';
+        power.textContent = 'Safe power off';
+        notify('Prusa Core One powered on in the mock-up.');
+      } else {
+        prusaCard.dataset.rpdPrinter = 'offline attention';
+        if (prusaHeaderState) {
+          prusaHeaderState.textContent = '◆ POWERED OFF';
+          prusaHeaderState.className = 'rpd-state offline';
+        }
+        if (prusaPowerTitle) prusaPowerTitle.textContent = 'OFF';
+        if (prusaPowerStatus) prusaPowerStatus.textContent = 'Plug off';
+        if (prusaPowerCopy) prusaPowerCopy.textContent = 'Prusa Core One Outlet · 0.8 W standby estimate';
+        power.textContent = 'Power on';
+        notify('Safe power-off completed in the mock-up.');
+      }
+      updateCounts();
     });
 
-    navLinks.forEach((link) => link.addEventListener('click', () => {
-      navToggle.setAttribute('aria-expanded', 'false');
-      siteNav.classList.remove('open');
-      body.classList.remove('nav-open');
-    }));
+    updateCounts();
   }
 
-  const revealElements = $$('.reveal');
-  if ('IntersectionObserver' in window && !reduceMotionQuery.matches) {
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+  /* ---- PFC Supervisor interactive replica ---- */
+    function initPfcDashboard() {
+    const demo = $('[data-real-pfc-demo]');
+    if (!demo) return;
 
-    revealElements.forEach((element) => revealObserver.observe(element));
-  } else {
-    revealElements.forEach((element) => element.classList.add('is-visible'));
-  }
+    const tabs = $$('[data-rpc-tab]', demo);
+    const views = $$('[data-rpc-view]', demo);
+    const heading = $('[data-rpc-heading]', demo);
+    const status = $('[data-rpc-status]', demo);
+    const statusCopy = $('[data-rpc-status-copy]', demo);
+    const load = $('[data-rpc-load]', demo);
+    const automation = $('[data-rpc-automation]', demo);
+    const wake = $('[data-rpc-wake]', demo);
+    const sleep = $('[data-rpc-sleep]', demo);
+    const sideSleep = $('[data-rpc-sleep-side]', demo);
+    const policy = $('[data-rpc-policy]', demo);
+    const refresh = $('[data-rpc-refresh]', demo);
+    const cacheRefresh = $('[data-rpc-cache-refresh]', demo);
+    const cacheAge = $('[data-rpc-cache-age]', demo);
+    const cacheTime = $('[data-rpc-cache-time]', demo);
+    const cacheState = $('[data-rpc-cache-state]', demo);
+    let awake = true;
+    let cacheSeconds = 38;
 
-  // ---------------------------------------------------------------------------
-  // Ambient motion control and canvas constellation
-  // ---------------------------------------------------------------------------
-
-  const motionToggle = $('#motionToggle');
-  let motionPaused = false;
-
-  function readStoredMotion() {
-    try {
-      return window.localStorage.getItem('jd-portfolio-motion');
-    } catch (_error) {
-      return null;
-    }
-  }
-
-  function writeStoredMotion(value) {
-    try {
-      window.localStorage.setItem('jd-portfolio-motion', value);
-    } catch (_error) {
-      // Storage is optional. The page remains fully functional without it.
-    }
-  }
-
-  function applyMotionState(paused, persist = true) {
-    motionPaused = paused;
-    body.dataset.motion = paused ? 'paused' : 'full';
-    if (motionToggle) {
-      motionToggle.setAttribute('aria-pressed', String(paused));
-      motionToggle.title = paused ? 'Resume ambient motion' : 'Pause ambient motion';
-      const label = $('.motion-label', motionToggle);
-      if (label) label.textContent = paused ? 'Paused' : 'Motion';
-    }
-    if (persist) writeStoredMotion(paused ? 'paused' : 'full');
-    window.dispatchEvent(new CustomEvent('portfolio:motion', { detail: { paused } }));
-  }
-
-  const storedMotion = readStoredMotion();
-  applyMotionState(storedMotion ? storedMotion === 'paused' : reduceMotionQuery.matches, false);
-
-  motionToggle?.addEventListener('click', () => applyMotionState(!motionPaused));
-  reduceMotionQuery.addEventListener?.('change', (event) => {
-    if (!readStoredMotion()) applyMotionState(event.matches, false);
-  });
-
-  function initStarfield() {
-    const canvas = $('#starfield');
-    if (!canvas) return;
-    const context = canvas.getContext('2d', { alpha: true });
-    if (!context) return;
-
-    const tones = {
-      orange: [242, 122, 26],
-      blue: [35, 104, 239],
-      green: [182, 255, 50],
+    const viewHeadings = {
+      power: 'POWER MANAGEMENT',
+      runtime: 'AI RUNTIME',
+      cache: 'HERMES SCHEDULE CACHE',
+      safety: 'SAFETY MATRIX',
     };
 
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let points = [];
-    let frame = 0;
-    let lastTime = performance.now();
-    const pointer = { x: 0, y: 0, active: false };
-
-    function createPoint(index, count) {
-      const layer = index % 3;
-      return {
-        x: Math.random() * width,
-        y: Math.random() * height,
-        radius: 0.45 + Math.random() * (layer === 0 ? 1.2 : 0.75),
-        vx: (Math.random() - 0.5) * (0.014 + layer * 0.006),
-        vy: (Math.random() - 0.5) * (0.012 + layer * 0.005),
-        alpha: 0.15 + Math.random() * 0.55,
-        pulse: Math.random() * Math.PI * 2,
-        layer,
-        index,
-        count,
-      };
-    }
-
-    function resize() {
-      const rect = canvas.getBoundingClientRect();
-      width = Math.max(rect.width, window.innerWidth);
-      height = Math.max(rect.height, window.innerHeight);
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      context.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = clamp(Math.round((width * height) / 17500), 44, 115);
-      points = Array.from({ length: count }, (_, index) => createPoint(index, count));
-      draw(performance.now(), true);
-    }
-
-    function draw(time, force = false) {
-      const elapsed = Math.min((time - lastTime) / 16.67, 2.5);
-      lastTime = time;
-      context.clearRect(0, 0, width, height);
-
-      const color = tones[body.dataset.tone] || tones.orange;
-      const parallaxX = pointer.active ? (pointer.x / Math.max(width, 1) - 0.5) : 0;
-      const parallaxY = pointer.active ? (pointer.y / Math.max(height, 1) - 0.5) : 0;
-
-      points.forEach((point) => {
-        if (!motionPaused && !reduceMotionQuery.matches) {
-          point.x += point.vx * elapsed * 8;
-          point.y += point.vy * elapsed * 8;
-          point.pulse += 0.008 * elapsed;
-          if (point.x < -8) point.x = width + 8;
-          if (point.x > width + 8) point.x = -8;
-          if (point.y < -8) point.y = height + 8;
-          if (point.y > height + 8) point.y = -8;
-        }
-
-        const offsetFactor = (point.layer + 1) * 4;
-        const x = point.x + parallaxX * offsetFactor;
-        const y = point.y + parallaxY * offsetFactor;
-        const pulse = 0.76 + Math.sin(point.pulse) * 0.24;
-        context.beginPath();
-        context.arc(x, y, point.radius, 0, Math.PI * 2);
-        context.fillStyle = `rgba(${color.join(',')},${point.alpha * pulse})`;
-        context.fill();
+    function setView(name) {
+      tabs.forEach((button) => {
+        const active = button.dataset.rpcTab === name;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-selected', String(active));
       });
-
-      const linkDistance = width < 700 ? 84 : 112;
-      const maxLinksPerPoint = 2;
-      points.forEach((point, index) => {
-        let links = 0;
-        for (let next = index + 1; next < points.length && links < maxLinksPerPoint; next += 1) {
-          const other = points[next];
-          const dx = point.x - other.x;
-          const dy = point.y - other.y;
-          const distance = Math.hypot(dx, dy);
-          if (distance >= linkDistance) continue;
-          const opacity = (1 - distance / linkDistance) * 0.065;
-          context.beginPath();
-          context.moveTo(point.x, point.y);
-          context.lineTo(other.x, other.y);
-          context.strokeStyle = `rgba(${color.join(',')},${opacity})`;
-          context.lineWidth = 0.55;
-          context.stroke();
-          links += 1;
-        }
+      views.forEach((view) => {
+        const active = view.dataset.rpcView === name;
+        view.hidden = !active;
+        view.classList.toggle('active', active);
       });
-
-      if (!motionPaused || force) frame = window.requestAnimationFrame(draw);
-      else frame = 0;
+      if (heading) heading.textContent = viewHeadings[name] || 'PFC CONTROL PLANE';
     }
 
-    function restart() {
-      if (!frame) {
-        lastTime = performance.now();
-        frame = window.requestAnimationFrame(draw);
-      }
+    tabs.forEach((button) => button.addEventListener('click', () => setView(button.dataset.rpcTab)));
+
+    function setPowerState(nextAwake) {
+      awake = nextAwake;
+      demo.classList.toggle('is-sleeping', !awake);
+      if (status) status.textContent = awake ? 'Online' : 'Sleeping';
+      if (statusCopy) statusCopy.textContent = awake
+        ? 'PFP is reachable and reporting through the power ledger.'
+        : 'The low-power Pi is retaining schedules, wake protection, and control-plane state.';
+      if (load) load.textContent = awake ? '154.8 W' : '4.8 W';
+      if (automation) automation.textContent = awake ? 'Automatic' : 'Sleep retained';
+      if (sideSleep) sideSleep.textContent = awake ? 'Sleep PFP' : 'Wake PFP';
+      notify(awake
+        ? 'PFP wake sequence completed in the mock-up.'
+        : 'PFP entered simulated sleep; Hermes protection remains on the Pi.');
     }
 
-    window.addEventListener('resize', resize, { passive: true });
-    window.addEventListener('pointermove', (event) => {
-      pointer.x = event.clientX;
-      pointer.y = event.clientY;
-      pointer.active = true;
-    }, { passive: true });
-    window.addEventListener('pointerleave', () => { pointer.active = false; });
-    window.addEventListener('portfolio:motion', (event) => {
-      if (event.detail.paused) {
-        if (frame) window.cancelAnimationFrame(frame);
-        frame = 0;
-        draw(performance.now(), true);
-        if (frame) {
-          window.cancelAnimationFrame(frame);
-          frame = 0;
-        }
-      } else {
-        restart();
-      }
-    });
+    wake?.addEventListener('click', () => setPowerState(true));
+    sleep?.addEventListener('click', () => setPowerState(false));
+    sideSleep?.addEventListener('click', () => setPowerState(!awake));
 
-    const toneObserver = new MutationObserver(() => {
-      if (motionPaused) {
-        draw(performance.now(), true);
-        if (frame) {
-          window.cancelAnimationFrame(frame);
-          frame = 0;
-        }
-      }
-    });
-    toneObserver.observe(body, { attributes: true, attributeFilter: ['data-tone'] });
-
-    resize();
-    if (motionPaused && frame) {
-      window.cancelAnimationFrame(frame);
-      frame = 0;
-    }
-  }
-
-  initStarfield();
-
-  // Depth and magnetic interactions are deliberately subtle and disabled for
-  // touch devices or users who prefer reduced motion.
-  if (window.matchMedia('(pointer: fine)').matches && !reduceMotionQuery.matches) {
-    $$('.tilt-card').forEach((card) => {
-      const strength = Number(card.dataset.tiltStrength || 7);
-      card.addEventListener('pointermove', (event) => {
-        if (motionPaused) return;
-        const rect = card.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width - 0.5;
-        const y = (event.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `perspective(900px) rotateX(${-y * strength}deg) rotateY(${x * strength}deg) translateZ(2px)`;
-      });
-      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
-    });
-
-    $$('.magnetic').forEach((button) => {
-      button.addEventListener('pointermove', (event) => {
-        if (motionPaused) return;
-        const rect = button.getBoundingClientRect();
-        const x = (event.clientX - rect.left - rect.width / 2) * 0.11;
-        const y = (event.clientY - rect.top - rect.height / 2) * 0.15;
-        button.style.transform = `translate(${x}px, ${y}px)`;
-      });
-      button.addEventListener('pointerleave', () => { button.style.transform = ''; });
-    });
-  }
-
-  // ---------------------------------------------------------------------------
-  // Print Orchestrator portfolio simulation
-  // ---------------------------------------------------------------------------
-
-  function initOrchestratorDemo() {
-    const demo = $('[data-orchestrator-demo]');
-    if (!demo) return;
-
-    const dispatchButton = $('[data-orch-dispatch]', demo);
-    const recoveryButton = $('[data-orch-recover]', demo);
-    const queueList = $('[data-orch-queue-list]', demo);
-    const queueCount = $('[data-orch-queue]', demo);
-    const readyCount = $('[data-orch-ready]', demo);
-    const completedCount = $('[data-orch-completed]', demo);
-    const logText = $('[data-orch-log]', demo);
-    const logTime = $('.log-time', demo);
-    const e3ngProgress = $('[data-orch-progress]', demo);
-    const e3ngProgressLabel = $('[data-orch-progress-label]', demo);
-    const e3ngEta = $('[data-orch-eta]', demo);
-    const e3ngHotend = $('[data-orch-hotend]', demo);
-    const machineCards = $$('[data-printer-card]', demo);
-    const completionTimers = new WeakMap();
-
-    let completed = Number(completedCount?.textContent || 7);
-    let e3ngPercent = Number.parseInt(e3ngProgressLabel?.textContent || '42', 10);
-    let dispatching = false;
-    let recovering = false;
-
-    function setLog(message) {
-      if (logText) logText.textContent = message;
-      if (logTime) logTime.textContent = nowClock();
-    }
-
-    function getStateElement(card) {
-      return $('.state', card);
-    }
-
-    function updateFleetCounts() {
-      const ready = machineCards.filter((card) => getStateElement(card)?.classList.contains('state-ready')).length;
-      const queued = $$('[data-queue-item]', queueList).length;
-      if (readyCount) readyCount.textContent = `${ready} / ${machineCards.length}`;
-      if (queueCount) queueCount.textContent = String(queued);
-      if (completedCount) completedCount.textContent = String(completed);
-    }
-
-    function setMachineState(card, state, message, statusText) {
-      if (!card) return;
-      const stateElement = getStateElement(card);
-      const messageElement = $('.printer-job span', card);
-      const jobStatus = $('.printer-job strong', card);
-      if (stateElement) {
-        stateElement.classList.remove('state-ready', 'state-printing', 'state-warning', 'state-fault');
-        const stateClass = {
-          READY: 'state-ready',
-          PRINTING: 'state-printing',
-          QUEUED: 'state-warning',
-          RECOVERING: 'state-warning',
-          FAULT: 'state-fault',
-        }[state] || 'state-ready';
-        stateElement.classList.add(stateClass);
-        stateElement.textContent = state;
-      }
-      card.classList.toggle('ready', state === 'READY');
-      card.classList.toggle('printing', state === 'PRINTING');
-      if (messageElement && message) messageElement.textContent = message;
-      if (jobStatus && statusText) jobStatus.textContent = statusText;
-      updateFleetCounts();
-    }
-
-    function scheduleCompletion(card, jobName) {
-      const priorTimer = completionTimers.get(card);
-      if (priorTimer) window.clearTimeout(priorTimer);
-      const timer = window.setTimeout(() => {
-        if (card.classList.contains('is-fault') || card.classList.contains('is-recovering')) return;
-        setMachineState(card, 'READY', 'Calibrated · ready for assignment', 'Idle');
-        completed += 1;
-        updateFleetCounts();
-        setLog(`${card.dataset.printerCard.toUpperCase()} completed ${jobName}. Quality gate passed.`);
-      }, 10500 + Math.random() * 2500);
-      completionTimers.set(card, timer);
-    }
-
-    dispatchButton?.addEventListener('click', async () => {
-      if (dispatching) return;
-      const queueItem = $('[data-queue-item]', queueList);
-      if (!queueItem) {
-        setLog('Queue clear. No pending geometry requires dispatch.');
-        showToast('Print Orchestrator demo: queue is clear.');
+    policy?.addEventListener('click', () => {
+      if (!awake) {
+        notify('Policy result: keep sleeping. No protected job is due yet.');
         return;
       }
-
-      const availableCard = machineCards.find((card) => getStateElement(card)?.classList.contains('state-ready'));
-      if (!availableCard) {
-        setLog('Dispatch deferred. No ready machine satisfies the current policy.');
-        showToast('No ready printer is available in the simulated fleet.');
-        return;
-      }
-
-      dispatching = true;
-      dispatchButton.disabled = true;
-      const jobName = $('strong', queueItem)?.textContent?.trim() || 'queued job';
-      const materialText = $('small', queueItem)?.textContent?.split('·')[0]?.trim() || 'material';
-      const machineName = $('strong', $('.printer-card-top', availableCard))?.textContent?.trim() || availableCard.dataset.printerCard;
-
-      setLog(`Analyzing ${jobName}: geometry, material, nozzle, and fleet policy.`);
-      await wait(650);
-      setLog(`Autoslicing ${jobName} with the validated ${materialText} profile.`);
-      setMachineState(availableCard, 'QUEUED', `${jobName} · slicing`, 'Preparing');
-      await wait(850);
-      setLog(`${machineName} selected. Dispatch lease created and preflight running.`);
-      queueItem.classList.add('is-dispatching');
-      await wait(460);
-      queueItem.remove();
-      const newFirst = $('[data-queue-item]', queueList);
-      newFirst?.classList.add('next');
-      setMachineState(availableCard, 'PRINTING', jobName, '0%');
-      setLog(`${jobName} dispatched to ${machineName}. First-layer monitoring armed.`);
-      scheduleCompletion(availableCard, jobName);
-      showToast(`Demo dispatch complete: ${jobName} → ${machineName}`);
-
-      dispatching = false;
-      dispatchButton.disabled = false;
-      updateFleetCounts();
+      if (automation) automation.textContent = 'Blocked';
+      automation?.classList.remove('green');
+      automation?.classList.add('yellow');
+      if (statusCopy) statusCopy.textContent = 'Suspend was blocked because the Qwen runtime is still active.';
+      notify('Policy evaluated: active AI runtime blocks suspend.');
+      window.setTimeout(() => {
+        if (automation) automation.textContent = 'Automatic';
+        automation?.classList.add('green');
+        automation?.classList.remove('yellow');
+        if (statusCopy) statusCopy.textContent = 'PFP is reachable and reporting through the power ledger.';
+      }, 3600);
     });
 
-    recoveryButton?.addEventListener('click', async () => {
-      if (recovering) return;
-      recovering = true;
-      recoveryButton.disabled = true;
-      const voronCard = $('[data-printer-card="voron"]', demo);
-      const priorTimer = completionTimers.get(voronCard);
-      if (priorTimer) window.clearTimeout(priorTimer);
-
-      voronCard?.classList.add('is-fault');
-      setMachineState(voronCard, 'FAULT', 'CAN heartbeat lost · toolhead offline', 'Alert');
-      setLog('Voron 2.4 fault detected. Dispatch lease frozen; recovery playbook selected.');
-      await wait(1150);
-
-      voronCard?.classList.remove('is-fault');
-      voronCard?.classList.add('is-recovering');
-      setMachineState(voronCard, 'RECOVERING', 'Rebinding CAN interface · validating sensors', 'Step 2 / 4');
-      setLog('Recovery: interface rebound. Verifying thermal channels and homing constraints.');
-      await wait(1750);
-
-      setMachineState(voronCard, 'RECOVERING', 'Restoring mesh · checking chamber interlock', 'Step 4 / 4');
-      setLog('Recovery: safe state restored. Running final readiness gate.');
-      await wait(1150);
-
-      voronCard?.classList.remove('is-recovering');
-      setMachineState(voronCard, 'READY', 'Recovered · mesh and CAN verified', 'Idle');
-      setLog('Voron 2.4 returned to READY. Recovery event and evidence were recorded.');
-      showToast('Simulated recovery succeeded. Voron 2.4 is ready.');
-      recovering = false;
-      recoveryButton.disabled = false;
+    refresh?.addEventListener('click', () => {
+      refresh.disabled = true;
+      refresh.textContent = 'Refreshing…';
+      if (load && awake) load.textContent = `${(153.8 + Math.random() * 2.6).toFixed(1)} W`;
+      window.setTimeout(() => {
+        refresh.disabled = false;
+        refresh.textContent = 'Refresh telemetry';
+        notify('PFC telemetry refreshed.');
+      }, 700);
     });
 
-    // Give the live E3NG card a low-frequency heartbeat without turning the demo
-    // into a distracting animation loop.
-    window.setInterval(() => {
-      if (doc.hidden || motionPaused || e3ngPercent >= 96) return;
-      e3ngPercent = Math.min(96, e3ngPercent + 1 + Math.floor(Math.random() * 3));
-      const remainingMinutes = Math.max(8, Math.round((100 - e3ngPercent) * 3.1));
-      const hours = Math.floor(remainingMinutes / 60);
-      const minutes = remainingMinutes % 60;
-      if (e3ngProgress) e3ngProgress.style.setProperty('--progress', `${e3ngPercent}%`);
-      if (e3ngProgressLabel) e3ngProgressLabel.textContent = `${e3ngPercent}%`;
-      if (e3ngEta) e3ngEta.textContent = hours ? `${hours}h ${String(minutes).padStart(2, '0')}m` : `${minutes}m`;
-      if (e3ngHotend) e3ngHotend.textContent = `${257 + Math.round(Math.random() * 3)}°`;
-    }, 3900);
-
-    updateFleetCounts();
-  }
-
-  initOrchestratorDemo();
-
-  // ---------------------------------------------------------------------------
-  // PFC Supervisor portfolio simulation
-  // ---------------------------------------------------------------------------
-
-  function initPfcDemo() {
-    const demo = $('[data-pfc-demo]');
-    if (!demo) return;
-
-    const clock = $('[data-pfc-time]', demo);
-    const events = $('[data-pfc-events]', demo);
-    const wakeButton = $('[data-pfc-wake]', demo);
-    const sleepButton = $('[data-pfc-sleep]', demo);
-    const pfpNode = $('[data-pfp-node]', demo);
-    const pfpSubtitle = $('[data-pfp-subtitle]', demo);
-    const pfpState = $('[data-pfp-state]', demo);
-    const pfpStateText = $('[data-pfp-state-text]', demo);
-    const powerMeter = $('[data-power-meter]', demo);
-    const powerDraw = $('[data-power-draw]', demo);
-    const powerTemp = $('[data-power-temp]', demo);
-    const cacheRefresh = $('[data-cache-refresh]', demo);
-    const cacheAgeElement = $('[data-cache-age]', demo);
-    const cacheHealth = $('[data-cache-health]', demo);
-    const auditAgeElement = $('[data-pfc-last-audit]', demo);
-    const settingToggles = $$('[data-setting-toggle]', demo);
-
-    let pfpAwake = true;
-    let transitioning = false;
-    let cacheAge = 2 * 60 + 14;
-    let auditAge = 18;
-    let cacheRefreshing = false;
-
-    function formatDuration(seconds) {
-      const safe = Math.max(0, Math.floor(seconds));
-      const hours = Math.floor(safe / 3600);
-      const minutes = Math.floor((safe % 3600) / 60);
-      const secs = safe % 60;
-      return [hours, minutes, secs].map((part) => String(part).padStart(2, '0')).join(':');
-    }
-
-    function appendEvent(type, message) {
-      if (!events) return;
-      const row = doc.createElement('p');
-      const time = doc.createElement('time');
-      const badge = doc.createElement('b');
-      const text = doc.createElement('span');
-      time.textContent = nowClock();
-      badge.textContent = type;
-      text.textContent = message;
-      row.append(time, badge, text);
-      events.prepend(row);
-      while (events.children.length > 6) events.lastElementChild?.remove();
-      auditAge = 0;
-    }
-
-    function setPfpVisualState(mode) {
-      const states = {
-        awake: {
-          label: 'ONLINE', text: 'Awake · services healthy', subtitle: 'compute node · awake', draw: '146 W', temp: '54°C', meter: '72%', offline: false,
-        },
-        sleeping: {
-          label: 'SLEEPING', text: 'Sleeping · wake service armed', subtitle: 'compute node · sleeping', draw: '4 W', temp: '31°C', meter: '8%', offline: true,
-        },
-        waking: {
-          label: 'WAKING', text: 'Power-on sequence · validating services', subtitle: 'compute node · wake sequence', draw: '82 W', temp: '36°C', meter: '42%', offline: false,
-        },
-        draining: {
-          label: 'DRAINING', text: 'Graceful shutdown · leases releasing', subtitle: 'compute node · draining', draw: '96 W', temp: '49°C', meter: '50%', offline: false,
-        },
-        fault: {
-          label: 'CHECK', text: 'Command timeout · state unchanged', subtitle: 'compute node · verify link', draw: '—', temp: '—', meter: '0%', offline: true,
-        },
-      };
-      const state = states[mode];
-      if (!state) return;
-      if (pfpState) {
-        pfpState.textContent = state.label;
-        pfpState.classList.toggle('offline', state.offline);
-      }
-      if (pfpStateText) pfpStateText.textContent = state.text;
-      if (pfpSubtitle) pfpSubtitle.textContent = state.subtitle;
-      if (powerDraw) powerDraw.textContent = state.draw;
-      if (powerTemp) powerTemp.textContent = state.temp;
-      if (powerMeter) powerMeter.style.setProperty('--meter', state.meter);
-      pfpNode?.classList.toggle('sleeping', mode === 'sleeping' || mode === 'fault');
-    }
-
-    async function transitionPfp(targetAwake) {
-      if (transitioning) return;
-      if (targetAwake === pfpAwake) {
-        showToast(`PFP is already ${targetAwake ? 'awake' : 'sleeping'}.`);
-        appendEvent('INFO', `Duplicate ${targetAwake ? 'wake' : 'sleep'} request ignored.`);
-        return;
-      }
-
-      transitioning = true;
-      wakeButton.disabled = true;
-      sleepButton.disabled = true;
-
-      if (targetAwake) {
-        setPfpVisualState('waking');
-        appendEvent('POWER', 'Wake command authorized; out-of-band sequence started.');
-        await wait(1650);
-        setPfpVisualState('awake');
-        pfpAwake = true;
-        appendEvent('NODE', 'PFP services healthy; workload lease restored.');
-        showToast('PFC demo: PFP wake sequence completed.');
-      } else {
-        setPfpVisualState('draining');
-        appendEvent('POWER', 'Sleep authorized; workloads draining and state preserved.');
-        await wait(1750);
-        setPfpVisualState('sleeping');
-        pfpAwake = false;
-        appendEvent('NODE', 'PFP entered low-power state; wake path remains armed.');
-        showToast('PFC demo: PFP entered a safe sleep state.');
-      }
-
-      transitioning = false;
-      wakeButton.disabled = false;
-      sleepButton.disabled = false;
-    }
-
-    wakeButton?.addEventListener('click', () => transitionPfp(true));
-    sleepButton?.addEventListener('click', () => transitionPfp(false));
-
-    cacheRefresh?.addEventListener('click', async () => {
-      if (cacheRefreshing) return;
-      cacheRefreshing = true;
+    cacheRefresh?.addEventListener('click', () => {
       cacheRefresh.disabled = true;
-      cacheRefresh.classList.add('is-loading');
-      if (cacheHealth) cacheHealth.textContent = 'SYNCING';
-      appendEvent('SYNC', 'Manual Hermes cache refresh requested by operator.');
-      await wait(1350);
-      cacheAge = 0;
-      if (cacheHealth) cacheHealth.textContent = 'HEALTHY';
-      cacheRefresh.classList.remove('is-loading');
-      cacheRefresh.disabled = false;
-      cacheRefreshing = false;
-      appendEvent('INFO', 'Hermes schedule cache refreshed; local fallback verified.');
-      showToast('Hermes schedule cache refreshed in the demo.');
+      cacheRefresh.textContent = 'Refreshing…';
+      if (cacheState) cacheState.textContent = 'Syncing';
+      window.setTimeout(() => {
+        cacheSeconds = 0;
+        if (cacheAge) cacheAge.textContent = '0s';
+        if (cacheTime) cacheTime.textContent = formatTime();
+        if (cacheState) cacheState.textContent = 'Fresh';
+        cacheRefresh.disabled = false;
+        cacheRefresh.textContent = 'Refresh cache';
+        notify('Hermes schedule cache refreshed.');
+      }, 800);
     });
 
-    settingToggles.forEach((toggle) => {
-      toggle.addEventListener('change', () => {
-        const label = toggle.closest('.matrix-row');
-        const name = $('strong', label)?.textContent?.trim() || 'Control';
-        appendEvent('AUTH', `${name} ${toggle.checked ? 'enabled' : 'disabled'} in the settings matrix.`);
-        showToast(`${name}: ${toggle.checked ? 'enabled' : 'disabled'}`);
-      });
-    });
-
-    $$('.pfc-topbar nav button, .pfc-rail button', demo).forEach((button) => {
-      button.addEventListener('click', () => {
-        const group = button.closest('nav') || button.closest('.pfc-rail');
-        $$('button', group).forEach((peer) => peer.classList.toggle('active', peer === button));
-        showToast(`${button.textContent.trim()} view selected in the PFC demo.`);
-      });
-    });
-
-    function updatePfcClock() {
-      if (clock) clock.textContent = nowClock();
-      cacheAge += 1;
-      auditAge += 1;
-      if (cacheAgeElement) cacheAgeElement.textContent = formatDuration(cacheAge);
-      if (auditAgeElement) auditAgeElement.textContent = auditAge < 60 ? `${auditAge} sec` : `${Math.floor(auditAge / 60)} min`;
-
-      if (cacheHealth && !cacheRefreshing) {
-        if (cacheAge >= 15 * 60) cacheHealth.textContent = 'STALE';
-        else cacheHealth.textContent = 'HEALTHY';
-      }
-    }
-
-    updatePfcClock();
-    window.setInterval(updatePfcClock, 1000);
+    window.setInterval(() => {
+      cacheSeconds += 1;
+      if (cacheAge) cacheAge.textContent = cacheSeconds < 60 ? `${cacheSeconds}s` : `${Math.floor(cacheSeconds / 60)}m ${cacheSeconds % 60}s`;
+      if (cacheState && cacheSeconds > 900) cacheState.textContent = 'Stale';
+    }, 1000);
   }
 
-  initPfcDemo();
+  /* ---- live systems (two interactive product stages) ---- */
+  (function demos() {
+    const el = document.getElementById("demoStages");
+    if (!el) return;
+    if (!document.getElementById("demoToast")) {
+      const t = document.createElement("div");
+      t.id = "demoToast"; t.className = "toast"; t.setAttribute("aria-live", "polite");
+      document.body.appendChild(t);
+    }
+    const DEMO_STAGES_HTML = `<section class="product-stage orchestrator-stage real-system-stage" id="orchestrator">
+<div class="product-stage-copy reveal">
+<p class="eyebrow blue">Print Orchestrator</p>
+<h2>One dashboard for a mixed printer fleet</h2>
+<p>PrusaLink and Moonraker/Klipper machines report through one operator view, while each printer keeps its real capabilities and limits.</p>
+<ul class="feature-list blue-list"><li>Printer, camera, power, job, and detection states stay separate</li><li>Machine-specific controls appear only where they are supported</li><li>Recovery language explains the problem and the next safe action</li></ul>
+<p class="demo-note">Portfolio demo · private endpoints and real controls removed</p>
+<div class="system-links">
+<a class="button button-blue magnetic" href="#workspaces">Open project</a>
+<a class="button button-ghost-dark magnetic" href="assets/screenshots/po-fleet.png" rel="noreferrer" target="_blank">View the real dashboard capture</a>
+</div>
+</div>
+<div class="demo-frame real-orch-frame reveal" data-real-orch-demo="">
+<header class="rpd-topbar">
+<div class="rpd-brand"><span>PD</span><strong>Print Dashboard</strong><small>fabrication systems / live fleet control</small></div>
+<div class="rpd-top-actions">
+<span class="rpd-chip online"><i></i> API online</span>
+<span class="rpd-chip">Updated <b data-rpd-time="">9:08:37 AM</b></span>
+<button class="rpd-chip" data-rpd-theme="" type="button">☀ Light</button>
+<span class="rpd-chip">Notifications <b class="rpd-bubble">36</b></span>
+<span class="rpd-chip rpd-user">Print Orchestrator Administrator <b>ADMINISTRATOR</b></span>
+<button class="rpd-refresh" data-rpd-refresh="" type="button">Refresh</button>
+</div>
+</header>
+<nav aria-label="Print dashboard demo navigation" class="rpd-tabs">
+<button class="active" type="button">Fleet</button>
+<button type="button">Jobs</button>
+<button type="button">Server</button>
+<button type="button">Power</button>
+<button type="button">Failure detection</button>
+<button type="button">Files</button>
+<button type="button">Hermes chat</button>
+<button type="button">Admin</button>
+</nav>
+<div class="rpd-scroll">
+<section class="rpd-overview">
+<div class="rpd-overview-main">
+<p>Print Orchestrator / Fleet overview</p>
+<h3><span data-rpd-online-count="">1</span> of 3 printers online</h3>
+<strong data-rpd-summary="">Two printers are currently unreachable, but the connected fleet remains available.</strong>
+<div class="rpd-summary-grid">
+<article><span>Configured</span><b>3</b><small>printers</small></article>
+<article><span>Connected</span><b data-rpd-connected="">1</b><small>reachable now</small></article>
+<article><span>Printing</span><b>0</b><small>active jobs</small></article>
+<article><span>Paused</span><b>0</b><small>awaiting action</small></article>
+<article><span>Offline</span><b data-rpd-offline="">2</b><small>unreachable</small></article>
+</div>
+</div>
+<aside class="rpd-network">
+<p>System state</p><h4>Machine network</h4>
+<dl>
+<div><dt>Dashboard API</dt><dd class="ok">Online</dd></div>
+<div><dt>Auto refresh</dt><dd>Status 10s · telemetry 0.75s</dd></div>
+<div><dt>Last successful poll</dt><dd data-rpd-poll="">9:08:37 AM</dd></div>
+<div><dt>Signed in</dt><dd>Administrator</dd></div>
+</dl>
+</aside>
+</section>
+<section class="rpd-printers">
+<div class="rpd-printer-head">
+<div><h3>Printers</h3><p>Power, connectivity, jobs, cameras, and detection are shown as separate machine states.</p></div>
+<div aria-label="Filter demo printers" class="rpd-filter-group" role="group">
+<button class="active" data-rpd-filter="all" type="button">All</button>
+<button data-rpd-filter="online" type="button">Online</button>
+<button data-rpd-filter="attention" type="button">Needs attention</button>
+<button data-rpd-filter="offline" type="button">Offline</button>
+</div>
+</div>
+<div class="rpd-layout-bar">
+<label>Sort<select><option>Manual order</option><option>Name</option><option>Status</option></select></label>
+<label>New cards<select><option>Standard</option><option>Compact</option></select></label>
+<button type="button">Edit layout</button><button disabled="" type="button">Save layout</button>
+<span>Layout saved to your account</span>
+</div>
+<div class="rpd-printer-grid">
+<article class="rpd-printer-card online" data-rpd-printer="online">
+<header><div><h4>Prusa Core One</h4><small>PRUSALINK · updated just now</small></div><span class="rpd-state idle">◆ IDLE</span></header>
+<div class="rpd-camera"><img alt="Live printer camera preview represented with an existing project photo" loading="lazy" src="assets/images/e3ng-cam.png"/><span>● live snapshot · primary camera</span><button type="button">Rotate 180°</button></div>
+<section class="rpd-mini-panel detection">
+<div><p>Part detection</p><h5 data-rpd-detect-state="">Detection off</h5></div>
+<button aria-pressed="false" class="rpd-toggle" data-rpd-detection="" type="button"><i></i></button>
+<p data-rpd-detect-copy="">Primary camera · score 0.079 · clear ≤ 0.030 · part ≥ 0.065 · 17/3 confirmations</p>
+</section>
+<section class="rpd-mini-panel power">
+<div><p>Power</p><h5>ON</h5></div><strong>Plug online</strong>
+<p>Prusa Core One Outlet · 18.3 W · updated now</p>
+<button data-rpd-power="" type="button">Safe power off</button>
+</section>
+<section class="rpd-job"><strong>No active job</strong><b>0.0%</b><i></i><div><span>Elapsed<br/>—</span><span>Remaining<br/>—</span><span>Estimated total<br/>—</span></div></section>
+<section class="rpd-temp-grid"><article><span>◆ Nozzle</span><b>19.0°C</b><small>stable</small></article><article><span>◆ Bed</span><b>17.9°C</b><small>stable</small></article><article><span>◆ Chamber</span><b>0.0°C</b><small>stable</small></article></section>
+<footer><button type="button">Home axes</button><button class="danger" type="button">Emergency stop</button><a href="#workspaces">Project details ↓</a></footer>
+</article>
+<article class="rpd-printer-card offline" data-rpd-printer="offline attention">
+<header><div><h4>Alpine</h4><small>MOONRAKER / KLIPPER · updated 9.5s ago</small></div><span class="rpd-state offline">◆ DISCONNECTED</span></header>
+<div class="rpd-camera empty"><span>Loading camera snapshot…</span></div>
+<section class="rpd-mini-panel detection"><div><p>Part detection</p><h5>Detection offline</h5></div><button aria-pressed="true" class="rpd-toggle active" type="button"><i></i></button><p>Primary camera · score 0.000 · clear ≤ 0.035 · waiting for first scan.</p></section>
+<section class="rpd-mini-panel power"><div><p>Power</p><h5>PLUG OFFLINE</h5></div><strong>Plug offline</strong><p>Alpine Outlet · last update 9s ago</p><button disabled="" type="button">Plug unavailable</button></section>
+<section class="rpd-console"><div><p>Klipper console card</p><strong>Show a movable console on the Fleet page</strong></div><button aria-pressed="true" class="rpd-toggle active" type="button"><i></i></button></section>
+<section class="rpd-alert">△ Disconnected</section>
+<section class="rpd-job"><strong>No active job</strong><b>0.0%</b><i></i><div><span>Elapsed<br/>—</span><span>Remaining<br/>—</span><span>Estimated total<br/>—</span></div></section>
+<section class="rpd-temp-grid"><article><span>◆ Nozzle</span><b>0.0°C</b><small>offline</small></article><article><span>◆ Bed</span><b>0.0°C</b><small>offline</small></article><article><span>◆ Chamber</span><b>0.0°C</b><small>offline</small></article></section>
+<footer><span>No active controls</span><a href="#workspaces">Project details ↓</a></footer>
+</article>
+<article class="rpd-printer-card offline" data-rpd-printer="offline attention">
+<header><div><h4>E3NG</h4><small>MOONRAKER / KLIPPER · updated 8.5s ago</small></div><span class="rpd-state offline">◆ DISCONNECTED</span></header>
+<div class="rpd-camera empty"><span>No camera configured</span></div>
+<section class="rpd-mini-panel detection"><div><p>Part detection</p><h5>Needs setup</h5></div><button aria-pressed="false" class="rpd-toggle" type="button"><i></i></button><p>No enabled camera is configured for part detection.</p></section>
+<section class="rpd-mini-panel power"><div><p>Power</p><h5>NOT MAPPED</h5></div><strong>Unconfigured</strong><p>No Kasa plug is mapped to this printer.</p><button disabled="" type="button">Configure in Admin</button></section>
+<section class="rpd-console"><div><p>Klipper console card</p><strong>Show a movable console on the Fleet page</strong></div><button aria-pressed="true" class="rpd-toggle active" type="button"><i></i></button></section>
+<section class="rpd-alert">△ Disconnected</section>
+<section class="rpd-job"><strong>No active job</strong><b>0.0%</b><i></i><div><span>Elapsed<br/>—</span><span>Remaining<br/>—</span><span>Estimated total<br/>—</span></div></section>
+<section class="rpd-temp-grid"><article><span>◆ Nozzle</span><b>0.0°C</b><small>offline</small></article><article><span>◆ Bed</span><b>0.0°C</b><small>offline</small></article><article><span>◆ Chamber</span><b>0.0°C</b><small>offline</small></article></section>
+<footer><span>No active controls</span><a href="#workspaces">Project details ↓</a></footer>
+</article>
+</div>
+</section>
+</div>
+</div>
+</section>
+<section class="product-stage pfc-stage real-system-stage" id="pfc">
+<div class="product-stage-copy reveal">
+<p class="eyebrow green">PFC Supervisor</p>
+<h2>Let the AI server sleep without missing scheduled work</h2>
+<p>A low-power Pi keeps wake protection, schedules, status, and recovery logic available while the main server sleeps through long idle windows.</p>
+<div class="pfc-savings-callout">
+<article><strong>13.19 kWh</strong><span>avoided over the current seven-day ledger</span></article>
+<article><strong>95.0 hours</strong><span>of observed sleep retained in history</span></article>
+<article><strong>$290.54 / yr</strong><span>current annual projection from the dashboard</span></article>
+</div>
+<p class="savings-caveat">Sleep time is observed from retained state history. Avoided energy and dollar values remain estimates until direct host metering is added.</p>
+<ul class="feature-list green-list"><li>Checks active workloads and safety rules before suspend</li><li>Keeps Hermes schedules cached on the low-power Pi</li><li>Tracks observed sleep beside estimated energy savings</li></ul>
+<div class="system-links">
+<a class="button button-green magnetic" href="#workspaces">Open project</a>
+<a class="button button-ghost-green magnetic" href="assets/screenshots/pfc-power-management.png" rel="noreferrer" target="_blank">View the real control panel</a>
+</div>
+</div>
+<div class="demo-frame real-pfc-frame reveal" data-real-pfc-demo="">
+<aside class="rpc-sidebar">
+<div class="rpc-logo"><strong>PFC <span>CONTROL</span><br/>PLANE</strong><small>09 // PFC</small></div>
+<nav aria-label="PFC demo navigation">
+<span>Console</span>
+<button class="active" type="button">○ Overview</button><button type="button">○ Infrastructure</button><button type="button">○ Workloads</button><button type="button">○ Operations</button><button type="button">○ Administration</button><button type="button">○ Mobile</button>
+</nav>
+<div class="rpc-side-meta"><span>POWER-STATE ORCHESTRATION</span><strong>Interface</strong><div><label>Theme<select><option>Dark</option></select></label><label>Motion<select><option>System</option></select></label></div></div>
+<div class="rpc-auth"><span><i></i> Authenticated</span><strong>Yonchers</strong><small>owner</small><div><button data-rpc-sleep-side="" type="button">Sleep PFP</button><button type="button">Sign out</button></div></div>
+</aside>
+<main class="rpc-main">
+<header class="rpc-main-head">
+<div><p>POWER AUTOMATION · ENERGY LEDGER</p><h3 data-rpc-heading="">POWER MANAGEMENT</h3></div>
+<span>PFC // DISTRIBUTED OPERATIONS SURFACE</span>
+</header>
+<nav aria-label="PFC demo views" class="rpc-subtabs" role="tablist">
+<button aria-selected="true" class="active" data-rpc-tab="power" role="tab" type="button">Command Center</button>
+<button aria-selected="false" data-rpc-tab="runtime" role="tab" type="button">AI Runtime</button>
+<button aria-selected="false" data-rpc-tab="cache" role="tab" type="button">Hermes Cache</button>
+<button aria-selected="false" data-rpc-tab="safety" role="tab" type="button">Safety Matrix</button>
+</nav>
+<div class="rpc-scroll">
+<section class="rpc-view active" data-rpc-view="power">
+<div class="rpc-command-card">
+<div class="rpc-command-copy"><p>— PFP POWER COMMAND CENTER</p><h4 data-rpc-status="">Online</h4><span data-rpc-status-copy="">PFP is reachable and reporting through the power ledger.</span><div><button data-rpc-wake="" type="button">Wake PFP</button><button class="danger" data-rpc-sleep="" type="button">Sleep PFP</button><button data-rpc-policy="" type="button">Evaluate policy</button><button data-rpc-refresh="" type="button">Refresh telemetry</button></div></div>
+<div class="rpc-command-metrics">
+<article><span>Automation</span><strong class="green" data-rpc-automation="">Automatic</strong><small>blocked · wake armed · suspend armed</small></article>
+<article><span>Combined load</span><strong data-rpc-load="">154.8 W</strong><small>PFP 150.0 W estimated · Pi 4.8 W estimated</small></article>
+<article><span>Seven-day avoided</span><strong>13.19 kWh</strong><small>$4.62 net avoided · PFP avoidance 13.77 kWh</small></article>
+<article><span>Observed sleep</span><strong>95.0 h</strong><small>Pi-retained state history</small></article>
+<article><span>Next execution</span><strong class="green">9h 19m</strong><small>Evening Brief · 6:30 PM</small></article>
+<article><span>Suspend safety</span><strong class="yellow">Interlocked</strong><small>recommendation: blocked</small></article>
+</div>
+</div>
+<div class="rpc-two-col">
+<section class="rpc-panel allocation-panel"><p>— CURRENT WORKLOAD ATTRIBUTION</p><h4>Modeled PFP Power Allocation</h4><span>Current wall power is allocated with activity weights from CPU, GPU, AI, Minecraft, and Print Orchestrator telemetry.</span><div class="rpc-allocation"><article><label>Base host <b>30.0 W · 20.0%</b></label><i style="--w:20%"></i></article><article><label>AI runtime <b>93.7 W · 62.4%</b></label><i style="--w:62.4%"></i></article><article><label>Minecraft <b>0.0 W · 0.0%</b></label><i style="--w:0%"></i></article><article><label>Print control <b>14.6 W · 9.8%</b></label><i style="--w:9.8%"></i></article><article><label>Other workload <b>11.7 W · 7.8%</b></label><i style="--w:7.8%"></i></article></div></section>
+<aside class="rpc-panel blocker-panel"><p>— ACTIVE SUSPEND BLOCKERS</p><div class="rpc-code">AI runtime is active.<br/>Qwen3.6 endpoint is serving locally.<br/>GPU offload policy is required.<br/><br/>Decision: keep PFP awake until the workload clears.</div></aside>
+</div>
+<section class="rpc-panel savings-panel">
+<div class="rpc-panel-head"><div><p>— ENERGY INTELLIGENCE · 30 DAYS</p><h4>What the idle-time policy is saving</h4><span>The ledger separates actual consumption, estimated avoided energy, and the always-on baseline so the estimate is inspectable.</span></div><span class="rpc-badge yellow">● collecting</span></div>
+<div class="rpc-savings-kpis"><article><span>Average daily load</span><strong>1.33 kWh</strong></article><article><span>Average daily saved</span><strong>2.27 kWh</strong></article><article class="emphasis"><span>Projected 30-day saved</span><strong>68.23 kWh</strong><small>$23.88</small></article><article><span>Projected annual value</span><strong>$290.54</strong></article><article><span>Net efficiency</span><strong>63.2%</strong></article><article><span>Wake / sleep cycles</span><strong>45 / 45</strong></article></div>
+<div aria-label="Seven-day actual and avoided energy chart" class="rpc-energy-chart"><div class="rpc-chart-legend"><span><i class="actual"></i>Actual</span><span><i class="avoided"></i>Avoided</span><span><i class="baseline"></i>Baseline</span></div><div class="rpc-bars"><article><i class="avoided" style="--h:92%"></i><i class="actual" style="--h:12%"></i><span>Fri<small>0.314 kWh</small></span></article><article><i class="avoided" style="--h:94%"></i><i class="actual" style="--h:9%"></i><span>Sat<small>0.210 kWh</small></span></article><article><i class="avoided" style="--h:91%"></i><i class="actual" style="--h:16%"></i><span>Sun<small>0.451 kWh</small></span></article><article><i class="avoided" style="--h:62%"></i><i class="actual" style="--h:71%"></i><span>Mon<small>2.57 kWh</small></span></article><article><i class="avoided" style="--h:68%"></i><i class="actual" style="--h:64%"></i><span>Tue<small>2.29 kWh</small></span></article><article><i class="avoided" style="--h:60%"></i><i class="actual" style="--h:72%"></i><span>Wed<small>2.57 kWh</small></span></article><article><i class="avoided" style="--h:4%"></i><i class="actual" style="--h:42%"></i><span>Thu<small>1.41 kWh</small></span></article></div></div>
+<p class="rpc-caveat"><strong>Measurement note:</strong> most PFP energy is currently estimated from configured wattage baselines. A direct meter source will improve attribution and savings accuracy.</p>
+</section>
+</section>
+<section class="rpc-view" data-rpc-view="runtime" hidden="">
+<section class="rpc-panel runtime-summary"><p>— RUNTIME FLEET</p><div class="rpc-runtime-banner"><h4>2 model runtimes online</h4><span>2 systemd · 0 managed</span><strong>All Ready</strong></div></section>
+<div class="rpc-runtime-grid"><article><p>— PRIMARY ROUTE · ADOPTED SYSTEMD SERVICE</p><h4>Qwen3.6-35B-A3B-UD-Q5_K_XL</h4><span class="rpc-badge">● endpoint ready</span><dl><div><dt>Endpoint</dt><dd>local · /v1</dd></div><div><dt>Backend</dt><dd>llama.cpp GGUF</dd></div><div><dt>Context</dt><dd>196608</dd></div><div><dt>GPU layers</dt><dd>99</dd></div><div><dt>Identity source</dt><dd class="green">Live /props · authoritative</dd></div></dl></article><article><p>— AUXILIARY ROUTE · ADOPTED SYSTEMD SERVICE</p><h4>gemma-4-E4B-it-UD-Q4_K_XL</h4><span class="rpc-badge">● endpoint ready</span><dl><div><dt>Endpoint</dt><dd>local · /v1 (aux)</dd></div><div><dt>Backend</dt><dd>llama.cpp GGUF</dd></div><div><dt>Context</dt><dd>131072</dd></div><div><dt>GPU layers</dt><dd>0</dd></div><div><dt>Identity source</dt><dd class="green">Live /props · authoritative</dd></div></dl></article></div>
+<section class="rpc-panel telemetry-panel"><p>— LIVE INFERENCE ACTIVITY</p><h4>Prompt and generation telemetry</h4><span>Endpoint telemetry separates prompt processing, queued work, and generation without rescanning the model inventory.</span><div><article><strong>Qwen3.6</strong><span>Prompt 0.00 tok/s</span><span>Generation 0.00 tok/s</span><span>Idle</span></article><article><strong>Gemma E4B</strong><span>Prompt 0.00 tok/s</span><span>Generation 0.00 tok/s</span><span>Idle</span></article></div></section>
+<section class="rpc-panel recovery-panel"><p>— WAKE &amp; GPU RECOVERY</p><h4>Runtime reconciliation</h4><span>Qwen is only accepted as healthy after endpoint, process, model identity, and required Intel GPU offload checks pass.</span><div class="rpc-warning">Qwen3.6-35B-A3B-UD-Q5_K_XL: GPU offload verification is required before the runtime can be accepted.</div><div class="rpc-button-row"><button type="button">Reconcile active runtimes</button><button type="button">Prepare for suspend</button><button type="button">Restore after wake</button></div></section>
+</section>
+<section class="rpc-view" data-rpc-view="cache" hidden="">
+<section class="rpc-panel cache-panel"><div class="rpc-panel-head"><div><p>— HERMES CRON SCHEDULE CACHE</p><h4>Wake protection retained on the Pi</h4><span>Cached jobs stay visible and continue protecting scheduled execution while PFP is asleep or temporarily unreachable.</span></div><button data-rpc-cache-refresh="" type="button">Refresh cache</button></div><div class="rpc-cache-kpis"><article><span>Cache state</span><strong data-rpc-cache-state="">Fresh</strong></article><article><span>Jobs cached</span><strong>5</strong></article><article><span>Cache age</span><strong data-rpc-cache-age="">38s</strong></article><article><span>Last success</span><strong data-rpc-cache-time="">9:09:59 AM</strong></article><article><span>Source</span><strong>Hermes cron list</strong></article></div><div class="rpc-table-wrap"><table><thead><tr><th>Job</th><th>Execution</th><th>Wake dispatch</th><th>Protected until</th></tr></thead><tbody><tr><td>Evening Brief</td><td>8/13/2026, 6:30 PM</td><td>6:20 PM</td><td>6:50 PM</td></tr><tr><td>nightly-data-scan</td><td>8/14/2026, 2:00 AM</td><td>1:50 AM</td><td>2:20 AM</td></tr><tr><td>Morning Brief</td><td>8/14/2026, 7:00 AM</td><td>6:50 AM</td><td>7:20 AM</td></tr><tr><td>weekly-side-hustle-intel</td><td>8/14/2026, 7:00 AM</td><td>6:50 AM</td><td>7:20 AM</td></tr><tr><td>Monthly Deep Analysis</td><td>9/1/2026, 1:00 AM</td><td>12:50 AM</td><td>1:20 AM</td></tr></tbody></table></div></section>
+<section class="rpc-panel timeline-panel"><p>— DAILY AUTO-ON / AUTO-OFF TIMELINE</p><h4>Thursday, August 13</h4><span>Green shows observed online time. Yellow protects scheduled jobs. Dark space is eligible sleep time.</span><div class="rpc-timeline"><div class="planned"><b>Planned</b><i class="sleep"></i><i class="job"></i><i class="sleep tail"></i></div><div class="observed"><b>Observed</b><i class="online"></i><i class="sleep tail"></i></div></div><p>Planned online 0.5 h · sleep 23.5 h · projected combined 0.277 kWh including Pi 0.084 kWh · net avoided 3.32 kWh ($1.16).</p></section>
+</section>
+<section class="rpc-view" data-rpc-view="safety" hidden="">
+<section class="rpc-panel safety-panel"><div class="rpc-panel-head"><div><p>— SUSPEND DECISION ENGINE</p><h4>Subsystem Eligibility Matrix</h4><span>Unknown and stale states are explicit. With the safety default enabled, either state blocks automatic suspend.</span></div><span class="rpc-badge yellow">● blocked</span></div><div class="rpc-eligibility"><article class="eligible"><b>ELIGIBLE</b><strong>Host telemetry</strong><span>Host-state telemetry is current.</span><small>power-history</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Protected schedule</strong><span>No availability or Hermes protection interval is active.</span><small>policy</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Minimum awake period</strong><span>Minimum awake duration has elapsed.</span><small>runtime</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Automation pause</strong><span>No temporary automation pause is active.</span><small>policy</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Inhibition leases</strong><span>No active inhibition leases.</span><small>lease-store</small></article><article class="blocked"><b>BLOCKED</b><strong>PFP workload interlock</strong><span>AI runtime is active and the GPU-offload requirement is still in force.</span><small>pfp-host-control</small></article><article class="eligible"><b>ELIGIBLE</b><strong>Daily suspend-cycle limit</strong><span>Cycle budget 0/12.</span><small>runtime</small></article></div></section>
+<section class="rpc-panel advisory-panel"><p>— PREDICTIVE RECOMMENDATIONS</p><h4>Advisory Schedule Intelligence</h4><span>Recommendations come from retained wake and sleep transitions and never change policy without an explicit save.</span><div><article><strong>Common Tuesday sleep time</strong><p>PFP often becomes idle near 17:15. Review the end of that day's availability window.</p><small>41% confidence · 13 observations · advisory only</small></article><article><strong>Common Monday wake time</strong><p>PFP often wakes near 10:45. Consider an availability window starting 10 minutes earlier.</p><small>41% confidence · 13 observations · advisory only</small></article></div></section>
+</section>
+</div>
+</main>
+</div>
+</section>`;
+    el.innerHTML = DEMO_STAGES_HTML;
+    initPrintDashboard();
+    initPfcDashboard();
+  })();
 
-  // ---------------------------------------------------------------------------
-  // Portfolio filtering and project evidence dialog
-  // ---------------------------------------------------------------------------
+  /* ---- experience ---- */
+  (function experience() {
+    const tl = document.getElementById("expTimeline");
+    const edu = document.getElementById("eduPanel");
+    const sk = document.getElementById("skillsPanel");
+    if (tl) tl.innerHTML = D.experience.map((e) =>
+      `<div class="exp-item kind-${esc(e.kind)}">` +
+      `<div class="exp-role">${esc(e.role)}</div>` +
+      `<div class="exp-org">${esc(e.org)}</div>` +
+      `<div class="exp-span">${esc(e.span)}</div>` +
+      `<p class="exp-body">${esc(e.body)}</p>` +
+      `</div>`
+    ).join("");
+    if (edu) edu.innerHTML =
+      `<h4>Education</h4>` + D.education.map((e) =>
+        `<div class="edu-item"><div class="edu-school">${esc(e.school)}</div>` +
+        `<div class="edu-deg">${esc(e.deg)}</div>` +
+        `<div class="edu-meta">${esc(e.span)}${e.gpa ? " · " + esc(e.gpa) : ""}${e.cert ? " · " + esc(e.cert) : ""}</div>` +
+        `</div>`
+      ).join("");
+    if (sk) sk.innerHTML =
+      `<h4>Skills</h4>` + D.skills.map((g) =>
+        `<div class="skill-group"><div class="sg-name">${esc(g.g)}</div>` +
+        `<div class="sg-items">${esc(g.items)}</div></div>`
+      ).join("");
+  })();
 
-  const projectData = {
-    'print-orchestrator': {
-      kicker: 'Fleet operations software · Working lab system',
-      title: 'Print Orchestrator',
-      image: 'assets/screenshots/print-orchestrator-dashboard-v6.png',
-      alt: 'Print Orchestrator fleet dashboard showing three printers and their independent machine states',
-      summary: 'I built this dashboard because checking separate printer interfaces was slow and made it harder to see the full state of the lab. It combines PrusaLink and Moonraker/Klipper machines without hiding the differences between them.',
-      contributions: [
-        'Combined machine connectivity, temperatures, cameras, jobs, part detection, power state, files, and console access in one fleet view.',
-        'Designed each printer card around the controls and evidence that machine actually supports instead of forcing a false one-size-fits-all model.',
-        'Added plain-language offline, setup, recovery, and attention states so the operator can understand what failed and what to do next.',
-        'Connected the print-control layer to the wider Hermes and PFC environment for notifications, scheduled work, and power-aware operations.',
-      ],
-      tags: ['PrusaLink', 'Moonraker', 'Klipper', 'fleet UI', 'part detection', 'camera monitoring', 'power control', 'recovery'],
-      page: 'projects/print-orchestrator/',
-    },
-    'pfc-supervisor': {
-      kicker: 'Power and runtime orchestration · Working lab system',
-      title: 'PFC Supervisor',
-      image: 'assets/screenshots/pfc-power-management-v6.png',
-      alt: 'PFC Supervisor power management dashboard with energy and sleep metrics',
-      summary: 'PFC lets the main compute server sleep through long idle periods while a low-power Pi keeps schedules, wake protection, and operator visibility alive. The current seven-day ledger estimates 13.19 kWh avoided and records 95 hours of sleep.',
-      contributions: [
-        'Built an interlocked sleep/wake policy that checks active AI, Minecraft, print-control, scheduled, and background work before suspending the server.',
-        'Kept Hermes schedule data cached on the Pi so scheduled jobs remain visible and can wake the server before execution.',
-        'Added an energy ledger that separates current load, estimated avoided energy, observed sleep, and long-term projections with visible measurement caveats.',
-        'Created runtime reconciliation and eligibility views so a blocked or accepted decision is explained instead of appearing as a black-box automation action.',
-      ],
-      tags: ['power automation', 'systemd', 'Hermes', 'sleep/wake', 'energy ledger', 'local AI', 'safety interlocks', 'auditability'],
-      page: 'projects/pfc-supervisor/',
-    },
-    'ai-server': {
-      page: 'projects/ai-server/',
-      kicker: 'Local AI infrastructure · Active engineering program',
-      title: 'B70 engineering server',
-      image: 'assets/images/ai-img-8931.jpg',
-      alt: 'Custom orange and black B70 local AI server with integrated status display',
-      summary: 'A custom local-AI platform built to run private engineering assistants, benchmark model configurations, support manager/worker workflows, and serve as infrastructure for printer and power-control projects.',
-      contributions: [
-        'Integrated the B70 platform into a purpose-built enclosure with an operator-facing display and serviceable internal layout.',
-        'Benchmarked dense and mixture-of-experts models using measured generation and prompt-processing results instead of relying on vendor claims.',
-        'Developed role-specific evaluation criteria for supervision, coding, shell/tool use, debugging, preservation, recovery, and verification.',
-        'Connected local inference work to practical software systems including Print Orchestrator, PFC Supervisor, and engineering automation workflows.',
-      ],
-      tags: ['B70 GPU', 'Linux', 'llama.cpp', 'local inference', 'benchmarking', 'model evaluation', 'web UI', 'systems integration'],
-    },
-    e3ng: {
-      page: 'projects/e3ng/',
-      kicker: 'Motion systems · Custom machine conversion',
-      title: 'E3NG CoreXY platform',
-      image: 'assets/images/e3ng-img-7200-1.jpg',
-      alt: 'Completed E3NG CoreXY printer conversion and motion platform',
-      summary: 'An Ender 3 Pro transformed into a custom CoreXY motion-control platform, combining mechanical redesign, electronics integration, Klipper configuration, networked toolhead troubleshooting, and calibration for engineering materials.',
-      contributions: [
-        'Built and aligned the CoreXY frame, belt path, gantry, toolhead package, bed system, and custom mechanical interfaces.',
-        'Integrated an SKR Mini E3 V3, Raspberry Pi, U2C/CAN-style interface, sensors, camera, and toolhead electronics.',
-        'Debugged Linux networking and CAN communication while migrating the machine into a reliable Klipper/Mainsail workflow.',
-        'Completed input-shaper, bed-mesh, thermal, extrusion, homing, and repeatability tuning as a commissioning process.',
-      ],
-      tags: ['CoreXY', 'Klipper', 'CAN', 'Mainsail', 'SKR Mini E3 V3', 'Raspberry Pi', 'input shaper', 'commissioning'],
-    },
-    voron: {
-      page: 'projects/voron-systems/',
-      kicker: 'Rapid prototyping · Automated workcells',
-      title: 'Voron-class print systems',
-      image: 'assets/images/voron-img-6388-1.jpg',
-      alt: 'Voron toolhead and hotend components during machine integration',
-      summary: 'Large-format enclosed printers built, maintained, tuned, and used as practical automated workcells for functional components, technical materials, rapid iteration, and repeatable production workflows.',
-      contributions: [
-        'Applied precision assembly practices to frame squareness, gantry alignment, belt tension, Z synchronization, and thermal behavior.',
-        'Integrated and serviced toolheads, electronics bays, cameras, probes, hotends, and custom printed components.',
-        'Created reliable profiles and maintenance routines for ASA and other engineering-focused materials.',
-        'Used failure evidence to isolate mechanical drag, wiring faults, thermal instability, firmware issues, slicing errors, and material problems.',
-      ],
-      tags: ['Voron 2.4', 'CoreXY', 'ASA', 'toolheads', 'thermal management', 'calibration', 'maintenance', 'rapid prototyping'],
-    },
-    metuned: {
-      page: 'projects/metuned/',
-      kicker: 'Product development · Co-founder / Chief Design Officer',
-      title: 'Metuned digital dash',
-      image: 'assets/images/metuned-copy-of-proto-4-1.jpg',
-      alt: 'Metuned digital dashboard prototype with enclosure and electronics packaging',
-      summary: 'A motorsports electronics concept developed from a real endurance-racing instrumentation problem into an affordable, customizable dashboard with prototype enclosure, electronics packaging, cooling, branding, and product-facing communication.',
-      contributions: [
-        'Translated driver and race-team pain points into product requirements for visibility, service access, cooling, packaging, and mounting.',
-        'Developed CAD concepts and 3D-printed enclosure iterations around PCB fitment and practical vehicle constraints.',
-        'Helped establish the product identity, panel graphics, technical narrative, and evidence used for outreach and fundraising.',
-        'Connected trackside experience to manufacturable product decisions rather than treating the enclosure as a purely visual exercise.',
-      ],
-      tags: ['product design', 'CAD', '3D printing', 'PCB packaging', 'cooling', 'motorsports', 'branding', 'design iteration'],
-    },
-    motorsports: {
-      page: 'projects/motorsports/',
-      kicker: 'Leadership · Race operations · Fabrication',
-      title: 'Sierra College Motorsports',
-      image: 'assets/images/motorsports-img-5023-2.jpg',
-      alt: 'Sierra College motorsports Mini Cooper race-car project and student team',
-      summary: 'A student motorsports program developed through team leadership, community events, sponsorship outreach, race preparation, hands-on repair, and trackside problem solving around the “Notta Miata” Mini Cooper.',
-      contributions: [
-        'Progressed from treasurer to vice president to president while coordinating planning, funding, recruitment, safety, and race execution.',
-        'Helped turn a low-cost Mini Cooper into a running race project through engine work, brackets, panels, mounts, welding support, and field repairs.',
-        'Organized Cars & Coffee events that created community visibility and a self-funding pipeline for the club.',
-        'Worked under budget, deadline, packaging, serviceability, and reliability constraints where solutions had to function in the real world.',
-      ],
-      tags: ['team leadership', '24 Hours of Lemons', 'fabrication', 'engine systems', 'sponsorship', 'events', 'trackside repair', 'safety'],
-    },
-    espresso: {
-      page: 'projects/espresso-machine/',
-      kicker: 'ME190 senior design · Industry-sponsored milestone',
-      title: 'Hybrid hand-actuated espresso machine',
-      image: 'assets/images/espresso-group1-standing.jpg',
-      alt: 'ME190 senior design team with hybrid hand-actuated espresso machine project',
-      summary: 'A compact senior-design machine targeting a double espresso shot at approximately 9 bar, 2 oz ±10%, and a 25–30 second pull, with manual force generation supported by heating, sensing, pumping, and control-system integration.',
-      contributions: [
-        'Supported electrical fundamentals, efficiency constraints, wattage calculations, controls planning, and mechanical/electrical integration.',
-        'Developed project evidence through prototype work, poster presentation, drawing packages, bills of materials, testing plans, and technical documentation.',
-        'The team recently secured a SendCutSend sponsorship worth $750 in store credit plus merchandise for project fabrication and visibility.',
-        'Balanced pressure, volume, timing, envelope, heat, safety, serviceability, and manufacturability as a coupled system rather than isolated parts.',
-      ],
-      tags: ['senior design', '9 bar target', 'controls', 'thermal systems', 'CAD', 'drawing package', 'SendCutSend', '$750 sponsorship'],
-    },
-    uei: {
-      page: 'projects/uei-lab/',
-      kicker: 'Professional test engineering · Standards-driven work',
-      title: 'UEI / Sacramento State lab',
-      image: 'assets/images/uei-img-8870.jpg',
-      alt: 'Instrumentation and controlled airflow test environment at Sacramento State laboratory',
-      summary: 'Laboratory work supporting California Energy Commission-related appliance auditing, residential fan airflow/CFM evaluation, controlled test environments, instrumentation setup, repeatability, and technical documentation.',
-      contributions: [
-        'Helped construct and maintain an approximately 8-foot-cube room and associated setup for HVI 916-style whole-house fan testing.',
-        'Configured tubing, pressure and flow measurement hardware, wet/dry-bulb readings, thermocouples, data logging, and related instrumentation.',
-        'Supported portable-spa and food-heater energy-efficiency testing in controlled thermal environments.',
-        'Collected and documented evidence used to compare measured performance against standards and advertised values.',
-      ],
-      tags: ['CFM testing', 'HVI 916 exposure', 'instrumentation', 'data acquisition', 'thermocouples', 'CEC', 'lab safety', 'documentation'],
-    },
-    robotics: {
-      page: 'projects/abb-rexroth/',
-      kicker: 'Industrial robotics coursework · Hands-on laboratory exposure',
-      title: 'ABB / Rexroth systems',
-      image: 'assets/images/me165-image-111.jpg',
-      alt: 'ABB industrial robot and Rexroth controller platform in a university laboratory',
-      summary: 'ME165 coursework connecting controls concepts to industrial ABB robot hardware and Rexroth controller platforms through supervised, safety-aware lab work and technical documentation.',
-      contributions: [
-        'Worked around industrial robot hardware, controller interfaces, emergency-stop systems, I/O, cabling, and supervised setup procedures.',
-        'Connected motion and control concepts to real equipment states, faults, interfaces, and operator safety expectations.',
-        'Practiced disciplined setup, observation, troubleshooting, and documentation rather than overstating coursework as production ownership.',
-        'Built relevant familiarity for automation-support, commissioning, maintenance, and controls-adjacent engineering roles.',
-      ],
-      tags: ['ABB robotics', 'Rexroth', 'controllers', 'E-stop', 'I/O', 'automation', 'fault isolation', 'lab safety'],
-    },
-    manufacturing: {
-      page: 'projects/makerspace-manufacturing/',
-      kicker: 'Manufacturing support · Equipment and operator workflows',
-      title: 'Makerspace & equipment work',
-      image: 'assets/images/manufacturing-img-8774.jpg',
-      alt: 'Fabricated test fixture and controlled manufacturing or laboratory setup',
-      summary: 'Hands-on experience spanning makerspace technical support, CAD/CAM, additive manufacturing, CNC routing, laser systems, woodworking tools, shop safety, user training, production support, deburr, and packaging.',
-      contributions: [
-        'Supported users and equipment across 3D printers, CNC routers, lasers, woodworking, embroidery, vinyl, and related shop workflows.',
-        'Converted designs into practical machine setups while considering material, fixturing, tool access, safety, and repeatability.',
-        'Built documentation and training habits that improve safe operation, equipment uptime, and successful handoff to other users.',
-        'Connected design work to the realities of finishing, inspection, deburr, packaging, and production support.',
-      ],
-      tags: ['CAD/CAM', 'CNC routing', 'laser cutting', '3D printing', 'shop safety', 'training', 'deburr', 'equipment uptime'],
-    },
-  };
-
-  const filterButtons = $$('[data-project-filter]');
-  const projectCards = $$('[data-project]');
-  const projectDialog = $('#projectDialog');
-  const dialogClose = $('[data-dialog-close]', projectDialog || doc);
-
-  filterButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const filter = button.dataset.projectFilter;
-      filterButtons.forEach((peer) => peer.classList.toggle('active', peer === button));
-      projectCards.forEach((card) => {
-        const categories = (card.dataset.category || '').split(/\s+/);
-        card.hidden = filter !== 'all' && !categories.includes(filter);
-      });
+  /* ---- lightbox (also covers dossier gallery via .doss-lb) ---- */
+  (function lightbox() {
+    const lb = document.createElement("div");
+    lb.className = "lightbox";
+    lb.innerHTML = `<button class="lb-close" aria-label="Close">×</button><img alt=""><div class="lb-cap"></div>`;
+    document.body.appendChild(lb);
+    const img = lb.querySelector("img");
+    const cap = lb.querySelector(".lb-cap");
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest("a[href^='assets/']");
+      if (!a) return;
+      e.preventDefault();
+      img.src = a.getAttribute("href");
+      cap.textContent = a.dataset.cap || "";
+      lb.classList.add("open");
+      document.body.style.overflow = "hidden";
     });
+    function close() { lb.classList.remove("open"); document.body.style.overflow = ""; }
+    lb.querySelector(".lb-close").addEventListener("click", close);
+    lb.addEventListener("click", (e) => { if (e.target === lb) close(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  })();
+
+  /* ---- tab switching (workspaces + dossiers) ---- */
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".tab-btn");
+    if (!btn) return;
+    const bar = btn.closest(".tab-bar");
+    const scope = bar.closest(".ws-body, .dossier-body");
+    if (!scope) return;
+    const id = btn.dataset.tab;
+    bar.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === id));
+    scope.querySelectorAll(":scope .tab-panels > .tab-panel").forEach((p) =>
+      p.classList.toggle("active", p.dataset.tab === id)
+    );
   });
 
-  function openProjectDialog(projectId) {
-    const data = projectData[projectId];
-    if (!data || !projectDialog) return;
-
-    const image = $('[data-dialog-image]', projectDialog);
-    const kicker = $('[data-dialog-kicker]', projectDialog);
-    const title = $('[data-dialog-title]', projectDialog);
-    const summary = $('[data-dialog-summary]', projectDialog);
-    const contributions = $('[data-dialog-contributions]', projectDialog);
-    const tags = $('[data-dialog-tags]', projectDialog);
-    const pageLink = $('[data-dialog-page]', projectDialog);
-
-    if (image) {
-      image.src = data.image;
-      image.alt = data.alt;
+  /* ---- scroll reveal (respects reduced-motion) ---- */
+  (function reveal() {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const items = document.querySelectorAll(".reveal");
+    if (reduce || typeof window.IntersectionObserver !== "function") {
+      items.forEach((i) => i.classList.add("in"));
+      return;
     }
-    if (kicker) kicker.textContent = data.kicker;
-    if (title) title.textContent = data.title;
-    if (summary) summary.textContent = data.summary;
-    if (contributions) {
-      contributions.replaceChildren(...data.contributions.map((text) => {
-        const item = doc.createElement('li');
-        item.textContent = text;
-        return item;
-      }));
-    }
-    if (tags) {
-      tags.replaceChildren(...data.tags.map((text) => {
-        const tag = doc.createElement('span');
-        tag.textContent = text;
-        return tag;
-      }));
-    }
-    if (pageLink) {
-      pageLink.href = data.page || '#portfolio';
-      pageLink.hidden = !data.page;
-    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    items.forEach((i) => io.observe(i));
+  })();
 
-    try {
-      projectDialog.showModal();
-    } catch (_error) {
-      projectDialog.setAttribute('open', '');
-    }
-    root.style.overflow = 'hidden';
-  }
-
-  function closeProjectDialog() {
-    if (!projectDialog) return;
-    if (projectDialog.open) projectDialog.close();
-    else projectDialog.removeAttribute('open');
-    root.style.overflow = '';
-  }
-
-  projectCards.forEach((card) => {
-    $('button', card)?.addEventListener('click', () => openProjectDialog(card.dataset.project));
-  });
-
-  dialogClose?.addEventListener('click', closeProjectDialog);
-  projectDialog?.addEventListener('click', (event) => {
-    if (event.target === projectDialog) closeProjectDialog();
-  });
-  projectDialog?.addEventListener('close', () => { root.style.overflow = ''; });
-
-  doc.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && projectDialog?.open) closeProjectDialog();
-  });
+  /* ---- footer year ---- */
+  const y = document.getElementById("footYear");
+  if (y) y.textContent = new Date().getFullYear();
 })();
