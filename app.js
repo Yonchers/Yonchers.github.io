@@ -312,12 +312,23 @@
     ).join("");
     const drFindings = dr.findings.map((f) => `<li>${esc(f)}</li>`).join("");
 
-    const prod = D.benchmarks.prod;
-    const prodRows = prod.rows.map((r) =>
-      `<div class="k">${esc(r.k)}</div><div class="v">${esc(r.v)}</div>`
+    const vllm = D.benchmarks.vllm;
+    const vllmRows = vllm.rows.map((r) =>
+      `<tr><td class="model">${esc(r[0])}</td><td class="mono">${esc(r[1])}</td>` +
+      `<td class="mono num">${r[2] == null ? "—" : fmt2(r[2])}</td>` +
+      `<td class="muted">${esc(r[3])}</td></tr>`
     ).join("");
+    const vllmKv = vllm.kv.map((r) => `<div class="k">${esc(r.k)}</div><div class="v">${esc(r.v)}</div>`).join("");
+    const vllmFindings = vllm.findings.map((f) => `<li>${esc(f)}</li>`).join("");
 
     el.innerHTML =
+      `<div class="panel bench reveal" style="border-color:var(--acid)"><div class="bench-head"><h3>${esc(vllm.title)}</h3><span class="run-id">${esc(vllm.run)}</span></div>` +
+      `<p class="bench-sub">${esc(vllm.sub)}</p>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${vllm.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
+      `<tbody>${vllmRows}</tbody></table></div>` +
+      `<div class="bench-kv">${vllmKv}</div>` +
+      `<ul class="findings">${vllmFindings}</ul></div>` +
+
       `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(lib.title)}</h3></div>` +
       `<p class="bench-sub">${esc(lib.sub)}</p>` +
       `<div class="bench-scroll"><table class="bench-table"><thead><tr><th>Model</th><th>Role</th><th>Ctx</th><th>Note</th></tr></thead>` +
@@ -340,11 +351,7 @@
       `<p class="bench-sub">${esc(dr.sub)}</p>` +
       `<div class="bench-scroll"><table class="bench-table"><thead><tr>${dr.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
       `<tbody>${drRows}</tbody></table></div>` +
-      `<ul class="findings">${drFindings}</ul></div>` +
-
-      `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(prod.title)}</h3></div>` +
-      `<p class="bench-sub">${esc(prod.sub)}</p>` +
-      `<div class="bench-kv">${prodRows}</div></div>`;
+      `<ul class="findings">${drFindings}</ul></div>`;
   })();
 
   /* ---- interactive helpers (ported from validated V5) ---- */

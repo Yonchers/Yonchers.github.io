@@ -141,8 +141,8 @@ const PORTFOLIO = (window.PORTFOLIO = {
       accent: "violet",
       facts: [
         { k: "Runtime", v: "Hermes Agent · local models (Qwen/Gemma)" },
-        { k: "Model", v: "Qwen3.8-27B Q6_K · native vision (mmproj F16)" },
-        { k: "Network", v: "local worker endpoint (/v1) · Tailscale" },
+        { k: "Model", v: "Qwen 3.8-27B · GPTQ-INT4 G128 + MTP4 (vLLM XPU)" },
+        { k: "Network", v: "local worker endpoint (/v1 on :11436) · Tailscale" },
         { k: "Review model", v: "human-reviewed drafts · no silent auto-send" },
         { k: "Workflows", v: "email triage · minutes · translation · research" },
         { k: "Print", v: "slicer prep · job scheduling · status monitoring" },
@@ -159,7 +159,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
       shotNote: "",
       noPhotos: true,
       whatIs: [
-        { h: "What Hermes is", p: "Hermes Agent (by Nous Research) is a local-first AI agent framework: a gateway that connects channels (Discord, CLI, web) to a model runtime, with tools for terminal, files, browser, memory, scheduled jobs, and skills. On the B70 it runs against a local llama.cpp worker endpoint (/v1) serving Qwen3.8-27B Q6_K with a native-vision projector — so the agent's entire context, drafts, and tool calls never leave the tailnet." },
+        { h: "What Hermes is", p: "Hermes Agent (by Nous Research) is a local-first AI agent framework: a gateway that connects channels (Discord, CLI, web) to a model runtime, with tools for terminal, files, browser, memory, scheduled jobs, and skills. On the B70 it runs against a local vLLM XPU worker endpoint (/v1 on :11436) serving Qwen 3.8-27B (GPTQ-INT4 G128 + MTP4, with the tool-call and reasoning parsers it needs) — so the agent's entire context, drafts, and tool calls never leave the tailnet." },
         { h: "Why it matters here", p: "This portfolio was built by the system it describes. Hermes (running on the B70, over Discord) inventories the packet of project assets, extracts the real benchmark figures, curates the photos, and patches this site — while a human reviews every step. It is the 'agent layer' node in the systems map, and it is the most-used workflow I run." },
       ],
       howIUse: [
@@ -181,8 +181,8 @@ const PORTFOLIO = (window.PORTFOLIO = {
     {
       id: "b70", name: "B70 AI Automation Server", cat: "SELF-HOSTED INFRA · HERO", accent: "acid",
       role: "Designed, built & run the whole stack",
-      blurb: "The flagship: a self-hosted AI automation server on enterprise hardware (Intel Arc Pro B70, Ryzen 7 5700X) in a custom 3D-printed orange chassis — Fedora 44, llama.cpp, Qwen/Gemma models, Tailscale, and the Hermes agent layer. 100% local, 100% private.",
-      facts: ["Intel Arc Pro B70 (Battlemage G31) · SYCL", "Ryzen 7 5700X · B550M Pro SE", "custom 3D-printed chassis", "Fedora 44 · llama.cpp 10369", "Qwen3.8-27B + Gemma family", "Tailscale tailnet · Hermes agents"],
+      blurb: "The flagship: a self-hosted AI automation server on enterprise hardware (Intel Arc Pro B70, Ryzen 7 5700X) in a custom 3D-printed orange chassis — Fedora 44, vLLM XPU + llama.cpp, Qwen/Gemma models, Tailscale, and the Hermes agent layer. 100% local, 100% private.",
+      facts: ["Intel Arc Pro B70 (Battlemage G31) · SYCL", "Ryzen 7 5700X · B550M Pro SE", "custom 3D-printed chassis", "Fedora 44 · vLLM XPU 0.27.2 + llama.cpp", "Qwen3.8-27B primary + Gemma family", "Tailscale tailnet · Hermes agents"],
       shots: [
         { id: "pfp-host-physical", cap: "The B70 in its 3D-printed orange chassis — the server behind every system on this page" },
         { id: "pfp-host-open",     cap: "Interior: Arc Pro B70, Ryzen 7 5700X, and the PSU in the printed case" },
@@ -191,12 +191,13 @@ const PORTFOLIO = (window.PORTFOLIO = {
       ],
       featured: true,
       docs: [
-        { h: "The machine", p: "The B70 is a self-hosted AI automation server on enterprise hardware: Intel Arc Pro B70 (Battlemage G31) under an IntelLLVM 2026.1.1 / SYCL toolchain, an AMD Ryzen 7 5700X, on a B550M Pro SE board. It runs Fedora 44 and serves the entire local stack — llama.cpp inference (local /v1 worker endpoint), the Hermes agent layer, the Print Orchestrator, and the Hermes dashboard — all on one host, all private." },
+        { h: "The machine", p: "The B70 is a self-hosted AI automation server on enterprise hardware: Intel Arc Pro B70 (Battlemage G31) under an IntelLLVM 2026.1.1 / SYCL toolchain, an AMD Ryzen 7 5700X, on a B550M Pro SE board. It runs Fedora 44 and serves the entire local stack — vLLM XPU inference for the primary model (plus a llama.cpp endpoint for the rest of the model library), the Hermes agent layer, the Print Orchestrator, and the Hermes dashboard — all on one host, all private." },
         { h: "The chassis", p: "The enclosure is custom: a 3D-printed orange case (honeycomb top plate, integrated display window, vented front) printed on the Core One that the same server orchestrates. The server that prints its own housing and then watches it print is the point — the whole loop is local." },
-        { h: "The runtime", p: "Models are served by a llama.cpp build (10369, SYCL, ngl 99) with the primary production model — Qwen3.8-27B Q6_K — running with a native-vision F16 projector (885 MB, --no-mmproj-offload keeps the projector on CPU). The benchmark section below is the measured output of this exact machine: 19.92 t/s native generation on the 27B, and up to 1.55x faster with the tuned MTP draft." },
+        { h: "The runtime", p: "The primary model — Qwen 3.8-27B — is now served by vLLM XPU (0.27.2rc1, pinned openai-xpu image) in a Podman container on port 11436: GPTQ-INT4 (symmetric, G128) weights with the MTP draft head preserved in BF16, MTP4 speculative decoding, 160k context, FP8 KV cache, XPU graph engine. It runs 84.65 tok/s short-context decode versus 19.92 t/s for llama.cpp (and still ~51.5 t/s at 80K cold context) — the benchmark section below opens with this configuration and its reference recipe, then shows the llama.cpp history (llama-bench + MTP sweeps) that the switch replaced. llama.cpp 10369 (SYCL, ngl 99) stays on the machine for the rest of the model library." },
         { h: "Network", p: "Tailscale (tailnet 'yonchers.github') connects pfp-server to the fedora client and remote devices. Firewalled by default; individual ports (9119 dashboard, 8090 orchestrator, 8098 portfolio) get explicit firewall-cmd rules. The portfolio you're reading is served by a systemd user service (port 8098) that survives reboots via linger." },
       ],
       links: [
+        { label: "B70 Qwen3.8-27B vLLM XPU (main reference)", url: "https://github.com/MikeCaldera/intel-arc-pro-b70-qwen38-vllm" },
         { label: "llama.cpp", url: "https://github.com/ggml-org/llama.cpp" },
         { label: "Tailscale", url: "https://tailscale.com" },
         { label: "Hermes Agent — Nous Research", url: "https://github.com/NousResearch/hermes-agent" },
@@ -384,7 +385,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
     },
   ],
 
-  /* ---- In progress (active next-phase work — not shipped yet) ---- */
+  /* ---- In progress (things in progress, documentation soon) ---- */
   inprogress: [
     {
       id: "e3ng-48v", name: "E3NG Continuation", cat: "3D PRINT · 48V REBUILD", accent: "acid", status: "IN BUILD",
@@ -422,11 +423,12 @@ const PORTFOLIO = (window.PORTFOLIO = {
   benchmarks: {
     library: {
       title: "Local LLM Library",
-      sub: "Models resident on the B70 — llama.cpp 10369 (SYCL, ngl 99), Q6_K / Q4_K_XL / Q5_K quants, native vision where available.",
+      sub: "Two runtimes on the B70: vLLM XPU (primary — Qwen 3.8-27B) and llama.cpp 10369 (SYCL, ngl 99) serving the Q6_K / Q4_K_XL / Q5_K library.",
       rows: [
-        { model: "Qwen3.8-27B Q6_K", role: "primary · native vision (mmproj F16)", ctx: "192k", note: "local /v1 worker endpoint" },
-        { model: "Qwen3.6-35B-A3B",  role: "MoE · fastest decode in library",   ctx: "128k", note: "current session model" },
-        { model: "Gemma-4 family",   role: "E2B→31B · MTP sweep targets",       ctx: "8k",   note: "best MTP accept: 31B n2 81.44%" },
+        { model: "Qwen3.8-27B vLLM XPU", role: "primary · GPTQ-Int4 sym G128 + MTP4", ctx: "160k", note: "local /v1 · :11436 · 84.65 t/s MTP4" },
+        { model: "Qwen3.8-27B Q6_K",     role: "llama.cpp 192k · native vision",      ctx: "192k", note: "historical primary · 19.92 t/s native" },
+        { model: "Qwen3.6-35B-A3B",      role: "MoE · fastest llama.cpp decode",      ctx: "128k", note: "llama-bench sweep subject" },
+        { model: "Gemma-4 family",       role: "llama.cpp · MTP sweep targets",       ctx: "8k",   note: "best MTP accept: 31B n2 81.44%" },
       ],
     },
     native: {
@@ -451,7 +453,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
       failed: "HyperCLOVAX-SEED-Think-32B Q4_K_M — failed to load (2 s, no table emitted).",
       findings: [
         "MoE wins decode: the three Qwen3.6-35B-A3B quants all sustain 72–78 t/s generation at ~24 GB — the library's fastest decode.",
-        "Qwen3.8-27B Q6_K (the production model) sits at 19.92 t/s native — which is exactly why the MTP-draft work below matters.",
+        "Qwen3.8-27B Q6_K (llama.cpp, historical primary) sat at 19.92 t/s native — the vLLM XPU MTP4 recipe above (84.65 t/s short-context decode) is what replaced it as the serving primary.",
         "Small models are embarrassingly fast on the B70: 0.8B does 202.8 t/s; even the 31B dense Gemma holds 22.6 t/s.",
       ],
     },
@@ -522,17 +524,30 @@ const PORTFOLIO = (window.PORTFOLIO = {
         "Regression on record: one late n3 p0.70 OSL4096 run dropped to 19.63 t/s — flagged and left in the raw data, not smoothed away.",
       ],
     },
-    prod: {
-      title: "Production Serving Profile",
-      sub: "The live serving configuration for the resident production model on the B70.",
+    vllm: {
+      title: "vLLM XPU — Qwen 3.8-27B (current primary)",
+      run: "reference recipe · p512/g128 C1",
+      sub: "Current primary serving configuration. Main reference: MikeCaldera/intel-arc-pro-b70-qwen38-vllm (B70 + Qwen3.8-27B vLLM XPU, GPTQ INT4 G128 + MTP4), run here with internal tweaks — Podman deployment, --no-enable-prefix-caching, 2048-token batch budget, tool-call/reasoning parsers for the Hermes agent layer. All figures medians (n=5) unless noted; 230 W GPU cap.",
+      cols: ["workload", "prompt / gen tokens", "decode tok/s", "note"],
       rows: [
-        { k: "endpoint",   v: "local /v1 worker endpoint" },
-        { k: "model",      v: "Qwen3.8-27B Q6_K (+ optimized MTP draft in active profile)" },
-        { k: "vision",     v: "native · mmproj F16 (885 MB)" },
-        { k: "offload",    v: "--no-mmproj-offload (projector on CPU)" },
-        { k: "context",    v: "192k" },
-        { k: "runtime",    v: "llama.cpp 10369 · SYCL · IntelLLVM 2026.1.1" },
-        { k: "network",    v: "local to B70 · Tailscale for remote" },
+        ["MTP4 short-context validation (p512/g128)", "512 / 128", 84.65, "median · mean 84.49 · min/max 83.73–84.78 · TTFT 0.36 s"],
+        ["MTP4 context scaling", "512 → 120k", null, "81.24 → 73.30 → 74.76 → 68.34 → 66.11 → 50.31 t/s across 512/8k/16k/32k/65k/120k prompts"],
+        ["MTP2 cold 80K context", "80,000 / 128", 51.5, "6/6 PASS · ~96.6% MTP acceptance · TTFT ~81.5 s"],
+        ["160K MTP2 retest (compute-runtime 26.31)", "160,000 / 128", null, "3 consecutive full passes · ~245 s each · 5.93 GiB KV cache at 166,854 tokens"],
+        ["Cold prefill input rate (mtp4)", "2k–8k / 1", null, "1,795 → 1,728 tok/s (p2048→p8192) — ~1.7k tok/s input processing"],
+      ],
+      kv: [
+        { k: "endpoint",  v: "local /v1 on :11436 · served model 'ludicrous-qwen38' · Tailscale for remote" },
+        { k: "model",     v: "Qwen3.8-27B GPTQ-INT4 (sym, G128, desc_act off) · MTP draft head kept BF16 · 5× ~4 GB shards" },
+        { k: "runtime",   v: "vLLM 0.27.2rc1.dev77+gac7509e2b · Intel XPU kernels 0.1.12.3 · compute-runtime 26.31 · 'xe' driver" },
+        { k: "config",    v: "MTP4 speculation (4 draft tokens) · 160k max context · FP8 KV cache · gpu-mem 0.90 · max-num-seqs 1 · batch 2048 · no prefix caching · XPU graph on" },
+        { k: "host",      v: "reference measured on the recipe's XPS 8940 B70 system (i7-11700, 230 W cap); this build runs the same config class on the PFC's Arc Pro B70 (Ryzen 7 5700X)" },
+      ],
+      findings: [
+        "84.65 t/s short-context decode (mean 84.49, min/max 83.73–84.78, n=5) vs 19.92 t/s for the llama.cpp Q6_K profile — ~4.2x the historical primary.",
+        "Decode degrades gracefully with context: still ~50–66 t/s at 65–120K prompt tokens, ~51.5 t/s at 80K cold MTP2 — long sessions stay usable instead of collapsing.",
+        "MTP4 acceptance runs high (92–98% on the Pi prompt set, ~96.6% at 80K) — the BF16 draft head is doing its job.",
+        "Internal tweaks vs the reference recipe: Podman instead of Docker/Portainer, prefix caching explicitly off, 2048-token batch budget (vs 8192), plus tool-call and reasoning parsers wired for the Hermes agent layer.",
       ],
     },
   },
