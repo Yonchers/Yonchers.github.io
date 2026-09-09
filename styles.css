@@ -299,6 +299,31 @@ a{color:inherit;text-decoration:none}
 .proj-thumbs img:hover{transform:scale(1.05);opacity:1}
 .proj.featured .proj-thumbs{grid-template-columns:repeat(5,1fr)}
 
+/* ============ IN PROGRESS (thin cards — deliberately narrower than .proj) ============ */
+.ip-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.ip{
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel-glass);
+  transition:all .25s;position:relative;display:flex;flex-direction:column;
+}
+.ip:hover{border-color:var(--signal-line);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.4)}
+.ip-art{aspect-ratio:16/9;overflow:hidden;position:relative;background:#000}
+.ip-art img{width:100%;height:100%;object-fit:cover;display:block}
+.ip-art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(8,10,8,.7))}
+.ip-body{padding:14px 14px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;flex:1}
+.ip-top{display:flex;width:100%;justify-content:space-between;align-items:center;gap:8px}
+.ip-cat{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--muted)}
+.ip-status{font-family:var(--mono);font-size:9px;letter-spacing:.08em;padding:3px 8px;border-radius:6px;border:1px solid var(--line);white-space:nowrap}
+.ip.accent-acid .ip-status{color:var(--acid);border-color:var(--signal-line);background:var(--acid-dim)}
+.ip.accent-cyan .ip-status{color:var(--spectral-cyan);border-color:rgba(99,232,255,.3);background:var(--spectral-cyan-dim)}
+.ip.accent-violet .ip-status{color:var(--spectral-violet);border-color:rgba(170,124,255,.3);background:var(--spectral-violet-dim)}
+.ip h3{font-size:15px;font-weight:700;margin:0;line-height:1.2}
+.ip.accent-acid h3{color:var(--acid-bright)}
+.ip.accent-cyan h3{color:var(--spectral-cyan)}
+.ip.accent-violet h3{color:var(--spectral-violet)}
+.ip-blurb{font-size:11.5px;color:var(--muted);margin:0;line-height:1.5}
+.ip-facts{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:6px}
+.ip-facts span{font-family:var(--mono);font-size:9.5px;color:var(--text);padding:4px 8px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+
 /* ============ BENCHMARKS ============ */
 .bench-stack{display:flex;flex-direction:column;gap:clamp(24px,3vw,40px)}
 .bench .bench-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:8px}
@@ -486,6 +511,7 @@ a.contact-item:hover strong{color:var(--acid)}
   .about-grid{grid-template-columns:1fr}
   .bench-kv{grid-template-columns:140px 1fr}
   .dossier-panel{inset:6px}
+  .ip-grid{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:680px){
   .topnav{flex-wrap:wrap;align-content:flex-start;gap:10px 14px;padding:14px var(--pad)}
@@ -496,6 +522,7 @@ a.contact-item:hover strong{color:var(--acid)}
   .nav-cta{margin-left:auto}
   .proj-grid{grid-template-columns:1fr}
   .proj.featured{grid-column:auto}
+  .ip-grid{grid-template-columns:repeat(2,1fr)}
   .proj.featured .proj-media{aspect-ratio:16/9}
   .ws-facts{grid-template-columns:1fr}
   .power-strip{grid-template-columns:repeat(2,1fr)}

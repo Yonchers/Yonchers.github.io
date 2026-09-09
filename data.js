@@ -384,6 +384,40 @@ const PORTFOLIO = (window.PORTFOLIO = {
     },
   ],
 
+  /* ---- In progress (active next-phase work — not shipped yet) ---- */
+  inprogress: [
+    {
+      id: "e3ng-48v", name: "E3NG Continuation", cat: "3D PRINT · 48V REBUILD", accent: "acid", status: "IN BUILD",
+      blurb: "Swapping the E3NG's motors over to 48V power and upgrading the electronics to make proper use of the 5160 steppers — plus more fans and better electronics cooling, durability improvements, and a refreshed toolhead using higher-quality prints to reduce vibration from tolerance discrepancies.",
+      facts: ["48V power swap", "5160 steppers", "more fans · cooled electronics", "durability pass", "re-optimized toolhead"],
+      art: "e3ng-48v",
+    },
+    {
+      id: "sae", name: "SAE Motorsports", cat: "MOTORSPORTS · OUTREACH", accent: "cyan", status: "SEEKING TEAM",
+      blurb: "Looking to join an SAE club on campus to contribute in manufacturing, electronics, or systems — getting hands-on racecar experience before graduation.",
+      facts: ["on-campus SAE club", "manufacturing · electronics · systems"],
+      art: "sae-motorsports",
+    },
+    {
+      id: "robotics-bin", name: "Robotics Integration", cat: "AUTOMATION · LOCAL LLM", accent: "cyan", status: "CONCEPT",
+      blurb: "Looking to add robotic automation and controls to my manufacturing workflow — a conception of a CAD-to-stock-holding-bin pipeline with minimal human supervision, as a testament to local LLM capability in the open-source community.",
+      facts: ["CAD → stock bin", "minimal supervision", "local LLM showcase", "open source"],
+      art: "robotics-integration",
+    },
+    {
+      id: "me191", name: "Senior Project Finish Line", cat: "ACADEMIC · ME191", accent: "violet", status: "DUE DEC 2026",
+      blurb: "Finalizing the ME190 work in ME191 and carrying it to a complete, presentation-ready state — done by December 2026.",
+      facts: ["ME190 → ME191", "presentation complete Dec 2026"],
+      art: "senior-project",
+    },
+    {
+      id: "korean", name: "Korean, Built Locally", cat: "LANGUAGE · LOCAL APP", accent: "violet", status: "ACTIVE",
+      blurb: "Learning Korean with a locally built language app off Hermes, supported by Korean 1A at Sac State — with the goal of eventually passing TOPIK at level 4 or greater.",
+      facts: ["built locally on Hermes", "Korean 1A @ Sac State", "goal: TOPIK ≥ 4"],
+      art: "korean-learning",
+    },
+  ],
+
   /* ---- Benchmarks (real run data) ---- */
   benchmarks: {
     library: {

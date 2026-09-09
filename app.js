@@ -172,6 +172,26 @@
     }).join("");
   })();
 
+  /* ---- in progress (thin cards — active next-phase work) ---- */
+  (function inprogress() {
+    const el = document.getElementById("ipGrid");
+    if (!el) return;
+    el.innerHTML = D.inprogress.map((c) => {
+      const facts = c.facts.map((f) => `<span>${esc(f)}</span>`).join("");
+      return (
+        `<article class="ip accent-${esc(c.accent)} reveal">` +
+        `<div class="ip-art"><img src="assets/inprogress/${c.art}.svg" alt="${esc(c.name)} — geometric theme art" loading="lazy"></div>` +
+        `<div class="ip-body">` +
+        `<div class="ip-top"><span class="ip-cat">${esc(c.cat)}</span><span class="ip-status">${esc(c.status)}</span></div>` +
+        `<h3>${esc(c.name)}</h3>` +
+        `<p class="ip-blurb">${esc(c.blurb)}</p>` +
+        `<div class="ip-facts">${facts}</div>` +
+        `</div>` +
+        `</article>`
+      );
+    }).join("");
+  })();
+
   /* ---- project dossier modal ---- */
   (function dossier() {
     const wrap = document.createElement("div");
