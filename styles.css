@@ -247,7 +247,7 @@ a{color:inherit;text-decoration:none}
 .ws-scope li{font-size:13px;color:var(--muted);padding-left:20px;position:relative}
 .ws-scope li::before{content:"▸";position:absolute;left:0;color:var(--acid)}
 /* power strip (pfc) */
-.power-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+.power-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
   border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:26px}
 .ps-item{background:var(--surface-deep,#090b09);background:var(--panel-2);padding:16px}
 .ps-item b{display:block;font-family:var(--mono);font-size:clamp(16px,2vw,22px);font-weight:600;color:var(--acid);margin-bottom:4px}
