@@ -257,101 +257,103 @@
     return `<span class="tps-bar"><i style="width:${pct.toFixed(1)}%"></i></span>`;
   }
 
-  /* ---- benchmarks ---- */
+  /* ---- benchmarks (condensed: plain-English lead, deep data in appendices) ---- */
   (function benchmarks() {
     const el = document.getElementById("benchStack");
     if (!el) return;
 
-    const lib = D.benchmarks.library;
+    const B = D.benchmarks;
+    const appendix = (a) => a ? `<details class="bench-appendix"><summary>Full raw dataset — ${esc(a.note || "all runs, including the misses")}</summary><p class="appendix-body">${esc(a)}</p></details>` : "";
+    const findings = (f) => `<ul class="findings">${f.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
+
+    const sv = B.shortVersion;
+    const vllm = B.vllm;
+    const lib = B.library;
+    const nat = B.native;
+    const mtp = B.mtp;
+    const dr = B.draft;
+
+    const vllmRows = vllm.rows.map((r) =>
+      `<tr><td class="model">${esc(r[0])}</td><td class="mono muted">${esc(r[1])}</td>` +
+      `<td class="mono num">${r[2] == null ? "\u2014" : fmt2(r[2])}</td>` +
+      `<td class="muted">${esc(r[3])}</td></tr>`
+    ).join("");
+    const vllmKv = vllm.kv.map((r) => `<div class="k">${esc(r.k)}</div><div class="v">${esc(r.v)}</div>`).join("");
+
     const libRows = lib.rows.map((r) =>
       `<tr><td class="model">${esc(r.model)}</td><td>${esc(r.role)}</td><td class="mono">${esc(r.ctx)}</td><td class="muted">${esc(r.note)}</td></tr>`
     ).join("");
 
-    /* native */
-    const nat = D.benchmarks.native;
     const natMax = Math.max(...nat.rows.map((r) => r[3]));
     const natMin = Math.min(...nat.rows.map((r) => r[3]));
     const natRows = nat.rows.map((r) =>
       `<tr><td class="model">${esc(r[0])}</td><td class="mono muted">${esc(r[1])}</td>` +
       `<td class="mono">${fmt2(r[2])}</td>` +
       `<td class="mono num">${fmt2(r[3])}</td>` +
+      `<td class="muted">${esc(r[4])}</td>` +
       `<td class="bar-cell">${tpsBar(r[3], natMax, natMin)}</td></tr>`
     ).join("");
-    const natFindings = nat.findings.map((f) => `<li>${esc(f)}</li>`).join("");
 
-    /* mtp full spread */
-    const mtp = D.benchmarks.mtp;
-    // baseline decode + best decode per model
-    const baseByModel = {}, bestByModel = {};
-    mtp.rows.forEach((r) => {
-      const m = r[0];
-      if (r[1] === "baseline") baseByModel[m] = r[3];
-      else bestByModel[m] = Math.max(bestByModel[m] || 0, r[3]);
-    });
-    let lastModel = null;
-    const mtpRows = mtp.rows.map((r) => {
-      const m = r[0], mode = r[1], dec = r[3];
-      const showModel = m !== lastModel; lastModel = m;
-      const base = baseByModel[m];
-      const isBest = m !== null && bestByModel[m] === dec && dec > (base || 0);
-      const isLoss = base != null && dec < base;
-      const cls = isBest ? "win" : isLoss ? "loss" : "";
-      return `<tr class="${cls}"><td class="model">${showModel ? esc(m) : ""}</td><td class="mono">${esc(mode)}</td>` +
-        `<td class="mono">${fmt3(r[2])}</td><td class="mono num">${fmt3(dec)}</td>` +
-        `<td class="mono">${r[4] == null ? "—" : esc(r[4])}</td>` +
-        `<td class="mono ${isBest ? "win" : isLoss ? "loss" : "muted"}">${esc(r[5])}</td></tr>`;
-    }).join("");
-    const mtpFindings = mtp.findings.map((f) => `<li>${esc(f)}</li>`).join("");
+    const mtpMax = Math.max(...mtp.rows.map((r) => r[3]));
+    const mtpMin = Math.min(...mtp.rows.map((r) => r[3]));
+    const mtpRows = mtp.rows.map((r) =>
+      `<tr><td class="model">${esc(r[0])}</td><td class="mono">${esc(r[1])}</td>` +
+      `<td class="mono">${fmt2(r[2])}</td>` +
+      `<td class="mono num">${fmt2(r[3])}</td>` +
+      `<td class="mono ${r[3] > r[2] ? "win" : r[3] < r[2] ? "loss" : "muted"}">${esc(r[4])}</td>` +
+      `<td class="mono">${esc(r[5])}</td>` +
+      `<td class="bar-cell">${tpsBar(r[3], mtpMax, mtpMin)}</td></tr>`
+    ).join("");
 
-    /* draft */
-    const dr = D.benchmarks.draft;
+    const drMax = Math.max(...dr.rows.map((r) => r[3]));
+    const drMin = Math.min(...dr.rows.map((r) => r[3]));
     const drRows = dr.rows.map((r) =>
       `<tr><td class="model">${esc(r[0])}</td><td class="mono">${esc(r[1])}</td>` +
-      `<td class="mono">${fmt2(r[2])}</td><td class="mono num">${fmt2(r[3])}</td>` +
-      `<td class="mono">${esc(r[4])}</td></tr>`
+      `<td class="mono">${fmt2(r[2])}</td>` +
+      `<td class="mono num">${fmt2(r[3])}</td>` +
+      `<td class="mono">${esc(r[4])}</td>` +
+      `<td class="muted">${esc(r[5])}</td>` +
+      `<td class="bar-cell">${tpsBar(r[3], drMax, drMin)}</td></tr>`
     ).join("");
-    const drFindings = dr.findings.map((f) => `<li>${esc(f)}</li>`).join("");
-
-    const vllm = D.benchmarks.vllm;
-    const vllmRows = vllm.rows.map((r) =>
-      `<tr><td class="model">${esc(r[0])}</td><td class="mono">${esc(r[1])}</td>` +
-      `<td class="mono num">${r[2] == null ? "—" : fmt2(r[2])}</td>` +
-      `<td class="muted">${esc(r[3])}</td></tr>`
-    ).join("");
-    const vllmKv = vllm.kv.map((r) => `<div class="k">${esc(r.k)}</div><div class="v">${esc(r.v)}</div>`).join("");
-    const vllmFindings = vllm.findings.map((f) => `<li>${esc(f)}</li>`).join("");
 
     el.innerHTML =
+      `<div class="panel bench short-version reveal" style="border-color:var(--acid)"><div class="bench-head"><h3>${esc(sv.title)}</h3></div>` +
+      `<ul class="short-points">${sv.points.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` +
+
       `<div class="panel bench reveal" style="border-color:var(--acid)"><div class="bench-head"><h3>${esc(vllm.title)}</h3><span class="run-id">${esc(vllm.run)}</span></div>` +
       `<p class="bench-sub">${esc(vllm.sub)}</p>` +
       `<div class="bench-scroll"><table class="bench-table"><thead><tr>${vllm.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
       `<tbody>${vllmRows}</tbody></table></div>` +
       `<div class="bench-kv">${vllmKv}</div>` +
-      `<ul class="findings">${vllmFindings}</ul></div>` +
+      `${findings(vllm.findings)}</div>` +
 
       `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(lib.title)}</h3></div>` +
       `<p class="bench-sub">${esc(lib.sub)}</p>` +
-      `<div class="bench-scroll"><table class="bench-table"><thead><tr><th>Model</th><th>Role</th><th>Ctx</th><th>Note</th></tr></thead>` +
-      `<tbody>${libRows}</tbody></table></div></div>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr><th>Model</th><th>What it's for</th><th>Ctx</th><th>Speed</th></tr></thead>` +
+      `<tbody>${libRows}</tbody></table></div>` +
+      `${lib.appendix ? appendix(lib) : ""}</div>` +
 
       `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(nat.title)}</h3><span class="run-id">${esc(nat.run)}</span></div>` +
       `<p class="bench-sub">${esc(nat.sub)}</p>` +
       `<div class="bench-scroll"><table class="bench-table"><thead><tr>${nat.cols.map((c) => `<th>${esc(c)}</th>`).join("")}<th>gen bar</th></tr></thead>` +
       `<tbody>${natRows}</tbody></table></div>` +
-      (nat.failed ? `<p class="bench-failed">⚠ ${esc(nat.failed)}</p>` : "") +
-      `<ul class="findings">${natFindings}</ul></div>` +
+      (nat.failed ? `<p class="bench-failed">\u26a0 ${esc(nat.failed)}</p>` : "") +
+      (nat.appendix ? appendix(nat) : "") +
+      `${findings(nat.findings)}</div>` +
 
       `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(mtp.title)}</h3><span class="run-id">${esc(mtp.run)}</span></div>` +
       `<p class="bench-sub">${esc(mtp.sub)}</p>` +
-      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${mtp.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${mtp.cols.map((c) => `<th>${esc(c)}</th>`).join("")}<th>bar</th></tr></thead>` +
       `<tbody>${mtpRows}</tbody></table></div>` +
-      `<ul class="findings">${mtpFindings}</ul></div>` +
+      `${mtp.appendix ? appendix(mtp) : ""}` +
+      `${findings(mtp.findings)}</div>` +
 
       `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(dr.title)}</h3><span class="run-id">${esc(dr.run)}</span></div>` +
       `<p class="bench-sub">${esc(dr.sub)}</p>` +
-      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${dr.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${dr.cols.map((c) => `<th>${esc(c)}</th>`).join("")}<th>bar</th></tr></thead>` +
       `<tbody>${drRows}</tbody></table></div>` +
-      `<ul class="findings">${drFindings}</ul></div>`;
+      `${dr.appendix ? appendix(dr) : ""}` +
+      `${findings(dr.findings)}</div>`;
   })();
 
   /* ---- interactive helpers (ported from validated V5) ---- */
