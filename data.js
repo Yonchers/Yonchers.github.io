@@ -436,6 +436,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
     vllm: {
       title: "The main model — what it does now",
       run: "reference recipe · medians (n=5) · 230 W GPU cap",
+      maxTps: 84.65,
       sub: "Qwen 3.8-27B, served locally by vLLM XPU on the Arc Pro B70. Recipe base: MikeCaldera/intel-arc-pro-b70-qwen38-vllm, run here with internal tweaks (Podman, prefix caching off, 2048-token batch, tool-call/reasoning parsers for the agent layer).",
       cols: ["workload", "context", "gen t/s", "plain-english result"],
       rows: [
@@ -469,10 +470,10 @@ const PORTFOLIO = (window.PORTFOLIO = {
     native: {
       title: "The library, measured cold — llama-bench",
       run: "run-20260814-174625",
-      sub: "Every resident model, 512-token prompt / 128-token generation, fully on the Arc Pro B70 (ngl 99). One row per model, best quantization. The full 12-model table is in the appendix below.",
+      maxTps: 77.15,
+      sub: "Six resident models, 512-token prompt / 128-token generation, fully on the Arc Pro B70 (ngl 99), best quantization each. Bar = generation t/s on a linear axis (full scale = the 35B workhorse at 77 t/s). The 0.8B assistant runs ~3x faster and is off-scale — see the appendix.",
       cols: ["model", "size", "prompt t/s", "gen t/s", "why it matters"],
       rows: [
-        ["Qwen3.5-0.8B", "0.75 B", 14262.06, 202.79, "background assistant — answers before you finish typing"],
         ["Gemma-4-12B-it", "11.91 B", 1511.79, 49.04, "mid-size helper — summaries, quick analysis"],
         ["Gemma-4-26B-A4B", "25.23 B", 772.25, 66.89, "dense mid-size — strong general reasoning"],
         ["Qwen3.6-35B-A3B", "34.66 B", 724.97, 75.63, "fastest workhorse — MoE keeps ~75 t/s at this size"],
@@ -480,7 +481,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
         ["Qwen3.8-27B Q6_K", "27.32 B", 485.92, 19.92, "the previous main — 19.92 t/s is the baseline vLLM beat 4.2x"],
       ],
       failed: "Honest miss: HyperCLOVAX-SEED-Think-32B failed to load (2 s, no run) — reported, no number.",
-      appendix: "Full 12-model table: Qwen3.5-0.8B Q8_0 (0.75B) 14,262.06 / 202.79 · Gemma-4-E2B Q4_K_XL (4.65B) 5,315.26 / 136.58 · Gemma-4-E4B Q4_K_XL (7.52B) 3,165.46 / 88.48 · Gemma-4-12B-it Q4_K_XL (11.91B) 1,511.79 / 49.04 · Gemma-4-26B-A4B Q4_K_M (25.23B) 772.25 / 66.89 · Qwen3.6-35B-A3B Q5_K_XL (34.66B) 724.97 / 75.63 · Qwen3.6-35B-A3B Q5_K_S (35.51B) 724.90 / 72.77 · Qwen3.6-35B-A3B Q4_K_M (34.66B) 706.68 / 77.52 · Kanana-2-30B-A3B Q4_K_M (30.67B) 593.42 / 28.18 · Muse-Glimmer-30B Q5_K_XL (27.85B) 569.33 / 22.00 · Gemma-4-31B Q4_K_XL (30.70B) 427.72 / 22.62 · Qwen3.8-27B Q6_K (27.32B) 485.92 / 19.92. Columns: prompt t/s · gen t/s.",
+      appendix: "The 0.8B assistant (202.79 gen t/s, 14,262 prompt t/s) is off-scale for this chart’s linear axis — it runs ~3x the next-fastest model, which is its whole point. Full 12-model table: Qwen3.5-0.8B Q8_0 (0.75B) 14,262.06 / 202.79 · Gemma-4-E2B Q4_K_XL (4.65B) 5,315.26 / 136.58 · Gemma-4-E4B Q4_K_XL (7.52B) 3,165.46 / 88.48 · Gemma-4-12B-it Q4_K_XL (11.91B) 1,511.79 / 49.04 · Gemma-4-26B-A4B Q4_K_M (25.23B) 772.25 / 66.89 · Qwen3.6-35B-A3B Q5_K_XL (34.66B) 724.97 / 75.63 · Qwen3.6-35B-A3B Q5_K_S (35.51B) 724.90 / 72.77 · Qwen3.6-35B-A3B Q4_K_M (34.66B) 706.68 / 77.52 · Kanana-2-30B-A3B Q4_K_M (30.67B) 593.42 / 28.18 · Muse-Glimmer-30B Q5_K_XL (27.85B) 569.33 / 22.00 · Gemma-4-31B Q4_K_XL (30.70B) 427.72 / 22.62 · Qwen3.8-27B Q6_K (27.32B) 485.92 / 19.92. Columns: prompt t/s · gen t/s.",
       findings: [
         "The MoE family (Qwen3.6-35B-A3B) is the fastest big model in the library: 72–78 t/s at ~35B, because only a slice of its parameters runs per token.",
         "Small models are embarrassingly fast: the 0.8B assistant hits 202.8 t/s — that is what keeps background automation snappy.",
@@ -490,6 +491,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
     mtp: {
       title: "Drafting head — where it helps",
       run: "run-20260814-192836 · 27 runs",
+      maxTps: 93.33,
       sub: "Multi-token prediction (MTP) = a small head that drafts a few tokens ahead so the big model only has to verify. Tested draft depths: 2, 4, 8 tokens per step. Green = fastest for that model; red = slower than doing nothing.",
       cols: ["model", "best setting", "baseline t/s", "best t/s", "speedup", "accept %"],
       rows: [
@@ -510,6 +512,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
     draft: {
       title: "Production tuning — final settings",
       run: "qwen38-prod-bench · llama-mtp-bench",
+      maxTps: 30.93,
       sub: "The main model tuned at 192k context for the two real output targets (1,024 and 4,096-token answers). Best settings per target are what the production pipeline uses.",
       cols: ["profile", "answer size", "prompt t/s", "gen t/s", "accept %", "what it is for"],
       rows: [

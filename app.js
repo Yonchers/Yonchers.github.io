@@ -249,11 +249,10 @@
     });
   })();
 
-  /* ---- benchmark bar (log-scaled for 19 t/s ↔ 202 t/s) ---- */
-  function tpsBar(v, max, min) {
+  /* ---- benchmark bar: linear, width = t/s as a fraction of this table's axis max ---- */
+  function tpsBar(v, max) {
     if (!v || v <= 0) return "";
-    const lo = Math.log10(min), hi = Math.log10(max);
-    const pct = Math.max(4, Math.min(100, ((Math.log10(v) - lo) / (hi - lo)) * 100));
+    const pct = Math.max(1, Math.min(100, (v / max) * 100));
     return `<span class="tps-bar"><i style="width:${pct.toFixed(1)}%"></i></span>`;
   }
 
@@ -284,36 +283,33 @@
       `<tr><td class="model">${esc(r.model)}</td><td>${esc(r.role)}</td><td class="mono">${esc(r.ctx)}</td><td class="muted">${esc(r.note)}</td></tr>`
     ).join("");
 
-    const natMax = Math.max(...nat.rows.map((r) => r[3]));
-    const natMin = Math.min(...nat.rows.map((r) => r[3]));
+    const natMax = nat.maxTps || Math.max(...nat.rows.map((r) => r[3]));
     const natRows = nat.rows.map((r) =>
       `<tr><td class="model">${esc(r[0])}</td><td class="mono muted">${esc(r[1])}</td>` +
       `<td class="mono">${fmt2(r[2])}</td>` +
       `<td class="mono num">${fmt2(r[3])}</td>` +
       `<td class="muted">${esc(r[4])}</td>` +
-      `<td class="bar-cell">${tpsBar(r[3], natMax, natMin)}</td></tr>`
+      `<td class="bar-cell">${tpsBar(r[3], natMax)}</td></tr>`
     ).join("");
 
-    const mtpMax = Math.max(...mtp.rows.map((r) => r[3]));
-    const mtpMin = Math.min(...mtp.rows.map((r) => r[3]));
+    const mtpMax = mtp.maxTps || Math.max(...mtp.rows.map((r) => r[3]));
     const mtpRows = mtp.rows.map((r) =>
       `<tr><td class="model">${esc(r[0])}</td><td class="mono">${esc(r[1])}</td>` +
       `<td class="mono">${fmt2(r[2])}</td>` +
       `<td class="mono num">${fmt2(r[3])}</td>` +
       `<td class="mono ${r[3] > r[2] ? "win" : r[3] < r[2] ? "loss" : "muted"}">${esc(r[4])}</td>` +
       `<td class="mono">${esc(r[5])}</td>` +
-      `<td class="bar-cell">${tpsBar(r[3], mtpMax, mtpMin)}</td></tr>`
+      `<td class="bar-cell">${tpsBar(r[3], mtpMax)}</td></tr>`
     ).join("");
 
-    const drMax = Math.max(...dr.rows.map((r) => r[3]));
-    const drMin = Math.min(...dr.rows.map((r) => r[3]));
+    const drMax = dr.maxTps || Math.max(...dr.rows.map((r) => r[3]));
     const drRows = dr.rows.map((r) =>
       `<tr><td class="model">${esc(r[0])}</td><td class="mono">${esc(r[1])}</td>` +
       `<td class="mono">${fmt2(r[2])}</td>` +
       `<td class="mono num">${fmt2(r[3])}</td>` +
       `<td class="mono">${esc(r[4])}</td>` +
       `<td class="muted">${esc(r[5])}</td>` +
-      `<td class="bar-cell">${tpsBar(r[3], drMax, drMin)}</td></tr>`
+      `<td class="bar-cell">${tpsBar(r[3], drMax)}</td></tr>`
     ).join("");
 
     el.innerHTML =
