@@ -14,7 +14,7 @@
 const PORTFOLIO = (window.PORTFOLIO = {
   /* ---- Systems map nodes (architecture) ---- */
   systems: {
-    core: { id: "b70", label: "B70 AI Server", sub: "enterprise HW · Fedora 44 · 3D-printed chassis" },
+    core: { id: "b70", label: "B70 — PFP", sub: "Personal Fabrication Pipeline (pfp-server) · Fedora 44 · 3D-printed chassis" },
     edges: [
       { from: "b70", to: "hermes",  label: "local inference" },
       { from: "b70", to: "pfc",     label: "Wake-on-LAN · telemetry" },
@@ -23,12 +23,12 @@ const PORTFOLIO = (window.PORTFOLIO = {
     ],
     nodes: [
       { id: "hermes", label: "Hermes / Odysseus", sub: "agent workflows · human-reviewed", kind: "agent" },
-      { id: "pfc",    label: "PFC Supervisor + Pulse", sub: "Pi OS 13 · control plane · voice/command", kind: "control" },
+      { id: "pfc",    label: "Pi 3B+ — PFC Controller", sub: "PFC Supervisor + Pulse · Pi OS 13 · voice/command control plane", kind: "control" },
       { id: "orch",   label: "Print Orchestrator", sub: "fleet · jobs · failure detection", kind: "control" },
-      { id: "ts",     label: "Tailscale", sub: "pfp-server ↔ fedora client", kind: "net" },
-      { id: "pi",     label: "Raspberry Pi", sub: "energy ledger · low-power keeper", kind: "hw" },
-      { id: "pfp",    label: "PFP host", sub: "Fedora 44 · AI runtime", kind: "hw" },
-      { id: "coreone",label: "Prusa Core One", sub: "PrusaLink · 18.3 W plug", kind: "hw" },
+      { id: "ts",     label: "Tailscale — Private VPN", sub: "isolated tailnet — spreads operations securely outside the home network", kind: "net" },
+      { id: "pi",     label: "Raspberry Pi", sub: "energy ledger · always-on low-power keeper", kind: "hw" },
+      { id: "pfp",    label: "PFP host — B70", sub: "the Personal Fabrication Pipeline · Fedora 44 · AI runtime", kind: "hw" },
+      { id: "coreone",label: "Prusa Core One — PrusaLink node", sub: "adapted PrusaLink harness routes it into the in-house fleet software", kind: "hw" },
       { id: "voron",  label: "Voron / E3NG", sub: "Klipper · CoreXY", kind: "hw" },
     ],
   },

@@ -61,7 +61,7 @@
       `<div class="core-badge">${esc(c.label)}</div>` +
       `<div><span class="sn-id">CORE NODE · ${esc(c.sub)}</span>` +
       `<span class="sn-label" style="font-size:15px">Everything routes through here</span>` +
-      `<span class="sn-sub">Enterprise hardware, Fedora 44, 3D-printed chassis. Local-first: inference, control plane, and the agent layer all live on this tailnet.</span></div>` +
+      `<span class="sn-sub">The B70 (pfp-server) — the Personal Fabrication Pipeline host. Fedora 44, 3D-printed chassis. Local-first: inference, control plane, and the agent layer all live on this tailnet.</span></div>` +
       `</div>`;
     D.systems.nodes.forEach((n) => {
       html +=
