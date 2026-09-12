@@ -14,7 +14,7 @@
 const PORTFOLIO = (window.PORTFOLIO = {
   /* ---- Systems map nodes (architecture) ---- */
   systems: {
-    core: { id: "b70", label: "B70 — the main PC", sub: "the always-on workstation — it runs the local AI models, the control plane, and the printer dashboard (Fedora 44, 3D-printed chassis)" },
+    core: { id: "b70", label: "B70 — pfp-server", sub: "the always-on heavy-lift box — it runs the local AI models, the control plane, and the printer dashboard (Fedora 44, 3D-printed chassis)" },
     edges: [
       { from: "b70", to: "hermes",  label: "runs the AI assistant" },
       { from: "b70", to: "pfc",     label: "wakes it up · reports" },
@@ -26,8 +26,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
       { id: "pfc",    label: "PFC Controller — Raspberry Pi", sub: "the low-power keeper: schedules, power policy, and the voice + one-tap command widget", kind: "control" },
       { id: "orch",   label: "Print Orchestrator", sub: "one dashboard over the whole printer fleet — jobs, health, power, failure detection", kind: "control" },
       { id: "ts",     label: "Tailscale — private VPN", sub: "secure reach to every machine, even from outside the home network", kind: "net" },
-      { id: "pi",     label: "Raspberry Pi", sub: "the always-on low-power keeper that keeps the energy ledger running while the main PC sleeps", kind: "hw" },
-      { id: "pfp",    label: "PFP host — B70", sub: "the main build machine — the AI runtime (this is the core node)", kind: "hw" },
+      { id: "pi",     label: "Raspberry Pi", sub: "the always-on low-power keeper that keeps the energy ledger running while the B70 box sleeps", kind: "hw" },
       { id: "coreone",label: "Prusa Core One — printer", sub: "a third-party printer wired into the fleet software through an adapter", kind: "hw" },
       { id: "voron",  label: "Voron / E3NG — printers", sub: "the CoreXY printers, managed through the open Klipper firmware", kind: "hw" },
     ],
@@ -40,10 +39,10 @@ const PORTFOLIO = (window.PORTFOLIO = {
       tag: "CONTROL PLANE",
       name: "PFC Supervisor",
       version: "control plane · Pulse command widget",
-      blurb: "A control panel I built from scratch to run two machines as one: a low-power Raspberry Pi and the main B70 PC. From a single web console (or a small voice/one-tap widget called Pulse) you can start, stop, and monitor the local AI models, check the health of each machine, apply a power policy that puts idle machines to sleep, and see a running ledger of the energy actually saved.",
+      blurb: "A control panel I built from scratch to run two machines as one: a low-power Raspberry Pi and the B70 box. From a single web console (or a small voice/one-tap widget called Pulse) you can start, stop, and monitor the local AI models, check the health of each machine, apply a power policy that puts idle machines to sleep, and see a running ledger of the energy actually saved.",
       accent: "acid",
       facts: [
-        { k: "Who it manages", v: "a Raspberry Pi (OS 13) + the main PC (Fedora 44)" },
+        { k: "Who it manages", v: "a Raspberry Pi (OS 13) + the B70 box (Fedora 44, pfp-server)" },
         { k: "API version", v: "1.4.0" },
         { k: "Request limits", v: "24 concurrent connections, then it says 'busy, retry in 1s' instead of stalling" },
         { k: "Fast paths", v: "identical reads are deduped · 45-second browser timeout" },
@@ -54,7 +53,7 @@ const PORTFOLIO = (window.PORTFOLIO = {
       scope: [
         "a multi-page operations console",
         "Pi + main-PC health and telemetry",
-        "scheduled wake of the main PC",
+        "scheduled wake of the B70 box",
         "start/stop/status for each local AI model",
         "player and command management for a Minecraft server",
         "a power console with a daily schedule + idle-to-sleep policy",
@@ -78,10 +77,10 @@ const PORTFOLIO = (window.PORTFOLIO = {
       ],
       shotNote: "Live console screens from the running supervisor — power management, runtime grid, telemetry, and the PFP host view.",
       docs: [
-        { h: "What it is", p: "PFC Supervisor is a control panel I wrote from scratch. One program manages two machines — a low-power Raspberry Pi that stays always-on, and the main B70 PC that does the heavy AI work — and gives you one place to see and control them: their health, the local AI models, power policy, and schedules. Everything is served over a simple local web API (version 1.4.0) with a console on top." },
+        { h: "What it is", p: "PFC Supervisor is a control panel I wrote from scratch. One program manages two machines — a low-power Raspberry Pi that stays always-on, and the B70 box that does the heavy AI work — and gives you one place to see and control them: their health, the local AI models, power policy, and schedules. Everything is served over a simple local web API (version 1.4.0) with a console on top." },
         { h: "How it handles load", p: "The server caps itself at 24 concurrent connections. When all of them are busy it tells the client 'busy, try again in a second' (an HTTP 503 with a Retry-After header) instead of queueing an unlimited pile of requests and stalling. It also collapses duplicate read requests — if five clients ask for the same thing at once, it does the fetch once — and gives any stuck browser a 45-second timeout so a wedged page can never hold a worker forever." },
         { h: "It does not pretend to be healthy", p: "Each machine's display state runs a small state machine: WAITING, ONLINE, STALE, and FAULT. A machine is marked FAULT after five missed checks plus a 30-second grace period — the supervisor will not call a machine healthy just because the network can reach it. 'Is it alive' and 'is the screen ready' are tracked separately, and the console shows the full history of each transition." },
-        { h: "The power policy", p: "The power console runs a daily on/off schedule plus an idle-to-sleep policy, and the Pi keeps an energy ledger that subtracts the Pi's own draw from the main PC's savings — so the number shown is net, not inflated. In the observed run: 154.8 W combined while active (main PC ~150.0 W + Pi ~4.8 W), 95.0 hours of sleep, 13.19 kWh avoided over 7 days ($4.62 net at the PFP's 13.77 kWh), and a 68.23 kWh 30-day projection under the same policy." },
+        { h: "The power policy", p: "The power console runs a daily on/off schedule plus an idle-to-sleep policy, and the Pi keeps an energy ledger that subtracts the Pi's own draw from the B70's savings — so the number shown is net, not inflated. In the observed run: 154.8 W combined while active (B70 box ~150.0 W + Pi ~4.8 W), 95.0 hours of sleep, 13.19 kWh avoided over 7 days ($4.62 net at the PFP's 13.77 kWh), and a 68.23 kWh 30-day projection under the same policy." },
         { h: "The AI manager + sidecars", p: "Its main job is the AI management UI: each local model (run through llama.cpp and vLLM) is treated like a service you can start, stop, and check status on, so swapping or stacking models is a click in the console, not a terminal session. It also runs a Minecraft server as a real workload, managing players and commands over the same private VPN — game operations are just another thing the panel controls." },
         { h: "Pulse — the command widget", p: "Pulse is the human face of the supervisor: a small widget for a desktop or phone that mirrors the control panel and gives one-tap, logged-in reach to the machines. It shows live status chips (local ready, assistant health, tunnel state), a 'hold to talk' voice path and a typed 'ask' box, and can read the latest response aloud. Even logged out it shows a public health summary — waking, sleeping, and changing the schedule stay locked behind authentication, so it is a control surface, not a back door. It talks to the same API as the full console, just shaped for a thumb at the desk or on the move." },
       ],

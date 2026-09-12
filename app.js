@@ -63,7 +63,7 @@
       `<div class="core-badge">${esc(c.label)}</div>` +
       `<div><span class="sn-id">CORE NODE · ${esc(c.sub)}</span>` +
       `<span class="sn-label" style="font-size:15px">Everything routes through here</span>` +
-      `<span class="sn-sub">The main PC (the B70, host name pfp-server) — the always-on build machine. It runs the local AI models, the control plane, and the agent layer, all on one private network.</span></div>` +
+      `<span class="sn-sub">The B70 (host name pfp-server) — the always-on heavy-lift box. It runs the local AI models, the control plane, and the agent layer, all on one private network.</span></div>` +
       `</div>`;
     D.systems.nodes.forEach((n) => {
       html +=
@@ -795,7 +795,7 @@
 <div class="product-stage-copy reveal">
 <p class="eyebrow green">PFC Supervisor</p>
 <h2>Let the AI server sleep without missing scheduled work</h2>
-<p>A low-power Pi keeps wake protection, schedules, status, and recovery logic available while the main server sleeps through long idle windows.</p>
+<p>A low-power Pi keeps wake protection, schedules, status, and recovery logic available while the B70 box sleeps through long idle windows.</p>
 <div class="pfc-savings-callout">
 <article><strong>13.19 kWh</strong><span>avoided over the current seven-day ledger</span></article>
 <article><strong>95.0 hours</strong><span>of observed sleep retained in history</span></article>
