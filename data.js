@@ -320,6 +320,9 @@ const PORTFOLIO = (window.PORTFOLIO = {
         { h: "Built on real cost numbers", p: "The discipline shows in the bill of materials: the ten-unit prototype batch cost $146.61 (about $14.67 a unit — a $45.61 PCB, $60 of glass-fiber ASA filament, $41 of wiring) against a $400 retail price. The pitch sized the market at roughly $171M for aftermarket digital clusters growing about 5% a year, and the build was funded in part by a $1,500 Sierra College Microgrant." },
         { h: "What happened to the company", p: "Metuned got real traction early — we were doing well off an angel investment from the Growth Factory in Rocklin, and we had the benefit of their advisors' guidance. In the end the company fell apart: R&D costs kept climbing, and we could not conclude the second revamp of the prototype in a timely way because school took priority. It stayed a strong lesson in what a startup actually costs to move from a working prototype to a sellable product — and the digital-dash design work above is what came out of it." },
       ],
+      docsDeliverables: [
+        { title: "Metuned Pitch Showcase (PowerPoint — 27 slides: problem, solution, market, costs, technical appendix)", href: "downloads/metuned/Metuned_Pitch_Showcase.pptx" },
+      ],
       links: [],
     },
     {
