@@ -9,7 +9,9 @@
   /* ---- image extension resolver (real files on disk) ---- */
   const IMG_PNG = new Set([
     "car-award","car-night-team","e3ng-cam","metuned-brand",
-    "metuned-dash2","metuned-dash4","metuned-exploded","metuned-screen"
+    "metuned-dash2","metuned-dash4","metuned-dash-assembled",
+    "metuned-dash-screenbox","metuned-exploded",
+    "pfc-token-ledger","openrouter-qwen38-pricing"
   ]);
   const SHOT_JPG = new Set([
     "coreone-printing","pfp-chassis-print","pfp-host-physical"
@@ -61,7 +63,7 @@
       `<div class="core-badge">${esc(c.label)}</div>` +
       `<div><span class="sn-id">CORE NODE · ${esc(c.sub)}</span>` +
       `<span class="sn-label" style="font-size:15px">Everything routes through here</span>` +
-      `<span class="sn-sub">The B70 (pfp-server) — the Personal Fabrication Pipeline host. Fedora 44, 3D-printed chassis. Local-first: inference, control plane, and the agent layer all live on this tailnet.</span></div>` +
+      `<span class="sn-sub">The main PC (the B70, host name pfp-server) — the always-on build machine. It runs the local AI models, the control plane, and the agent layer, all on one private network.</span></div>` +
       `</div>`;
     D.systems.nodes.forEach((n) => {
       html +=
@@ -249,12 +251,14 @@
     });
   })();
 
-  /* ---- benchmark bar: linear, width = t/s as a fraction of this table's axis max ---- */
-  function tpsBar(v, max) {
+  /* ---- benchmark bar: linear, width = t/s as a fraction of this table's axis max;
+        the numeric value is drawn over the bar (off-scale rows keep their true value, bar pegged at full) ---- */
+  const tpsBar = (v, max) => {
     if (!v || v <= 0) return "";
     const pct = Math.max(1, Math.min(100, (v / max) * 100));
-    return `<span class="tps-bar"><i style="width:${pct.toFixed(1)}%"></i></span>`;
-  }
+    const off = v > max;
+    return `<span class="tps-bar${off ? " tps-bar-off" : ""}"><span class="tps-track"><i style="width:${pct.toFixed(1)}%"></i></span><b class="tps-bar-val">${Number(v).toFixed(2)}</b></span>`;
+  };
 
   /* ---- benchmarks (condensed: plain-English lead, deep data in appendices) ---- */
   (function benchmarks() {
@@ -262,7 +266,32 @@
     if (!el) return;
 
     const B = D.benchmarks;
-    const appendix = (a) => a ? `<details class="bench-appendix"><summary>Full raw dataset — ${esc(a.note || "all runs, including the misses")}</summary><p class="appendix-body">${esc(a)}</p></details>` : "";
+    // `appendix` is a string (prose) or an object ({note, rawCols, rawRows}).
+    // Object-aware: prose -> body paragraph, dataset -> its table. Fixes the
+    // old esc(object) -> "[object Object]" in the dropdowns.
+    const appendix = (p) => {
+      if (!p || !p.appendix) return "";
+      const a = p.appendix;
+      const label = p.appendixLabel || (a && typeof a === "object" && a.note) || "all runs, including the misses";
+      if (typeof a === "string")
+        return `<details class="bench-appendix"><summary>Full raw dataset — ${esc(label)}</summary><p class="appendix-body">${esc(a)}</p></details>`;
+      const cols = a.rawCols || [];
+      const rows = (a.rawRows || []).map((r) =>
+        `<tr>${cols.map((_, i) => {
+          const v = r[i];
+          const num = typeof v === "number";
+          const cls = i === 0 ? "model" : (num || /%$/.test(String(v)) ? "mono num" : "mono muted");
+          return `<td class="${cls}">${num ? fmt2(v) : esc(v)}</td>`;
+        }).join("")}</tr>`
+      ).join("");
+      return `<details class="bench-appendix"><summary>Full raw dataset — ${esc(label)}</summary><div class="bench-scroll"><table class="bench-table"><thead><tr>${cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></details>`;
+    };
+    const figures = (list) => {
+      if (!list || !list.length) return "";
+      return `<div class="bench-figs">${list.map((f) =>
+        `<figure class="bench-fig"><a href="${imgPath(f.id, "images")}" data-cap="${esc(f.cap)}" class="doss-lb"><img src="${imgPath(f.id, "images")}" alt="${esc(f.cap)}" loading="lazy"></a><figcaption>${esc(f.cap)}</figcaption></figure>`
+      ).join("")}</div>`;
+    };
     const findings = (f) => `<ul class="findings">${f.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
 
     const sv = B.shortVersion;
@@ -271,6 +300,7 @@
     const nat = B.native;
     const mtp = B.mtp;
     const dr = B.draft;
+    const cost = B.cost;
 
     const vllmRows = vllm.rows.map((r) =>
       `<tr><td class="model">${esc(r[0])}</td><td class="mono muted">${esc(r[1])}</td>` +
@@ -286,9 +316,7 @@
     const natMax = nat.maxTps || Math.max(...nat.rows.map((r) => r[3]));
     const natRows = nat.rows.map((r) =>
       `<tr><td class="model">${esc(r[0])}</td><td class="mono muted">${esc(r[1])}</td>` +
-      `<td class="mono">${fmt2(r[2])}</td>` +
-      `<td class="mono num">${fmt2(r[3])}</td>` +
-      `<td class="muted">${esc(r[4])}</td>` +
+      `<td class="mono num">${fmt2(r[2])}</td>` +
       `<td class="bar-cell">${tpsBar(r[3], natMax)}</td></tr>`
     ).join("");
 
@@ -301,6 +329,15 @@
       `<td class="mono">${esc(r[5])}</td>` +
       `<td class="bar-cell">${tpsBar(r[3], mtpMax)}</td></tr>`
     ).join("");
+    const mtpRawRows = (mtp.rawRows || []).map((r) => {
+      const mult = String(r[5]).replace("x", "");
+      const cls = r[5] === "1.000x" ? "muted" : parseFloat(mult) > 1 ? "win" : parseFloat(mult) < 1 ? "loss" : "muted";
+      return `<tr><td class="model">${esc(r[0])}</td><td class="mono muted">${esc(r[1])}</td>` +
+      `<td class="mono num">${fmt2(r[2])}</td>` +
+      `<td class="mono num">${fmt2(r[3])}</td>` +
+      `<td class="mono ${r[4] === "—" ? "muted" : ""}">${esc(r[4])}</td>` +
+      `<td class="mono ${cls}">${esc(r[5])}</td></tr>`;
+    }).join("");
 
     const drMax = dr.maxTps || Math.max(...dr.rows.map((r) => r[3]));
     const drRows = dr.rows.map((r) =>
@@ -311,6 +348,13 @@
       `<td class="muted">${esc(r[5])}</td>` +
       `<td class="bar-cell">${tpsBar(r[3], drMax)}</td></tr>`
     ).join("");
+    const costRows = (cost.rows || []).map((r) =>
+      `<tr><td class="model">${esc(r[0])}</td><td class="mono muted">${esc(r[1])}</td>` +
+      `<td class="mono num">${esc(r[2])}</td><td class="mono num">${esc(r[3])}</td>` +
+      `<td class="mono num">${esc(r[4])}</td><td class="mono num">${esc(r[5])}</td>` +
+      `<td class="mono win">${esc(r[6])}</td></tr>`
+    ).join("");
+    const costKv = (cost.basis || []).map((r) => `<div class="k">${esc(r.k)}</div><div class="v">${esc(r.v)}</div>`).join("");
 
     el.innerHTML =
       `<div class="panel bench short-version reveal" style="border-color:var(--acid)"><div class="bench-head"><h3>${esc(sv.title)}</h3></div>` +
@@ -331,7 +375,7 @@
 
       `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(nat.title)}</h3><span class="run-id">${esc(nat.run)}</span></div>` +
       `<p class="bench-sub">${esc(nat.sub)}</p>` +
-      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${nat.cols.map((c) => `<th>${esc(c)}</th>`).join("")}<th>gen bar</th></tr></thead>` +
+      `<div class="bench-scroll"><table class="bench-table"><thead><tr>${nat.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
       `<tbody>${natRows}</tbody></table></div>` +
       (nat.failed ? `<p class="bench-failed">\u26a0 ${esc(nat.failed)}</p>` : "") +
       (nat.appendix ? appendix(nat) : "") +
@@ -341,15 +385,24 @@
       `<p class="bench-sub">${esc(mtp.sub)}</p>` +
       `<div class="bench-scroll"><table class="bench-table"><thead><tr>${mtp.cols.map((c) => `<th>${esc(c)}</th>`).join("")}<th>bar</th></tr></thead>` +
       `<tbody>${mtpRows}</tbody></table></div>` +
-      `${mtp.appendix ? appendix(mtp) : ""}` +
+      `${mtp.rawRows ? `<details class="bench-appendix"><summary>Full 27-run sweep — every draft depth, every quant, including the misses</summary><div class="bench-scroll"><table class="bench-table"><thead><tr>${mtp.rawCols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${mtpRawRows}</tbody></table></div></details>` : ""}` +
       `${findings(mtp.findings)}</div>` +
 
       `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(dr.title)}</h3><span class="run-id">${esc(dr.run)}</span></div>` +
       `<p class="bench-sub">${esc(dr.sub)}</p>` +
       `<div class="bench-scroll"><table class="bench-table"><thead><tr>${dr.cols.map((c) => `<th>${esc(c)}</th>`).join("")}<th>bar</th></tr></thead>` +
       `<tbody>${drRows}</tbody></table></div>` +
+      `${figures(dr.figures)}` +
       `${dr.appendix ? appendix(dr) : ""}` +
-      `${findings(dr.findings)}</div>`;
+      `${findings(dr.findings)}</div>` +
+
+      `<div class="panel bench reveal"><div class="bench-head"><h3>${esc(cost.title)}</h3><span class="run-id">${esc(cost.run)}</span></div>` +
+      `<p class="bench-sub">${esc(cost.sub)}</p>` +
+      `<div class="bench-kv">${costKv}</div>` +
+      `<div class="bench-scroll" style="margin-top:20px"><table class="bench-table"><thead><tr>${cost.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
+      `<tbody>${costRows}</tbody></table></div>` +
+      `${figures(cost.figures)}` +
+      `${findings(cost.findings)}</div>`;
   })();
 
   /* ---- interactive helpers (ported from validated V5) ---- */

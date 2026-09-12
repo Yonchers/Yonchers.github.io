@@ -360,6 +360,14 @@ a{color:inherit;text-decoration:none}
 .bench-appendix summary:hover{color:var(--text);border-color:var(--signal-line)}
 .bench-appendix[open] summary{margin-bottom:10px}
 .appendix-body{font-family:var(--mono);font-size:11.5px;line-height:1.8;color:var(--muted);padding:4px 14px 0}
+.bench-appendix[open] .bench-scroll{margin:0 14px}
+/* in-production figure pair (two small blocks) */
+.bench-figs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media(max-width:720px){.bench-figs{grid-template-columns:1fr}}
+.bench-fig{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.015)}
+.bench-fig a{display:block}
+.bench-fig img{width:100%;display:block;cursor:zoom-in}
+.bench-fig figcaption{font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--muted);padding:10px 12px;border-top:1px solid var(--line)}
 
 /* ============ EXPERIENCE ============ */
 .exp-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(24px,3vw,40px);align-items:start}
@@ -510,9 +518,15 @@ a.contact-item:hover strong{color:var(--acid)}
 .bench-table .loss{color:var(--bad)}
 .bench-failed{margin-top:14px;font-family:var(--mono);font-size:11.5px;color:var(--warn);
   padding:10px 14px;border:1px dashed rgba(255,216,74,.35);border-radius:10px;background:rgba(255,216,74,.05)}
-.tps-bar{display:block;height:8px;min-width:110px;background:var(--void);border-radius:4px;overflow:hidden;border:1px solid var(--line)}
-.tps-bar i{display:block;height:100%;background:linear-gradient(90deg,rgba(183,255,0,.35),var(--acid));border-radius:4px}
-.bar-cell{width:150px}
+.tps-bar{display:inline-flex;align-items:center;gap:10px;min-width:180px}
+.tps-track{position:relative;flex:1 1 auto;height:9px;min-width:0}
+.tps-track::before{content:"";position:absolute;inset:0;background:var(--void);border:1px solid var(--line);border-radius:4px}
+.tps-track i{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,rgba(183,255,0,.35),var(--acid));border-radius:4px}
+.tps-bar b{flex:0 0 auto;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:600;white-space:nowrap}
+.tps-bar.tps-bar-off .tps-track::before{border-color:var(--warn)}
+.tps-bar.tps-bar-off .tps-track i{background:linear-gradient(90deg,rgba(255,216,74,.35),var(--warn))}
+.tps-bar.tps-bar-off b{color:var(--warn)}
+.bar-cell{width:190px}
 
 /* ============ RESPONSIVE ============ */
 @media(max-width:960px){
